@@ -38,18 +38,54 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 1000);
     }
 
-    // 3. LIGHTBOX GALLERY (Pang-zoom ng picture)
+    // 3. LIGHTBOX GALLERY (Pang-zoom at paglipat-lipat ng pictures)
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const closeBtn = document.getElementById("close-lightbox");
-    const galleryImages = document.querySelectorAll(".gallery-img");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const galleryImages = document.querySelectorAll(".hidden-gallery-pool .gallery-img");
+    const albumCover = document.querySelector(".gallery-album-preview");
+    
+    let currentIndex = 0;
 
-    galleryImages.forEach(img => {
-        img.addEventListener("click", function() {
-            lightbox.style.display = "flex"; // Show lightbox
-            lightboxImg.src = this.src; // Pasa ang picture
+    function showImage(index) {
+        if (galleryImages.length > 0) {
+            lightboxImg.src = galleryImages[index].src;
+            currentIndex = index;
+        }
+    }
+
+    if (albumCover) {
+        albumCover.addEventListener("click", function() {
+            lightbox.style.display = "flex"; 
+            showImage(0); // Magsisimula sa unang picture ng album
         });
-    });
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % galleryImages.length;
+        showImage(currentIndex);
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+        showImage(currentIndex);
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            nextImage();
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            prevImage();
+        });
+    }
 
     if (closeBtn) {
         closeBtn.addEventListener("click", () => {
@@ -57,17 +93,28 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Isara ang lightbox pag nag-click sa labas ng picture
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
-            if (e.target !== lightboxImg) {
+            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn) {
                 lightbox.style.display = "none";
             }
         });
     }
 
-    // 4. SCROLL ANIMATIONS (UULIT-ULIT NA ANIMATION)
-    const elementsToAnimate = document.querySelectorAll('.about-card, .timeline-item, .gallery-img, .pastor-grid, .contact-grid');
+    document.addEventListener("keydown", (e) => {
+        if (lightbox.style.display === "flex") {
+            if (e.key === "ArrowRight") {
+                nextImage();
+            } else if (e.key === "ArrowLeft") {
+                prevImage();
+            } else if (e.key === "Escape") {
+                lightbox.style.display = "none";
+            }
+        }
+    });
+
+    // 4. SCROLL ANIMATIONS
+    const elementsToAnimate = document.querySelectorAll('.about-card, .timeline-item, .gallery-album-preview, .pastor-grid, .contact-grid');
     
     const appearOptions = {
         threshold: 0, 
@@ -77,19 +124,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const appearOnScroll = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Pag pumasok na sa screen, lilitaw (mag-aanimate)
                 entry.target.classList.add('appear');
             } else {
-                // Pag lumabas sa screen, tatanggalin niya yung class
-                // para pwedeng mag-animate ulit pag binalikan mo!
                 entry.target.classList.remove('appear');
             }
         });
     }, appearOptions);
 
     elementsToAnimate.forEach(el => {
-        el.classList.add('fade-in-scroll'); // Hide muna bago i-scroll
-        appearOnScroll.observe(el); // Simulan ang pag-obserba
+        el.classList.add('fade-in-scroll');
+        appearOnScroll.observe(el);
     });
 
 });

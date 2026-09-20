@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CSF Church 20th Anniversary Celebration - Celebrating 20 Years of God's Faithfulness">
-    <title>CSF Church | 20th Anniversary Celebration</title>
+    <meta name="description" content="CSF Church 20th Anniversary - Pressing Forward: Two Decades of God's Faithfulness and a Future Promise">
+    <title>CSF Church | 20th Anniversary</title>
     
     <!-- Favicon Placeholder -->
     <link rel="icon" type="image/jpg" href="assets/logo/church logo.jpg">
@@ -48,10 +48,19 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h3 class="fade-in">CSF CHURCH</h3>
-            <h1 class="fade-in">20th Anniversary Celebration</h1>
-            <p class="hero-verse fade-in">"Great is His faithfulness; His mercies begin afresh each morning." — [EDIT THIS: Lamentations 3:23]</p>
+            <h1 class="fade-in" style="margin-bottom: 10px;">20th Anniversary</h1>
             
-            <div class="countdown-container fade-in" data-target-date="2026-11-15T00:00:00">
+            <!-- Anniversary Theme -->
+            <p class="fade-in" style="font-size: 1.15rem; font-weight: 700; color: #f3e5ab; letter-spacing: 1px; max-width: 800px; margin: 0 auto 15px auto; text-transform: uppercase;">
+                PRESSING FORWARD: TWO DECADES OF GOD'S FAITHFULNESS AND A FUTURE PROMISE
+            </p>
+
+            <!-- Bible Verse -->
+            <p class="hero-verse fade-in" style="font-size: 1rem; max-width: 700px; margin: 0 auto 25px auto; line-height: 1.5; font-style: italic; opacity: 0.9;">
+                "I press toward the mark for the prize of the high calling of God in Christ Jesus." — Philippians 3:14
+            </p>
+            
+            <div class="countdown-container fade-in" data-target-date="2026-11-08T09:00:00">
                 <div class="countdown-box">
                     <span id="days">00</span>
                     <p>Days</p>
@@ -75,9 +84,8 @@
                 <a href="#contact" class="btn btn-secondary">Join Us</a>
             </div>
 
-            <!-- Naalis na ang fade-in class dito para siguradong lilitaw agad sa UI -->
-            <div class="target-date-note" style="margin-top: 30px; font-size: 14px; padding: 12px 20px; background-color: #4a151c; border-radius: 4px; display: inline-block; color: #fdf2e9; text-align: center;">
-                <p style="margin: 0; opacity: 0.8;">[EDIT THIS] Anniversary date: November 15, 2026 — update <code style="background-color: rgba(0,0,0,0.3); padding: 3px 6px; border-radius: 3px; font-family: monospace;">data-target-date</code> on the countdown element in index.html</p>
+            <div class="target-date-note" style="margin-top: 35px; font-size: 16px; font-weight: 600; padding: 16px 28px; background-color: #4a151c; border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 6px; display: inline-block; color: #fdf2e9; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                <p style="margin: 0; letter-spacing: 0.5px;">November 8, 2026</p>
             </div>
 
         </div>
@@ -120,7 +128,7 @@
         <div class="container">
             <h2 class="section-title">Anniversary Program</h2>
             <div class="program-summary-box">
-                <p><strong>Date:</strong> [EDIT THIS: October 25, 2026]</p>
+                <p><strong>Date:</strong> [EDIT THIS: November 8, 2026]</p>
                 <p><strong>Time:</strong> [EDIT THIS: 9:00 AM – 4:00 PM]</p>
                 <p><strong>Venue:</strong> [EDIT THIS: CSF Church Main Sanctuary]</p>
             </div>
@@ -166,24 +174,56 @@
         </div>
     </section>
 
-    <!-- 6. PHOTO GALLERY -->
+    <!-- 6. PHOTO GALLERY (Single Featured Album Cover + Hidden 20-Image List for Lightbox) -->
     <section id="gallery" class="gallery section-bg-cream">
-        <div class="container">
+        <div class="container center-text">
             <h2 class="section-title">Church Memories Gallery</h2>
-            <p class="section-subtitle">Click any image to view it in full size.</p>
-            <div class="gallery-grid">
-                <img src="assets/images/gallery-1.jpg" alt="Church Fellowship Memory 1" class="gallery-img" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=600&q=80'">
-                <img src="assets/images/gallery-2.jpg" alt="Church Worship Gathering 2" class="gallery-img" onerror="this.src='https://images.unsplash.com/photo-1548625361-ec8538df22b6?auto=format&fit=crop&w=600&q=80'">
-                <img src="assets/images/gallery-3.jpg" alt="Community Outreach 3" class="gallery-img" onerror="this.src='https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80'">
-                <img src="assets/images/gallery-4.jpg" alt="Church Anniversary Celebration 4" class="gallery-img" onerror="this.src='https://images.unsplash.com/photo-1470229722913-7c092bb4ace4?auto=format&fit=crop&w=600&q=80'">
+            <p class="section-subtitle">Click the album preview below to view our 20-year journey collection.</p>
+            
+            <!-- Single Featured Preview Card -->
+            <div class="gallery-album-preview">
+                <div class="album-cover-wrapper">
+                    <img src="assets/images/gallery-1.jpg" alt="CSF Church Memories Album" class="gallery-img featured-album-cover" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80'">
+                    <div class="album-overlay">
+                        <span class="album-badge">📷 20 Photos</span>
+                        <h3>View 20th Anniversary Album</h3>
+                        <p>Click to open gallery viewer</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden List of All 20 Images used by JavaScript Lightbox -->
+            <div style="display: none;" class="hidden-gallery-pool">
+                <img src="assets/images/gallery-1.jpg" class="gallery-img" alt="Memory 1">
+                <img src="assets/images/gallery-2.jpg" class="gallery-img" alt="Memory 2">
+                <img src="assets/images/gallery-3.jpg" class="gallery-img" alt="Memory 3">
+                <img src="assets/images/gallery-4.jpg" class="gallery-img" alt="Memory 4">
+                <img src="assets/images/gallery-5.jpg" class="gallery-img" alt="Memory 5">
+                <img src="assets/images/gallery-6.jpg" class="gallery-img" alt="Memory 6">
+                <img src="assets/images/gallery-7.jpg" class="gallery-img" alt="Memory 7">
+                <img src="assets/images/gallery-8.jpg" class="gallery-img" alt="Memory 8">
+                <img src="assets/images/gallery-9.jpg" class="gallery-img" alt="Memory 9">
+                <img src="assets/images/gallery-10.jpg" class="gallery-img" alt="Memory 10">
+                <img src="assets/images/gallery-11.jpg" class="gallery-img" alt="Memory 11">
+                <img src="assets/images/gallery-12.jpg" class="gallery-img" alt="Memory 12">
+                <img src="assets/images/gallery-13.jpg" class="gallery-img" alt="Memory 13">
+                <img src="assets/images/gallery-14.jpg" class="gallery-img" alt="Memory 14">
+                <img src="assets/images/gallery-15.jpg" class="gallery-img" alt="Memory 15">
+                <img src="assets/images/gallery-16.jpg" class="gallery-img" alt="Memory 16">
+                <img src="assets/images/gallery-17.jpg" class="gallery-img" alt="Memory 17">
+                <img src="assets/images/gallery-18.jpg" class="gallery-img" alt="Memory 18">
+                <img src="assets/images/gallery-19.jpg" class="gallery-img" alt="Memory 19">
+                <img src="assets/images/gallery-20.jpg" class="gallery-img" alt="Memory 20">
             </div>
         </div>
     </section>
 
-    <!-- Lightbox Modal -->
+    <!-- Lightbox Modal with Next/Prev Buttons -->
     <div id="lightbox" class="lightbox" aria-hidden="true">
         <span class="close-lightbox" id="close-lightbox">&times;</span>
+        <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image">&#10094;</button>
         <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
+        <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image">&#10095;</button>
     </div>
 
     <!-- 7. MESSAGE FROM THE PASTOR -->
@@ -261,8 +301,8 @@
             <div class="contact-info">
                 <h2 class="section-title" style="text-align: left;">Get in Touch</h2>
                 <p><strong>Address:</strong> CSF Church Sapang Kawayan</p>
-                <p><strong>Phone:</strong> <a href="tel:+639123456789">[EDIT THIS: +63 912 345 6789]</a></p>
-                <p><strong>Email:</strong> <a href="mailto:info@csfchurch.org">[EDIT THIS: info@csfchurch.org]</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+639650390952">+63 965 039 0952</a></p>
+                <p><strong>Email:</strong> <a href="mailto:churchcsf@gmail.com">churchcsf@gmail.com</a></p>
                 <p><strong>Facebook:</strong> <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank">Christ Savior Forerunner Church</a></p>
             </div>
             <div class="contact-map">
@@ -278,7 +318,7 @@
     <footer>
         <div class="container center-text">
             <h2>CSF CHURCH</h2>
-            <h3>20th Anniversary Celebration</h3>
+            <h3>20th Anniversary</h3>
             <p>Celebrating 20 Years of God's Faithfulness</p>
             <div class="social-icons">
                 <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" aria-label="Facebook">FB</a>
