@@ -1,17 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
     
-    // 1. MOBILE NAVBAR TOGGLE & AUTO CLOSE ON CLICK
+    // 1. MOBILE NAVBAR TOGGLE, AUTO CLOSE, & CLICK OUTSIDE TO CLOSE
     const hamburger = document.getElementById('hamburger');
     const navLinksContainer = document.getElementById('nav-links');
     const menuLinks = document.querySelectorAll('#nav-links a');
     const closeMenuBtn = document.getElementById('close-menu');
 
     if (hamburger && navLinksContainer) {
-        hamburger.addEventListener('click', () => {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinksContainer.classList.add('active');
         });
 
-        // Isara kapag pinindot ang alinmang link (Home, About, etc.)[cite: 3]
+        // Isara kapag pinindot ang alinmang nav link (Home, About, etc.)
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navLinksContainer.classList.remove('active');
@@ -24,6 +25,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 navLinksContainer.classList.remove('active');
             });
         }
+
+        // Isara kapag pinindot ang kahit saan sa labas (left side / background)
+        document.addEventListener('click', (e) => {
+            if (navLinksContainer.classList.contains('active')) {
+                if (!navLinksContainer.contains(e.target) && !hamburger.contains(e.target)) {
+                    navLinksContainer.classList.remove('active');
+                }
+            }
+        });
     }
 
     // 2. COUNTDOWN TIMER LOGIC
