@@ -1,5 +1,5 @@
 /* =========================================
-   CSF CHURCH - 20TH ANNIVERSARY CSS (FINAL RESPONSIVE)
+   CSF CHURCH - 20TH ANNIVERSARY CSS (FINAL STABLE)
 ========================================= */
 
 :root {
@@ -548,7 +548,7 @@ a {
     font-style: italic;
 }
 
-/* Lightbox Modal (Optimized for Mobile & PC) */
+/* Lightbox Modal */
 .lightbox {
     display: none;
     position: fixed; 
@@ -635,8 +635,8 @@ a {
     color: var(--clr-burgundy-dark);
 }
 
-.prev-btn { left: 5px; }
-.next-btn { right: 5px; }
+.prev-btn { left: 15px; }
+.next-btn { right: 15px; }
 
 /* --- 7. PASTOR SECTION --- */
 .pastor-grid { 
@@ -762,7 +762,6 @@ footer h2 {
     font-size: 0.85rem;
 }
 
-/* --- CLOSE MENU BUTTON --- */
 .close-menu {
     background: transparent;
     border: none;
@@ -847,28 +846,12 @@ footer h2 {
         background-attachment: scroll;
     }
 
-    /* Mobile Lightbox Navigation Fix (Nilipat sa ibaba ang arrows para hindi matakpan ang litrato) */
-    .lightbox-container {
-        width: 95%;
-        max-height: 70vh;
-    }
-
-    .lightbox-content {
-        max-height: 58vh;
-    }
-
+    /* Mobile Lightbox Arrows (Naka-discreet sa gilid para pwedeng pindutin o i-swipe) */
     .lightbox-nav-btn {
-        top: auto;
-        bottom: -50px;
-        transform: none;
-        padding: 10px 16px;
+        padding: 8px 12px;
+        font-size: 14px;
+        background-color: rgba(74, 12, 22, 0.6);
     }
-
-    .prev-btn {
-        left: 28%;
-    }
-
-    .next-btn {
-        right: 28%;
-    }
+    .prev-btn { left: 5px; }
+    .next-btn { right: 5px; }
 }

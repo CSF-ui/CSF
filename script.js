@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     
-    // 1. MOBILE NAVBAR TOGGLE, AUTO CLOSE, & CLICK OUTSIDE TO CLOSE
+    // 1. MOBILE NAVBAR TOGGLE & CLOSE
     const hamburger = document.getElementById('hamburger');
     const navLinksContainer = document.getElementById('nav-links');
     const menuLinks = document.querySelectorAll('#nav-links a');
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 1000);
     }
 
-    // 3. LIGHTBOX GALLERY NA MAY EXACT MATCH NA ARRAY (Nagsisimula sa Sunday Service, walang numero sa pangalan)
+    // 3. LIGHTBOX GALLERY & SWIPE GESTURE
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (albumCover) {
         albumCover.addEventListener("click", function() {
             lightbox.style.display = "flex"; 
-            showImage(0); // Magsisimula sa Sunday Service
+            showImage(0);
         });
     }
 
@@ -144,6 +144,31 @@ document.addEventListener("DOMContentLoaded", function() {
                 lightbox.style.display = "none";
             }
         });
+    }
+
+    // Touch Swipe Gestures para sa Mobile Phones
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (lightbox) {
+        lightbox.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightbox.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+
+    function handleSwipe() {
+        const threshold = 40;
+        if (touchEndX < touchStartX - threshold) {
+            nextImage(); // Swipe Kaliwa -> Next
+        }
+        if (touchEndX > touchStartX + threshold) {
+            prevImage(); // Swipe Pakanan -> Previous
+        }
     }
 
     document.addEventListener("keydown", (e) => {
