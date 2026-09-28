@@ -1,5 +1,5 @@
 /* =========================================
-   CSF CHURCH - 20TH ANNIVERSARY CSS (UI UPGRADED & MOBILE FIXED)
+   CSF CHURCH - 20TH ANNIVERSARY CSS (FINAL RESPONSIVE)
 ========================================= */
 
 :root {
@@ -50,7 +50,6 @@ a {
     color: inherit;
 }
 
-/* Fluid Container */
 .container {
     width: 100%;
     max-width: 1140px;
@@ -295,7 +294,6 @@ a {
     color: var(--clr-beige);
 }
 
-/* Countdown */
 .countdown-container {
     display: flex;
     justify-content: center;
@@ -493,7 +491,7 @@ a {
     color: var(--clr-white);
 }
 
-/* --- 6. SINGLE FEATURED ALBUM GALLERY DESIGN --- */
+/* --- 6. GALLERY PREVIEW & LIGHTBOX --- */
 .gallery-album-preview {
     max-width: 680px;
     margin: 0 auto;
@@ -538,19 +536,6 @@ a {
     color: var(--clr-white);
 }
 
-.album-badge {
-    display: inline-block;
-    background-color: var(--clr-gold);
-    color: var(--clr-burgundy-dark);
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
 .album-overlay h3 {
     font-size: clamp(1.2rem, 2.2vw, 1.6rem);
     color: var(--clr-gold-light);
@@ -563,7 +548,7 @@ a {
     font-style: italic;
 }
 
-/* Lightbox Modal */
+/* Lightbox Modal (Optimized for Mobile & PC) */
 .lightbox {
     display: none;
     position: fixed; 
@@ -572,25 +557,32 @@ a {
     top: 0; 
     width: 100%; 
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.92);
+    background-color: rgba(0, 0, 0, 0.95);
     align-items: center; 
     justify-content: center;
     flex-direction: column;
-    padding: 15px;
+    padding: 10px;
     backdrop-filter: blur(5px);
 }
 
 .lightbox-container {
     position: relative;
-    max-width: 95%;
-    max-height: 80vh;
+    width: 90%;
+    max-width: 800px;
+    max-height: 75vh;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .lightbox-content {
     max-width: 100%; 
-    max-height: 70vh;
-    border-radius: 10px;
+    max-height: 65vh;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     border: 2px solid rgba(197, 160, 89, 0.4);
     object-fit: contain;
@@ -599,15 +591,17 @@ a {
 #lightbox-caption {
     color: var(--clr-beige);
     margin-top: 15px;
-    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     font-family: var(--font-heading);
     font-weight: 600;
     letter-spacing: 0.5px;
+    text-align: center;
+    width: 100%;
 }
 
 .close-lightbox {
     position: absolute; 
-    top: 20px; 
+    top: 15px; 
     right: 20px;
     color: white; 
     font-size: 35px;
@@ -625,11 +619,11 @@ a {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(74, 12, 22, 0.8);
+    background-color: rgba(74, 12, 22, 0.85);
     color: white;
     border: 1px solid var(--clr-gold);
     font-size: 18px;
-    padding: 10px 14px;
+    padding: 12px 14px;
     cursor: pointer;
     border-radius: 50%;
     transition: var(--transition-standard);
@@ -641,8 +635,8 @@ a {
     color: var(--clr-burgundy-dark);
 }
 
-.prev-btn { left: 10px; }
-.next-btn { right: 10px; }
+.prev-btn { left: 5px; }
+.next-btn { right: 5px; }
 
 /* --- 7. PASTOR SECTION --- */
 .pastor-grid { 
@@ -794,7 +788,7 @@ footer h2 {
     transform: translateY(0); 
 }
 
-/* --- MOBILE RESPONSIVE HAMBURGER MENU & TWEAKS --- */
+/* --- MOBILE RESPONSIVE TWEAKS --- */
 @media (max-width: 768px) {
     .hamburger { 
         display: flex; 
@@ -853,8 +847,28 @@ footer h2 {
         background-attachment: scroll;
     }
 
+    /* Mobile Lightbox Navigation Fix (Nilipat sa ibaba ang arrows para hindi matakpan ang litrato) */
+    .lightbox-container {
+        width: 95%;
+        max-height: 70vh;
+    }
+
+    .lightbox-content {
+        max-height: 58vh;
+    }
+
     .lightbox-nav-btn {
-        padding: 8px 12px;
-        font-size: 16px;
+        top: auto;
+        bottom: -50px;
+        transform: none;
+        padding: 10px 16px;
+    }
+
+    .prev-btn {
+        left: 28%;
+    }
+
+    .next-btn {
+        right: 28%;
     }
 }
