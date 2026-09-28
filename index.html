@@ -178,38 +178,15 @@
             <h2 class="section-title">Church Memories Gallery</h2>
             <p class="section-subtitle">Click the album preview below to view our 20-year journey collection.</p>
             
-            <div class="gallery-album-preview">
+            <div class="gallery-album-preview" id="album-preview-trigger" style="cursor: pointer;">
                 <div class="album-cover-wrapper">
-                    <img src="assets/images/gallery-1.jpg" alt="CSF Church Memories Album" class="gallery-img featured-album-cover" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80'">
+                    <img src="assets/images/Sunday Service.jpg" alt="Sunday Service" class="gallery-img featured-album-cover" onerror="this.src='https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=800&q=80'">
                     <div class="album-overlay">
-                        <span class="album-badge">📷 20 Photos</span>
+                        <span class="album-badge">📷 18 Photos Album</span>
                         <h3>View 20th Anniversary Album</h3>
                         <p>Click to open gallery viewer</p>
                     </div>
                 </div>
-            </div>
-
-            <div style="display: none;" class="hidden-gallery-pool">
-                <img src="assets/images/gallery-1.jpg" class="gallery-img" alt="Memory 1">
-                <img src="assets/images/gallery-2.jpg" class="gallery-img" alt="Memory 2">
-                <img src="assets/images/gallery-3.jpg" class="gallery-img" alt="Memory 3">
-                <img src="assets/images/gallery-4.jpg" class="gallery-img" alt="Memory 4">
-                <img src="assets/images/gallery-5.jpg" class="gallery-img" alt="Memory 5">
-                <img src="assets/images/gallery-6.jpg" class="gallery-img" alt="Memory 6">
-                <img src="assets/images/gallery-7.jpg" class="gallery-img" alt="Memory 7">
-                <img src="assets/images/gallery-8.jpg" class="gallery-img" alt="Memory 8">
-                <img src="assets/images/gallery-9.jpg" class="gallery-img" alt="Memory 9">
-                <img src="assets/images/gallery-10.jpg" class="gallery-img" alt="Memory 10">
-                <img src="assets/images/gallery-11.jpg" class="gallery-img" alt="Memory 11">
-                <img src="assets/images/gallery-12.jpg" class="gallery-img" alt="Memory 12">
-                <img src="assets/images/gallery-13.jpg" class="gallery-img" alt="Memory 13">
-                <img src="assets/images/gallery-14.jpg" class="gallery-img" alt="Memory 14">
-                <img src="assets/images/gallery-15.jpg" class="gallery-img" alt="Memory 15">
-                <img src="assets/images/gallery-16.jpg" class="gallery-img" alt="Memory 16">
-                <img src="assets/images/gallery-17.jpg" class="gallery-img" alt="Memory 17">
-                <img src="assets/images/gallery-18.jpg" class="gallery-img" alt="Memory 18">
-                <img src="assets/images/gallery-19.jpg" class="gallery-img" alt="Memory 19">
-                <img src="assets/images/gallery-20.jpg" class="gallery-img" alt="Memory 20">
             </div>
         </div>
     </section>
@@ -218,7 +195,10 @@
     <div id="lightbox" class="lightbox" aria-hidden="true">
         <span class="close-lightbox" id="close-lightbox">&times;</span>
         <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image">&#10094;</button>
-        <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
+        <div class="lightbox-container" style="text-align: center;">
+            <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
+            <div id="lightbox-caption" style="color: #fdf2e9; margin-top: 15px; font-size: 1.2rem; font-family: 'Playfair Display', serif; font-weight: 600; letter-spacing: 1px;"></div>
+        </div>
         <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image">&#10095;</button>
     </div>
 

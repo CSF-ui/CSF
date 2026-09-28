@@ -12,21 +12,18 @@ document.addEventListener("DOMContentLoaded", function() {
             navLinksContainer.classList.add('active');
         });
 
-        // Isara kapag pinindot ang alinmang nav link (Home, About, etc.)
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navLinksContainer.classList.remove('active');
             });
         });
 
-        // Isara kapag pinindot ang X button
         if (closeMenuBtn) {
             closeMenuBtn.addEventListener('click', () => {
                 navLinksContainer.classList.remove('active');
             });
         }
 
-        // Isara kapag pinindot ang kahit saan sa labas (left side / background)
         document.addEventListener('click', (e) => {
             if (navLinksContainer.classList.contains('active')) {
                 if (!navLinksContainer.contains(e.target) && !hamburger.contains(e.target)) {
@@ -64,20 +61,42 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 1000);
     }
 
-    // 3. LIGHTBOX GALLERY
+    // 3. LIGHTBOX GALLERY NA MAY EXACT MATCH NA ARRAY (Nagsisimula sa Sunday Service, walang numero sa pangalan)
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxCaption = document.getElementById("lightbox-caption");
     const closeBtn = document.getElementById("close-lightbox");
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
-    const galleryImages = document.querySelectorAll(".hidden-gallery-pool .gallery-img");
-    const albumCover = document.querySelector(".gallery-album-preview");
+    const albumCover = document.getElementById("album-preview-trigger");
     
+    const galleryData = [
+        { src: "assets/images/Sunday Service.jpg", name: "Sunday Service" },
+        { src: "assets/images/Pistang Kristiyano.jpg", name: "Pistang Kristiyano" },
+        { src: "assets/images/Youth Revival.jpg", name: "Youth Revival" },
+        { src: "assets/images/Bible Study.jpg", name: "Bible Study" },
+        { src: "assets/images/Online Bible Study.jpg", name: "Online Bible Study" },
+        { src: "assets/images/Elders.jpg", name: "Elders" },
+        { src: "assets/images/Youth.jpg", name: "Youth" },
+        { src: "assets/images/Childrens.jpg", name: "Childrens" },
+        { src: "assets/images/Recital.jpg", name: "Recital" },
+        { src: "assets/images/DVBS.jpg", name: "DVBS" },
+        { src: "assets/images/Outreach.jpg", name: "Outreach" },
+        { src: "assets/images/Outreach 1.jpg", name: "Outreach Program" },
+        { src: "assets/images/Outreach 2.jpg", name: "Outreach Community" },
+        { src: "assets/images/Bonding.jpg", name: "Baptism" },
+        { src: "assets/images/Christmas Party.jpg", name: "Christmas Party" },
+        { src: "assets/images/CSF Members.jpg", name: "CSF Members" },
+        { src: "assets/images/CSF Members 1.jpg", name: "CSF Members Gathering" },
+        { src: "assets/images/Outing.jpg", name: "Outing" }
+    ];
+
     let currentIndex = 0;
 
     function showImage(index) {
-        if (galleryImages.length > 0) {
-            lightboxImg.src = galleryImages[index].src;
+        if (galleryData.length > 0) {
+            lightboxImg.src = galleryData[index].src;
+            lightboxCaption.innerText = galleryData[index].name;
             currentIndex = index;
         }
     }
@@ -85,17 +104,17 @@ document.addEventListener("DOMContentLoaded", function() {
     if (albumCover) {
         albumCover.addEventListener("click", function() {
             lightbox.style.display = "flex"; 
-            showImage(0);
+            showImage(0); // Magsisimula sa Sunday Service
         });
     }
 
     function nextImage() {
-        currentIndex = (currentIndex + 1) % galleryImages.length;
+        currentIndex = (currentIndex + 1) % galleryData.length;
         showImage(currentIndex);
     }
 
     function prevImage() {
-        currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+        currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
         showImage(currentIndex);
     }
 
@@ -121,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
-            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn) {
+            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn && e.target !== lightboxCaption) {
                 lightbox.style.display = "none";
             }
         });
