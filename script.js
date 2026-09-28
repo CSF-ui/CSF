@@ -1,21 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
     
-    // 1. MOBILE NAVBAR TOGGLE (Inayos para mag-toggle at magsara kapag na-click ang links)
+    // 1. MOBILE NAVBAR TOGGLE & AUTO CLOSE ON CLICK
     const hamburger = document.getElementById('hamburger');
     const navLinksContainer = document.getElementById('nav-links');
     const menuLinks = document.querySelectorAll('#nav-links a');
+    const closeMenuBtn = document.getElementById('close-menu');
 
     if (hamburger && navLinksContainer) {
         hamburger.addEventListener('click', () => {
-            navLinksContainer.classList.toggle('active');
+            navLinksContainer.classList.add('active');
         });
 
-        // Isara ang mobile menu kapag pinindot ang alinmang link sa loob nito
+        // Isara kapag pinindot ang alinmang link (Home, About, etc.)[cite: 3]
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navLinksContainer.classList.remove('active');
             });
         });
+
+        // Isara kapag pinindot ang X button
+        if (closeMenuBtn) {
+            closeMenuBtn.addEventListener('click', () => {
+                navLinksContainer.classList.remove('active');
+            });
+        }
     }
 
     // 2. COUNTDOWN TIMER LOGIC
@@ -46,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 1000);
     }
 
-    // 3. LIGHTBOX GALLERY (Pang-zoom at paglipat-lipat ng pictures)
+    // 3. LIGHTBOX GALLERY
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const closeBtn = document.getElementById("close-lightbox");
@@ -67,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (albumCover) {
         albumCover.addEventListener("click", function() {
             lightbox.style.display = "flex"; 
-            showImage(0); // Magsisimula sa unang picture ng album
+            showImage(0);
         });
     }
 

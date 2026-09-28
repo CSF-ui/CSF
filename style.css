@@ -1,5 +1,5 @@
 /* =========================================
-   CSF CHURCH - 20TH ANNIVERSARY CSS (REVISED & UPGRADED)
+   CSF CHURCH - 20TH ANNIVERSARY CSS (UI UPGRADED)
    Theme: Burgundy, Beige, Cream, Gold
 ========================================= */
 
@@ -16,9 +16,9 @@
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Lato', sans-serif;
     
-    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
-    --shadow-hover: 0 15px 35px rgba(197, 160, 89, 0.25);
-    --transition-standard: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-hover: 0 18px 40px rgba(197, 160, 89, 0.3);
+    --transition-standard: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 * {
@@ -76,7 +76,7 @@ a {
     max-width: 650px;
     margin: 0 auto 55px auto;
     font-size: clamp(1rem, 2vw, 1.15rem);
-    color: #666;
+    color: #555;
     padding: 0 10px;
 }
 
@@ -92,15 +92,15 @@ a {
     color: var(--clr-gold-light);
 }
 
-/* --- BUTTONS --- */
+/* --- BUTTONS (Pinaganda ang padding at transitions) --- */
 .btn {
     display: inline-block;
-    padding: 14px 32px;
-    font-size: 0.9rem;
+    padding: 15px 34px;
+    font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    border-radius: 6px;
+    border-radius: 8px;
     transition: var(--transition-standard);
     cursor: pointer;
     text-align: center;
@@ -110,14 +110,14 @@ a {
     background-color: var(--clr-gold);
     color: var(--clr-burgundy-dark);
     border: 2px solid var(--clr-gold);
-    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.35);
 }
 
 .btn-primary:hover {
     background-color: transparent;
     color: var(--clr-gold-light);
     border-color: var(--clr-gold-light);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
 .btn-secondary {
@@ -129,7 +129,7 @@ a {
 .btn-secondary:hover {
     background-color: var(--clr-white);
     color: var(--clr-burgundy-dark);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
 .btn-primary-outline {
@@ -141,20 +141,20 @@ a {
 .btn-primary-outline:hover {
     background-color: var(--clr-gold);
     color: var(--clr-burgundy-dark);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
 }
 
-/* --- NAVBAR --- */
+/* --- NAVBAR (Mas malinis at laging nasa itaas) --- */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgba(74, 12, 22, 0.92);
+    background-color: rgba(74, 12, 22, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    padding: 12px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 14px 0;
     transition: var(--transition-standard);
 }
 
@@ -192,7 +192,8 @@ a {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 30px;
+    gap: 28px;
+    align-items: center;
 }
 
 .nav-links li a {
@@ -306,16 +307,16 @@ a {
 }
 
 .countdown-box {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(197, 160, 89, 0.3);
-    border-radius: 10px;
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    border-radius: 12px;
     padding: 18px 12px;
     min-width: 85px;
     flex: 1 1 85px;
     max-width: 110px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
 }
 
 .countdown-box span {
@@ -358,7 +359,7 @@ a {
 .about-card {
     background-color: var(--clr-white);
     padding: clamp(30px, 4vw, 45px) clamp(25px, 3vw, 35px);
-    border-radius: 12px;
+    border-radius: 14px;
     text-align: center;
     box-shadow: var(--shadow-soft);
     border-bottom: 4px solid var(--clr-gold);
@@ -396,8 +397,8 @@ a {
 /* --- 4 & 8. PROGRAM & MILESTONES TIMELINE --- */
 .program-summary-box {
     background-color: var(--clr-white);
-    padding: 25px;
-    border-radius: 10px;
+    padding: 28px;
+    border-radius: 12px;
     text-align: center;
     max-width: 650px;
     margin: 0 auto 50px auto;
@@ -498,7 +499,7 @@ a {
 
 .album-cover-wrapper {
     position: relative;
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
     border: 3px solid var(--clr-gold);
@@ -577,7 +578,7 @@ a {
 .lightbox-content {
     max-width: 90%; 
     max-height: 85vh;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     border: 2px solid rgba(197, 160, 89, 0.4);
 }
@@ -633,7 +634,7 @@ a {
     width: 100%; 
     max-height: 480px;
     object-fit: cover;
-    border-radius: 12px; 
+    border-radius: 16px; 
     border: 6px solid var(--clr-white); 
     box-shadow: var(--shadow-soft);
 }
@@ -683,7 +684,7 @@ a {
 .map-placeholder {
     height: 380px;
     width: 100%;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--shadow-soft);
     border: 2px solid rgba(197, 160, 89, 0.3);
