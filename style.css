@@ -1,5 +1,5 @@
 /* =========================================
-   CSF CHURCH - 20TH ANNIVERSARY CSS (FINAL STABLE)
+   CSF CHURCH - 20TH ANNIVERSARY CSS (FINAL STABLE & IN-APP FIX)
 ========================================= */
 
 :root {
@@ -787,7 +787,7 @@ footer h2 {
     transform: translateY(0); 
 }
 
-/* --- MOBILE RESPONSIVE TWEAKS --- */
+/* --- MOBILE RESPONSIVE TWEAKS & IN-APP FIX --- */
 @media (max-width: 768px) {
     .hamburger { 
         display: flex; 
@@ -846,12 +846,15 @@ footer h2 {
         background-attachment: scroll;
     }
 
-    /* Mobile Lightbox Arrows (Naka-discreet sa gilid para pwedeng pindutin o i-swipe) */
+    /* Pilit nating pinapalitaw ang Navigation buttons kahit sa Messenger in-app browser */
     .lightbox-nav-btn {
-        padding: 8px 12px;
-        font-size: 14px;
-        background-color: rgba(74, 12, 22, 0.6);
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        padding: 10px 12px !important;
+        font-size: 15px !important;
+        background-color: rgba(74, 12, 22, 0.85) !important;
     }
-    .prev-btn { left: 5px; }
-    .next-btn { right: 5px; }
+    .prev-btn { left: 8px !important; }
+    .next-btn { right: 8px !important; }
 }
