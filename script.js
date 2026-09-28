@@ -1,12 +1,20 @@
 document.addEventListener("DOMContentLoaded", function() {
     
-    // 1. MOBILE NAVBAR TOGGLE (Optional fallback)
+    // 1. MOBILE NAVBAR TOGGLE (Inayos para mag-toggle at magsara kapag na-click ang links)
     const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
+    const navLinksContainer = document.getElementById('nav-links');
+    const menuLinks = document.querySelectorAll('#nav-links a');
 
-    if (hamburger && navLinks) {
+    if (hamburger && navLinksContainer) {
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+            navLinksContainer.classList.toggle('active');
+        });
+
+        // Isara ang mobile menu kapag pinindot ang alinmang link sa loob nito
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksContainer.classList.remove('active');
+            });
         });
     }
 
