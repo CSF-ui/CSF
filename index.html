@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="CSF Church 20th Anniversary - Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead">
     <title>CSF Church | 20th Anniversary</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/jpg" href="assets/images/church logo.jpg">
+    <link rel="icon" type="image/jpeg" href="assets/images/church logo.jpg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -25,13 +25,13 @@
                 <img src="assets/images/church logo.jpg" alt="CSF Church Logo" class="nav-logo-img" onerror="this.style.display='none'">
                 <span class="logo-text">CSF CHURCH</span>
             </div>
-            <div class="hamburger" id="hamburger" aria-label="Toggle navigation menu" role="button" tabindex="0">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" type="button">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
             <ul class="nav-links" id="nav-links">
-                <li><button class="close-menu" id="close-menu" aria-label="Close menu">&times;</button></li>
+                <li><button class="close-menu" id="close-menu" aria-label="Close menu" type="button">&times;</button></li>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#program">Program</a></li>
@@ -98,15 +98,15 @@
             <div class="about-grid">
                 <div class="about-card">
                     <h3>Our Journey</h3>
-                    <p>[EDIT THIS: Started with a handful of believers meeting in a living room, growing into a vibrant spiritual home for hundreds of families today.]</p>
+                    <p>Started with a handful of believers meeting in a living room, growing into a vibrant spiritual home for hundreds of families today.</p>
                 </div>
                 <div class="about-card">
                     <h3>Our Mission</h3>
-                    <p>[EDIT THIS: To glorify God by making disciples through authentic worship, passionate prayer, and compassionate community outreach.]</p>
+                    <p>To glorify God by making disciples through authentic worship, passionate prayer, and compassionate community outreach.</p>
                 </div>
                 <div class="about-card">
                     <h3>Our Vision</h3>
-                    <p>[EDIT THIS: To build a flourishing, multi-generational church that transforms cities and nations through the power of the Gospel.]</p>
+                    <p>To build a flourishing, multi-generational church that transforms cities and nations through the power of the Gospel.</p>
                 </div>
             </div>
         </div>
@@ -260,7 +260,7 @@
     <section class="verse-section">
         <div class="container center-text">
             <h2>"I thank my God every time I remember you."</h2>
-            <p class="verse-ref">— [EDIT THIS: Philippians 1:3] —</p>
+            <p class="verse-ref">— Philippians 1:3 —</p>
         </div>
     </section>
 
@@ -283,14 +283,14 @@
     </section>
 
     <!-- Lightbox Modal -->
-    <div id="lightbox" class="lightbox" aria-hidden="true">
-        <span class="close-lightbox" id="close-lightbox">&times;</span>
-        <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image">&#10094;</button>
+    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog">
+        <button class="close-lightbox" id="close-lightbox" aria-label="Close gallery" type="button">&times;</button>
+        <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image" type="button">&#10094;</button>
         <div class="lightbox-container">
             <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
             <div id="lightbox-caption"></div>
         </div>
-        <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image">&#10095;</button>
+        <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image" type="button">&#10095;</button>
     </div>
 
     <!-- 7. MESSAGE FROM THE PASTOR -->
@@ -313,38 +313,38 @@
             <h2 class="section-title">Our Milestone Journey</h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="time">[EDIT THIS: Year 1 • 2006]</div>
+                    <div class="time">Year 1 • 2006</div>
                     <div class="event-details">
                         <h4>The Foundation</h4>
-                        <p>[EDIT THIS: CSF Church was planted with a core group of 12 faithful visionaries.]</p>
+                        <p>CSF Church was planted with a core group of 12 faithful visionaries.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time">[EDIT THIS: Year 5 • 2011]</div>
+                    <div class="time">Year 5 • 2011</div>
                     <div class="event-details">
                         <h4>First Major Outreach Expansion</h4>
-                        <p>[EDIT THIS: Launched youth and community feeding programs across the district.]</p>
+                        <p>Launched youth and community feeding programs across the district.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time">[EDIT THIS: Year 10 • 2016]</div>
+                    <div class="time">Year 10 • 2016</div>
                     <div class="event-details">
                         <h4>New Sanctuary Dedication</h4>
-                        <p>[EDIT THIS: Successfully moved into our permanent church facility home.]</p>
+                        <p>Successfully moved into our permanent church facility home.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time">[EDIT THIS: Year 15 • 2021]</div>
+                    <div class="time">Year 15 • 2021</div>
                     <div class="event-details">
                         <h4>Digital Transformation</h4>
-                        <p>[EDIT THIS: Expanded online streaming ministries, reaching global brethren during challenges.]</p>
+                        <p>Expanded online streaming ministries, reaching global brethren during challenges.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
-                    <div class="time">[EDIT THIS: Year 20 • 2026]</div>
+                    <div class="time">Year 20 • 2026</div>
                     <div class="event-details">
                         <h4>Two Decades of Grace</h4>
-                        <p>[EDIT THIS: Celebrating 20 years of transformed lives, united families, and relentless faith.]</p>
+                        <p>Celebrating 20 years of transformed lives, united families, and relentless faith.</p>
                     </div>
                 </div>
             </div>
@@ -356,7 +356,7 @@
         <div class="container">
             <h2>Come and Celebrate God's Faithfulness With Us</h2>
             <div class="hero-buttons" style="margin-top: 30px;">
-                <a href="https://www.google.com/maps/search/?api=1&query=CSF+Church+Sapang+Kawayan" target="_blank" class="btn btn-secondary">Get Directions</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Get Directions</a>
                 <a href="#contact" class="btn btn-primary-outline">Contact Us</a>
             </div>
         </div>
@@ -370,11 +370,11 @@
                 <p><strong>Address:</strong> CSF Church Sapang Kawayan</p>
                 <p><strong>Phone:</strong> <a href="tel:+639650390952">+63 965 039 0952</a></p>
                 <p><strong>Email:</strong> <a href="mailto:churchcsf@gmail.com">churchcsf@gmail.com</a></p>
-                <p><strong>Facebook:</strong> <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank">Christ Savior Forerunner Church</a></p>
+                <p><strong>Facebook:</strong> <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer">Christ Savior Forerunner Church</a></p>
             </div>
             <div class="contact-map">
                 <div class="map-placeholder">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3855.852552262947!2d121.07298607433633!3d14.889521069939295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397a9003a082443%3A0x1c6eff5233028d55!2sCSF%20Church%20Sapang%20Kawayan!5e0!3m2!1sen!2sph!4v1789531855798!5m2!1sen!2sph" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3855.852552262947!2d121.07298607433633!3d14.889521069939295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397a9003a082443%3A0x1c6eff5233028d55!2sCSF%20Church%20Sapang%20Kawayan!5e0!3m2!1sen!2sph!4v1789531855798!5m2!1sen!2sph" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -387,7 +387,7 @@
             <h3>20th Anniversary</h3>
             <p>Celebrating 20 Years of God's Faithfulness</p>
             <div class="social-icons">
-                <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" aria-label="Facebook">FB</a>
+                <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
                 <a href="#" aria-label="YouTube">YT</a>
                 <a href="#" aria-label="Instagram">IG</a>
             </div>

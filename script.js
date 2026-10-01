@@ -6,59 +6,104 @@ document.addEventListener("DOMContentLoaded", function() {
     const menuLinks = document.querySelectorAll('#nav-links a');
     const closeMenuBtn = document.getElementById('close-menu');
 
+    function closeNav() {
+        if (navLinksContainer) {
+            navLinksContainer.classList.remove('active');
+            document.body.style.overflow = "";
+        }
+    }
+
+    function openNav() {
+        if (navLinksContainer) {
+            navLinksContainer.classList.add('active');
+            document.body.style.overflow = "hidden";
+        }
+    }
+
     if (hamburger && navLinksContainer) {
         hamburger.addEventListener('click', (e) => {
             e.stopPropagation();
-            navLinksContainer.classList.add('active');
+            if (navLinksContainer.classList.contains('active')) {
+                closeNav();
+            } else {
+                openNav();
+            }
         });
 
         menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinksContainer.classList.remove('active');
-            });
+            link.addEventListener('click', closeNav);
         });
 
         if (closeMenuBtn) {
-            closeMenuBtn.addEventListener('click', () => {
-                navLinksContainer.classList.remove('active');
-            });
+            closeMenuBtn.addEventListener('click', closeNav);
         }
 
         document.addEventListener('click', (e) => {
             if (navLinksContainer.classList.contains('active')) {
                 if (!navLinksContainer.contains(e.target) && !hamburger.contains(e.target)) {
-                    navLinksContainer.classList.remove('active');
+                    closeNav();
                 }
             }
         });
     }
 
-    // 2. COUNTDOWN TIMER LOGIC
+    // 2. FB & MESSENGER / SAFARI SAFE COUNTDOWN TIMER LOGIC
     const countdownContainer = document.querySelector('.countdown-container');
     
     if (countdownContainer) {
         const targetDateString = countdownContainer.getAttribute('data-target-date');
-        const targetDate = new Date(targetDateString).getTime();
-
-        const updateCountdown = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                clearInterval(updateCountdown);
-                return;
+        
+        let targetDate;
+        if (targetDateString) {
+            const parts = targetDateString.split(/[-T:]/);
+            if (parts.length >= 5) {
+                targetDate = new Date(
+                    parseInt(parts[0], 10),
+                    parseInt(parts[1], 10) - 1,
+                    parseInt(parts[2], 10),
+                    parseInt(parts[3], 10),
+                    parseInt(parts[4], 10),
+                    parts[5] ? parseInt(parts[5], 10) : 0
+                ).getTime();
+            } else {
+                targetDate = new Date(targetDateString.replace(/-/g, "/")).getTime();
             }
+        }
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        if (targetDate && !isNaN(targetDate)) {
+            const updateCountdown = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
 
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-        }, 1000);
+                if (distance < 0) {
+                    clearInterval(updateCountdown);
+                    const daysEl = document.getElementById("days");
+                    if (daysEl) daysEl.innerText = "00";
+                    const hoursEl = document.getElementById("hours");
+                    if (hoursEl) hoursEl.innerText = "00";
+                    const minsEl = document.getElementById("minutes");
+                    if (minsEl) minsEl.innerText = "00";
+                    const secsEl = document.getElementById("seconds");
+                    if (secsEl) secsEl.innerText = "00";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const daysEl = document.getElementById("days");
+                const hoursEl = document.getElementById("hours");
+                const minsEl = document.getElementById("minutes");
+                const secsEl = document.getElementById("seconds");
+
+                if (daysEl) daysEl.innerText = days < 10 ? "0" + days : days;
+                if (hoursEl) hoursEl.innerText = hours < 10 ? "0" + hours : hours;
+                if (minsEl) minsEl.innerText = minutes < 10 ? "0" + minutes : minutes;
+                if (secsEl) secsEl.innerText = seconds < 10 ? "0" + seconds : seconds;
+            }, 1000);
+        }
     }
 
     // 3. LIGHTBOX GALLERY & SWIPE GESTURE
@@ -94,18 +139,30 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentIndex = 0;
 
     function showImage(index) {
-        if (galleryData.length > 0) {
+        if (galleryData.length > 0 && lightboxImg && lightboxCaption) {
             lightboxImg.src = galleryData[index].src;
             lightboxCaption.innerText = galleryData[index].name;
             currentIndex = index;
         }
     }
 
-    if (albumCover) {
-        albumCover.addEventListener("click", function() {
-            lightbox.style.display = "flex"; 
+    function openLightbox() {
+        if (lightbox) {
+            lightbox.style.display = "flex";
+            document.body.style.overflow = "hidden";
             showImage(0);
-        });
+        }
+    }
+
+    function closeLightbox() {
+        if (lightbox) {
+            lightbox.style.display = "none";
+            document.body.style.overflow = "";
+        }
+    }
+
+    if (albumCover) {
+        albumCover.addEventListener("click", openLightbox);
     }
 
     function nextImage() {
@@ -133,20 +190,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (closeBtn) {
-        closeBtn.addEventListener("click", () => {
-            lightbox.style.display = "none";
-        });
+        closeBtn.addEventListener("click", closeLightbox);
     }
 
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
             if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn && e.target !== lightboxCaption) {
-                lightbox.style.display = "none";
+                closeLightbox();
             }
         });
     }
 
-    // Touch Swipe Gestures para sa Mobile Phones
+    // Touch Swipe Gestures
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -164,46 +219,50 @@ document.addEventListener("DOMContentLoaded", function() {
     function handleSwipe() {
         const threshold = 40;
         if (touchEndX < touchStartX - threshold) {
-            nextImage(); // Swipe Kaliwa -> Next
+            nextImage();
         }
         if (touchEndX > touchStartX + threshold) {
-            prevImage(); // Swipe Pakanan -> Previous
+            prevImage();
         }
     }
 
     document.addEventListener("keydown", (e) => {
-        if (lightbox.style.display === "flex") {
+        if (lightbox && lightbox.style.display === "flex") {
             if (e.key === "ArrowRight") {
                 nextImage();
             } else if (e.key === "ArrowLeft") {
                 prevImage();
             } else if (e.key === "Escape") {
-                lightbox.style.display = "none";
+                closeLightbox();
             }
         }
     });
 
-    // 4. SCROLL ANIMATIONS
+    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
     const elementsToAnimate = document.querySelectorAll('.about-card, .timeline-item, .gallery-album-preview, .pastor-grid, .contact-grid');
     
-    const appearOptions = {
-        threshold: 0, 
-        rootMargin: "0px 0px -50px 0px"
-    };
+    if ('IntersectionObserver' in window) {
+        const appearOptions = {
+            threshold: 0, 
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-    const appearOnScroll = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-            } else {
-                entry.target.classList.remove('appear');
-            }
+        const appearOnScroll = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                } else {
+                    entry.target.classList.remove('appear');
+                }
+            });
+        }, appearOptions);
+
+        elementsToAnimate.forEach(el => {
+            el.classList.add('fade-in-scroll');
+            appearOnScroll.observe(el);
         });
-    }, appearOptions);
-
-    elementsToAnimate.forEach(el => {
-        el.classList.add('fade-in-scroll');
-        appearOnScroll.observe(el);
-    });
+    } else {
+        elementsToAnimate.forEach(el => el.classList.add('appear'));
+    }
 
 });
