@@ -1,5 +1,5 @@
 /* =========================================
-   CSF CHURCH - 20TH ANNIVERSARY CSS (FULL RESPONSIVE)
+   CSF CHURCH - 20TH ANNIVERSARY CSS (FULL RESPONSIVE & FIXED)
 ========================================= */
 
 :root {
@@ -42,6 +42,11 @@ body {
     width: 100%;
 }
 
+/* FIX: Ino-offset ang scroll position para hindi matakpan ng fixed navbar ang mga section titles */
+section, header, div[id] {
+    scroll-margin-top: 80px;
+}
+
 img {
     max-width: 100%;
     height: auto;
@@ -51,6 +56,7 @@ img {
 h1, h2, h3, h4 {
     font-family: var(--font-heading);
     font-weight: 700;
+    word-wrap: break-word; /* Pinipigilan ang lumagpas na salita sa mobile */
 }
 
 a {
@@ -722,16 +728,18 @@ a {
     border: 2px solid var(--clr-gold);
 }
 
+.contact-map iframe,
 .map-placeholder {
     width: 100%;
     height: 100%;
+    border: 0;
 }
 
 /* --- 11. FOOTER & SOCIAL ICONS --- */
 footer {
     background-color: var(--clr-burgundy-dark);
     color: var(--clr-white);
-    padding: 40px 15px;
+    padding: 40px 15px 50px 15px; /* Dagdag padding-bottom para hindi maputol sa mobile */
     border-top: 3px solid var(--clr-gold);
 }
 
@@ -829,6 +837,10 @@ footer {
 
     .hero {
         padding: 110px 15px 40px 15px;
+    }
+
+    .section-title {
+        margin-top: 10px;
     }
 
     .countdown-container {

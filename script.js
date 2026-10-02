@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (targetDate && !isNaN(targetDate)) {
+            // Optimized: I-store ang DOM elements sa labas ng interval
             const daysEl = document.getElementById("days");
             const hoursEl = document.getElementById("hours");
             const minsEl = document.getElementById("minutes");
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const distance = targetDate - now;
 
                 if (distance < 0) {
-                    clearInterval(updateCountdown);
+                    clearInterval(updateCountdown); // Tiyaking pinapatay ang timer kapag lumipas na
                     if (daysEl) daysEl.innerText = "00";
                     if (hoursEl) hoursEl.innerText = "00";
                     if (minsEl) minsEl.innerText = "00";
@@ -237,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
+    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER - OPTIMIZED FOR MOBILE)
     const elementsToAnimate = document.querySelectorAll('.about-card, .timeline-item, .gallery-album-preview, .pastor-grid, .contact-grid');
     
     if ('IntersectionObserver' in window) {
@@ -250,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('appear');
-                    observer.unobserve(entry.target);
+                    observer.unobserve(entry.target); // Unobserve para hindi paulit-ulit na mag-render sa mobile touch scroll
                 }
             });
         }, appearOptions);
