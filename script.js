@@ -71,19 +71,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (targetDate && !isNaN(targetDate)) {
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minsEl = document.getElementById("minutes");
+            const secsEl = document.getElementById("seconds");
+
             const updateCountdown = setInterval(function() {
                 const now = new Date().getTime();
                 const distance = targetDate - now;
 
                 if (distance < 0) {
                     clearInterval(updateCountdown);
-                    const daysEl = document.getElementById("days");
                     if (daysEl) daysEl.innerText = "00";
-                    const hoursEl = document.getElementById("hours");
                     if (hoursEl) hoursEl.innerText = "00";
-                    const minsEl = document.getElementById("minutes");
                     if (minsEl) minsEl.innerText = "00";
-                    const secsEl = document.getElementById("seconds");
                     if (secsEl) secsEl.innerText = "00";
                     return;
                 }
@@ -92,11 +93,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                const daysEl = document.getElementById("days");
-                const hoursEl = document.getElementById("hours");
-                const minsEl = document.getElementById("minutes");
-                const secsEl = document.getElementById("seconds");
 
                 if (daysEl) daysEl.innerText = days < 10 ? "0" + days : days;
                 if (hoursEl) hoursEl.innerText = hours < 10 ? "0" + hours : hours;
@@ -146,11 +142,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function openLightbox() {
+    function openLightbox(index = 0) {
         if (lightbox) {
             lightbox.style.display = "flex";
             document.body.style.overflow = "hidden";
-            showImage(0);
+            showImage(index);
         }
     }
 
@@ -162,7 +158,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     if (albumCover) {
-        albumCover.addEventListener("click", openLightbox);
+        albumCover.addEventListener("click", (e) => {
+            const index = parseInt(e.currentTarget.getAttribute("data-index"), 10) || 0;
+            openLightbox(index);
+        });
     }
 
     function nextImage() {
@@ -247,12 +246,11 @@ document.addEventListener("DOMContentLoaded", function() {
             rootMargin: "0px 0px -50px 0px"
         };
 
-        const appearOnScroll = new IntersectionObserver(function(entries) {
+        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('appear');
-                } else {
-                    entry.target.classList.remove('appear');
+                    observer.unobserve(entry.target);
                 }
             });
         }, appearOptions);
