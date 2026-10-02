@@ -71,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (targetDate && !isNaN(targetDate)) {
-            // Optimized: I-store ang DOM elements sa labas ng interval
             const daysEl = document.getElementById("days");
             const hoursEl = document.getElementById("hours");
             const minsEl = document.getElementById("minutes");
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const distance = targetDate - now;
 
                 if (distance < 0) {
-                    clearInterval(updateCountdown); // Tiyaking pinapatay ang timer kapag lumipas na
+                    clearInterval(updateCountdown);
                     if (daysEl) daysEl.innerText = "00";
                     if (hoursEl) hoursEl.innerText = "00";
                     if (minsEl) minsEl.innerText = "00";
@@ -145,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function openLightbox(index = 0) {
         if (lightbox) {
+            lightbox.classList.add("active");
             lightbox.style.display = "flex";
             document.body.style.overflow = "hidden";
             showImage(index);
@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function closeLightbox() {
         if (lightbox) {
+            lightbox.classList.remove("active");
             lightbox.style.display = "none";
             document.body.style.overflow = "";
         }
@@ -227,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.addEventListener("keydown", (e) => {
-        if (lightbox && lightbox.style.display === "flex") {
+        if (lightbox && (lightbox.style.display === "flex" || lightbox.classList.contains("active"))) {
             if (e.key === "ArrowRight") {
                 nextImage();
             } else if (e.key === "ArrowLeft") {
@@ -238,20 +239,23 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER - OPTIMIZED FOR MOBILE)
-    const elementsToAnimate = document.querySelectorAll('.about-card, .timeline-item, .gallery-album-preview, .pastor-grid, .contact-grid');
+    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER - LAG FREE & RE-TRIGGERABLE)
+    const elementsToAnimate = document.querySelectorAll(
+        '.section-title, .section-subtitle, .about-card, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .contact-grid, .gallery-album-preview'
+    );
     
     if ('IntersectionObserver' in window) {
         const appearOptions = {
-            threshold: 0, 
-            rootMargin: "0px 0px -50px 0px"
+            threshold: 0.1, 
+            rootMargin: "0px 0px -30px 0px"
         };
 
-        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        const appearOnScroll = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('appear');
-                    observer.unobserve(entry.target); // Unobserve para hindi paulit-ulit na mag-render sa mobile touch scroll
+                } else {
+                    entry.target.classList.remove('appear');
                 }
             });
         }, appearOptions);
