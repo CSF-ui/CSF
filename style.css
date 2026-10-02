@@ -551,7 +551,8 @@ a {
 
 /* --- 5. BIBLE VERSE SECTION --- */
 .verse-section {
-    background: linear-gradient(135deg, rgba(74, 12, 22, 0.9), rgba(74, 12, 22, 0.9)), url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1920&q=80') center/cover fixed no-repeat;
+    background: linear-gradient(135deg, rgba(74, 12, 22, 0.9), rgba(74, 12, 22, 0.9)), 
+                url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=1920&q=80') center/cover fixed no-repeat;
     color: var(--clr-white);
     padding: clamp(60px, 10vw, 100px) 15px;
     text-align: center;
@@ -843,6 +844,15 @@ footer {
 }
 
 @media (max-width: 768px) {
+    /* Pinalitan lang ng scroll para lumabas ang background image sa mobile/iOS nang walang distortion */
+    .hero {
+        background-attachment: scroll;
+    }
+
+    .verse-section {
+        background-attachment: scroll;
+    }
+
     .hamburger {
         display: flex;
     }
