@@ -409,6 +409,38 @@ a {
     color: var(--clr-beige);
 }
 
+/* Celebration Banner Styling */
+.celebration-banner {
+    margin: 10px auto 30px auto;
+    padding: 16px 24px;
+    background: rgba(74, 12, 22, 0.85);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--clr-gold);
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(197, 160, 89, 0.3);
+    max-width: 600px;
+    animation: bannerFadeIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+.celebration-banner h2 {
+    color: var(--clr-gold-light);
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    letter-spacing: 1px;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+@keyframes bannerFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 .hero-buttons {
     display: flex;
     justify-content: center;
@@ -844,7 +876,6 @@ footer {
 }
 
 @media (max-width: 768px) {
-    /* Pinalitan lang ng scroll para lumabas ang background image sa mobile/iOS nang walang distortion */
     .hero {
         background-attachment: scroll;
     }
