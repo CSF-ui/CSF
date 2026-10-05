@@ -728,7 +728,7 @@ a {
 .prev-btn { left: 15px; }
 .next-btn { right: 15px; }
 
-/* --- PASTOR & CONTACT --- */
+/* --- PASTOR & SPEAKER & CONTACT --- */
 .pastor-grid, .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -741,7 +741,7 @@ a {
     box-shadow: var(--shadow-soft);
     border: 3px solid var(--clr-gold);
     width: 100%;
-    max-height: 450px;
+    max-height: 480px;
     object-fit: cover;
 }
 
@@ -749,6 +749,32 @@ a {
     color: var(--clr-gold);
     margin-bottom: 15px;
     font-size: 1.2rem;
+}
+
+/* Speaker Credentials List */
+.speaker-credentials-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.speaker-credentials-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 0.92rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+.speaker-credentials-list li::before {
+    content: "•";
+    color: var(--clr-gold);
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: absolute;
+    left: 0;
+    top: -2px;
 }
 
 .contact-info p {
@@ -872,6 +898,11 @@ footer {
 
     .pastor-text, .contact-info {
         text-align: center;
+    }
+
+    .speaker-credentials-list {
+        display: inline-block;
+        text-align: left;
     }
 
     .contact-info .section-title {
