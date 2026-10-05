@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
     const elementsToAnimate = document.querySelectorAll(
-        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .contact-grid, .gallery-album-preview'
+        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview'
     );
     
     if ('IntersectionObserver' in window) {
