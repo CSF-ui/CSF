@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 2. FB & MESSENGER / SAFARI SAFE COUNTDOWN TIMER LOGIC
     const countdownContainer = document.querySelector('.countdown-container');
+    const celebrationBanner = document.getElementById('celebration-started-banner');
+    const targetDateNote = document.getElementById('target-date-note');
     
     if (countdownContainer) {
         const targetDateString = countdownContainer.getAttribute('data-target-date');
@@ -82,10 +84,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (distance < 0) {
                     clearInterval(updateCountdown);
-                    if (daysEl) daysEl.innerText = "00";
-                    if (hoursEl) hoursEl.innerText = "00";
-                    if (minsEl) minsEl.innerText = "00";
-                    if (secsEl) secsEl.innerText = "00";
+                    
+                    if (countdownContainer) countdownContainer.style.display = "none";
+                    if (targetDateNote) targetDateNote.style.display = "none";
+                    if (celebrationBanner) celebrationBanner.style.display = "block";
                     return;
                 }
 
@@ -239,9 +241,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER - LAG FREE & RE-TRIGGERABLE)
+    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
     const elementsToAnimate = document.querySelectorAll(
-        '.section-title, .section-subtitle, .about-card, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .contact-grid, .gallery-album-preview'
+        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .contact-grid, .gallery-album-preview'
     );
     
     if ('IntersectionObserver' in window) {
