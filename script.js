@@ -47,7 +47,32 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 2. FB & MESSENGER / SAFARI SAFE COUNTDOWN TIMER LOGIC
+    // 2. ACTIVE NAVIGATION ITEM ON SCROLL
+    const sections = document.querySelectorAll("section[id]");
+    const navItems = document.querySelectorAll(".nav-item");
+
+    function highlightNavOnScroll() {
+        const scrollY = window.pageYOffset;
+
+        sections.forEach(current => {
+            const sectionHeight = current.offsetHeight;
+            const sectionTop = current.offsetTop - 100;
+            const sectionId = current.getAttribute("id");
+
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                navItems.forEach(item => {
+                    item.classList.remove("active");
+                    if (item.getAttribute("href") === `#${sectionId}`) {
+                        item.classList.add("active");
+                    }
+                });
+            }
+        });
+    }
+
+    window.addEventListener("scroll", highlightNavOnScroll);
+
+    // 3. FB & MESSENGER / SAFARI SAFE COUNTDOWN TIMER LOGIC
     const countdownContainer = document.querySelector('.countdown-container');
     const celebrationBanner = document.getElementById('celebration-started-banner');
     const targetDateNote = document.getElementById('target-date-note');
@@ -104,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // 3. LIGHTBOX GALLERY & SWIPE GESTURE
+    // 4. LIGHTBOX GALLERY & SWIPE GESTURE WITH SMOOTH FADE
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
@@ -138,8 +163,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function showImage(index) {
         if (galleryData.length > 0 && lightboxImg && lightboxCaption) {
-            lightboxImg.src = galleryData[index].src;
-            lightboxCaption.innerText = galleryData[index].name;
+            lightboxImg.style.opacity = "0";
+            setTimeout(() => {
+                lightboxImg.src = galleryData[index].src;
+                lightboxCaption.innerText = galleryData[index].name;
+                lightboxImg.style.opacity = "1";
+            }, 150);
             currentIndex = index;
         }
     }
@@ -147,7 +176,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function openLightbox(index = 0) {
         if (lightbox) {
             lightbox.classList.add("active");
-            lightbox.style.display = "flex";
             document.body.style.overflow = "hidden";
             showImage(index);
         }
@@ -156,7 +184,6 @@ document.addEventListener("DOMContentLoaded", function() {
     function closeLightbox() {
         if (lightbox) {
             lightbox.classList.remove("active");
-            lightbox.style.display = "none";
             document.body.style.overflow = "";
         }
     }
@@ -230,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.addEventListener("keydown", (e) => {
-        if (lightbox && (lightbox.style.display === "flex" || lightbox.classList.contains("active"))) {
+        if (lightbox && lightbox.classList.contains("active")) {
             if (e.key === "ArrowRight") {
                 nextImage();
             } else if (e.key === "ArrowLeft") {
@@ -241,7 +268,26 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 4. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
+    // 5. BACK TO TOP BUTTON
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    if (backToTopBtn) {
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+
+    // 6. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
     const elementsToAnimate = document.querySelectorAll(
         '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview'
     );
@@ -256,8 +302,6 @@ document.addEventListener("DOMContentLoaded", function() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('appear');
-                } else {
-                    entry.target.classList.remove('appear');
                 }
             });
         }, appearOptions);
