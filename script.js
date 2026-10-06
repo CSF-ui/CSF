@@ -1,5 +1,64 @@
 document.addEventListener("DOMContentLoaded", function() {
     
+    // 0. SUBTLE FLOATING CELEBRATION PARTICLES
+    const heroSection = document.getElementById('home');
+    const particleCanvas = document.getElementById('hero-particles');
+    if (particleCanvas && heroSection) {
+        const ctx = particleCanvas.getContext('2d');
+        let width = particleCanvas.width = heroSection.offsetWidth;
+        let height = particleCanvas.height = heroSection.offsetHeight;
+        let particles = [];
+
+        function initParticles() {
+            width = particleCanvas.width = heroSection.offsetWidth;
+            height = particleCanvas.height = heroSection.offsetHeight;
+            particles = [];
+            const count = Math.min(35, Math.floor(width / 30));
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2.2 + 0.8,
+                    speedY: Math.random() * 0.35 + 0.12,
+                    speedX: (Math.random() - 0.5) * 0.2,
+                    alpha: Math.random() * 0.6 + 0.2,
+                    fadeSpeed: Math.random() * 0.008 + 0.003,
+                    fadeDir: Math.random() > 0.5 ? 1 : -1
+                });
+            }
+        }
+
+        initParticles();
+        window.addEventListener('resize', initParticles);
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.y -= p.speedY;
+                p.x += p.speedX;
+                p.alpha += p.fadeSpeed * p.fadeDir;
+                if (p.alpha <= 0.15) p.fadeDir = 1;
+                if (p.alpha >= 0.8) p.fadeDir = -1;
+
+                if (p.y < 0) {
+                    p.y = height + 5;
+                    p.x = Math.random() * width;
+                }
+                if (p.x < 0) p.x = width;
+                if (p.x > width) p.x = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(232, 208, 153, ${p.alpha})`;
+                ctx.fill();
+            }
+            requestAnimationFrame(drawParticles);
+        }
+
+        drawParticles();
+    }
+
     // 1. MOBILE NAVBAR TOGGLE & CLOSE
     const hamburger = document.getElementById('hamburger');
     const navLinksContainer = document.getElementById('nav-links');
@@ -80,16 +139,28 @@ document.addEventListener("DOMContentLoaded", function() {
     if (countdownContainer) {
         const targetDateString = countdownContainer.getAttribute('data-target-date') || "2026-11-08T09:00:00+08:00";
         
-        let targetDate = Date.parse(targetDateString);
-        if (isNaN(targetDate)) {
-            // Fallback: 2026-11-08 09:00:00 Philippine Time (UTC+8) -> 01:00 UTC
-            targetDate = Date.UTC(2026, 10, 8, 1, 0, 0);
+        function getTargetTimestamp(dateStr) {
+            const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+            if (match) {
+                const y = parseInt(match[1], 10);
+                const m = parseInt(match[2], 10) - 1;
+                const d = parseInt(match[3], 10);
+                const h = parseInt(match[4], 10) - 8; // Manila is UTC+8
+                const min = parseInt(match[5], 10);
+                const s = parseInt(match[6], 10);
+                return Date.UTC(y, m, d, h, min, s);
+            }
+            const parsed = Date.parse(dateStr);
+            return isNaN(parsed) ? Date.UTC(2026, 10, 8, 1, 0, 0) : parsed;
         }
+
+        const targetDate = getTargetTimestamp(targetDateString);
 
         const daysEl = document.getElementById("days");
         const hoursEl = document.getElementById("hours");
         const minsEl = document.getElementById("minutes");
         const secsEl = document.getElementById("seconds");
+        let lastSeconds = null;
 
         function updateCountdown() {
             const now = Date.now();
@@ -110,7 +181,16 @@ document.addEventListener("DOMContentLoaded", function() {
             if (daysEl) daysEl.innerText = days < 10 ? "0" + days : days;
             if (hoursEl) hoursEl.innerText = hours < 10 ? "0" + hours : hours;
             if (minsEl) minsEl.innerText = minutes < 10 ? "0" + minutes : minutes;
-            if (secsEl) secsEl.innerText = seconds < 10 ? "0" + seconds : seconds;
+            if (secsEl) {
+                const sText = seconds < 10 ? "0" + seconds : seconds;
+                if (lastSeconds !== seconds) {
+                    lastSeconds = seconds;
+                    secsEl.innerText = sText;
+                    secsEl.classList.remove('tick-pulse');
+                    void secsEl.offsetWidth; // trigger reflow
+                    secsEl.classList.add('tick-pulse');
+                }
+            }
             return false;
         }
 

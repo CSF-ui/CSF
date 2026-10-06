@@ -59,10 +59,16 @@
 
     <!-- 1. HERO SECTION -->
     <section id="home" class="hero">
+        <canvas id="hero-particles" class="hero-canvas"></canvas>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h3 class="fade-in">CSF CHURCH</h3>
-            <h1 class="fade-in" style="margin-bottom: 10px;">20th Anniversary</h1>
+            <div class="hero-badge fade-in">
+                <span class="badge-sparkle">✦</span>
+                <span class="badge-text">20th Church Anniversary • 2006–2026</span>
+                <span class="badge-sparkle">✦</span>
+            </div>
+            <h3 class="fade-in">CHRIST SAVIOR FORERUNNER CHURCH</h3>
+            <h1 class="fade-in shimmer-gold" style="margin-bottom: 10px;">20th Anniversary</h1>
             
             <p class="fade-in hero-tagline">
                 Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead
@@ -72,22 +78,27 @@
                 "I press toward the mark for the prize of the high calling of God in Christ Jesus." — Philippians 3:14
             </p>
             
-            <div class="countdown-container fade-in" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00">
-                <div class="countdown-box">
-                    <span id="days">00</span>
-                    <p>Days</p>
+            <div class="countdown-wrapper fade-in">
+                <div class="live-pill">
+                    <span class="live-dot"></span> LIVE EVENT COUNTDOWN
                 </div>
-                <div class="countdown-box">
-                    <span id="hours">00</span>
-                    <p>Hours</p>
-                </div>
-                <div class="countdown-box">
-                    <span id="minutes">00</span>
-                    <p>Minutes</p>
-                </div>
-                <div class="countdown-box">
-                    <span id="seconds">00</span>
-                    <p>Seconds</p>
+                <div class="countdown-container" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00">
+                    <div class="countdown-box">
+                        <span id="days">00</span>
+                        <p>Days</p>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="hours">00</span>
+                        <p>Hours</p>
+                    </div>
+                    <div class="countdown-box">
+                        <span id="minutes">00</span>
+                        <p>Minutes</p>
+                    </div>
+                    <div class="countdown-box seconds-box">
+                        <span id="seconds">00</span>
+                        <p>Seconds</p>
+                    </div>
                 </div>
             </div>
 
@@ -102,7 +113,7 @@
             </div>
 
             <div class="target-date-note" id="target-date-note">
-                <p>November 8, 2026</p>
+                <p>📍 CSF Church Sapang Kawayan • November 8, 2026 • 9:00 AM</p>
             </div>
 
         </div>
@@ -111,9 +122,11 @@
     <!-- 2. 20TH ANNIVERSARY CENTERPIECE -->
     <section class="anniversary-centerpiece section-bg-burgundy">
         <div class="container center-text">
-            <div class="big-20">20</div>
+            <div class="centerpiece-ornament">✦ 2006 — 2026 ✦</div>
+            <div class="big-20 shimmer-gold">20</div>
             <h2>Years of Faith • Hope • Love • Service</h2>
             <div class="gold-divider"></div>
+            <p class="centerpiece-sub">Celebrating Two Decades of Unfailing Grace & Everlasting Praise</p>
         </div>
     </section>
 
@@ -379,15 +392,44 @@
     <!-- 10. FOOTER -->
     <footer>
         <div class="container center-text">
-            <h2>CSF CHURCH</h2>
-            <h3>20th Anniversary</h3>
-            <p>Celebrating 20 Years of God's Faithfulness</p>
-            <div class="social-icons">
-                <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-                <a href="https://m.me/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" aria-label="Messenger">MSG</a>
-                <a href="mailto:churchcsf@gmail.com" aria-label="Email">EMAIL</a>
+            <div class="footer-logo-wrap">
+                <img src="assets/images/church-logo.jpg" alt="CSF Church Logo" class="footer-logo-img">
+                <h2>CSF CHURCH</h2>
             </div>
-            <p class="copyright">&copy; 2026 CSF Church. All Rights Reserved.</p>
+            <h3 class="shimmer-gold">20th Anniversary</h3>
+            <p class="footer-tagline">Celebrating 20 Years of God's Faithfulness • 2006–2026</p>
+            
+            <div class="footer-social-wrapper">
+                <p class="social-heading">Connect With CSF Church</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" class="social-btn social-fb" aria-label="Facebook Page">
+                        <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="social-label">Facebook</span>
+                    </a>
+                    <a href="https://m.me/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" class="social-btn social-msg" aria-label="Messenger">
+                        <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true">
+                            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.914 1.455 5.518 3.735 7.153V22l3.411-1.872c.907.251 1.87.387 2.854.387 5.523 0 10-4.145 10-9.257C22 6.145 17.523 2 12 2zm1.066 12.434l-2.73-2.91-5.334 2.91 5.864-6.225 2.796 2.91 5.267-2.91-5.863 6.225z"/>
+                        </svg>
+                        <span class="social-label">Messenger</span>
+                    </a>
+                    <a href="mailto:churchcsf@gmail.com" class="social-btn social-email" aria-label="Email Us">
+                        <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <span class="social-label">Email Us</span>
+                    </a>
+                    <a href="tel:+639650390952" class="social-btn social-phone" aria-label="Call Us">
+                        <svg viewBox="0 0 24 24" class="social-svg" aria-hidden="true">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <span class="social-label">Call Us</span>
+                    </a>
+                </div>
+            </div>
+
+            <p class="copyright">&copy; 2026 CSF Church. Sapang Kawayan, San Ildefonso, Bulacan. All Rights Reserved.</p>
         </div>
     </footer>
 
