@@ -264,39 +264,17 @@
     <section id="gallery" class="gallery section-bg-cream">
         <div class="container center-text">
             <h2 class="section-title">Church Memories Gallery</h2>
-            <p class="section-subtitle">Click any photo below or view our complete 20-year journey collection.</p>
+            <p class="section-subtitle">Click the album below to view our complete 20-year journey collection.</p>
             
-            <div class="gallery-grid">
-                <div class="gallery-card" data-index="0" role="button" tabindex="0" aria-label="Sunday Service">
-                    <img src="assets/images/sunday-service.jpg" alt="Sunday Service" loading="lazy" decoding="async">
-                    <div class="card-caption">Sunday Service</div>
+            <div class="gallery-album-preview" id="album-preview-trigger" role="button" tabindex="0" aria-label="Open 20th Anniversary Album">
+                <div class="album-cover-wrapper">
+                    <img src="assets/images/sunday-service.jpg" alt="20th Anniversary Album Cover" class="gallery-img featured-album-cover" loading="lazy" decoding="async">
+                    <div class="album-overlay">
+                        <div class="album-badge">✦ 20TH ANNIVERSARY ALBUM ✦</div>
+                        <h3>View Church Memories</h3>
+                        <p>Click to open photo viewer (18 Photos)</p>
+                    </div>
                 </div>
-                <div class="gallery-card" data-index="1" role="button" tabindex="0" aria-label="Pistang Kristiyano">
-                    <img src="assets/images/pistang-kristiyano.jpg" alt="Pistang Kristiyano" loading="lazy" decoding="async">
-                    <div class="card-caption">Pistang Kristiyano</div>
-                </div>
-                <div class="gallery-card" data-index="2" role="button" tabindex="0" aria-label="Youth Revival">
-                    <img src="assets/images/youth-revival.jpg" alt="Youth Revival" loading="lazy" decoding="async">
-                    <div class="card-caption">Youth Revival</div>
-                </div>
-                <div class="gallery-card" data-index="3" role="button" tabindex="0" aria-label="Bible Study">
-                    <img src="assets/images/bible-study.jpg" alt="Bible Study" loading="lazy" decoding="async">
-                    <div class="card-caption">Bible Study</div>
-                </div>
-                <div class="gallery-card" data-index="9" role="button" tabindex="0" aria-label="DVBS">
-                    <img src="assets/images/dvbs.jpg" alt="DVBS" loading="lazy" decoding="async">
-                    <div class="card-caption">DVBS</div>
-                </div>
-                <div class="gallery-card" data-index="10" role="button" tabindex="0" aria-label="Outreach">
-                    <img src="assets/images/outreach.jpg" alt="Outreach" loading="lazy" decoding="async">
-                    <div class="card-caption">Outreach</div>
-                </div>
-            </div>
-
-            <div class="gallery-actions">
-                <button type="button" class="btn btn-primary" id="album-preview-trigger" data-index="0">
-                    📸 View All 18 Photos (Full Album)
-                </button>
             </div>
         </div>
     </section>
@@ -306,8 +284,10 @@
         <button class="close-lightbox" id="close-lightbox" aria-label="Close gallery" type="button">&times;</button>
         <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image" type="button">&#10094;</button>
         <div class="lightbox-container">
+            <div class="lightbox-counter" id="lightbox-counter">1 / 18</div>
             <img class="lightbox-content" id="lightbox-img" alt="Enlarged view">
             <div id="lightbox-caption"></div>
+            <div class="lightbox-hint">Tap photo to zoom in / out</div>
         </div>
         <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image" type="button">&#10095;</button>
     </div>

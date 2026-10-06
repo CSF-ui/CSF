@@ -232,14 +232,21 @@ document.addEventListener("DOMContentLoaded", function() {
         { src: "assets/images/outing.jpg", name: "Outing" }
     ];
 
+    const lightboxCounter = document.getElementById("lightbox-counter");
+    const albumCover = document.getElementById("album-preview-trigger");
+
     let currentIndex = 0;
 
     function showImage(index) {
         if (galleryData.length > 0 && lightboxImg && lightboxCaption) {
+            lightboxImg.classList.remove("zoomed");
             lightboxImg.style.opacity = "0";
             setTimeout(() => {
                 lightboxImg.src = galleryData[index].src;
                 lightboxCaption.innerText = galleryData[index].name;
+                if (lightboxCounter) {
+                    lightboxCounter.innerText = `${index + 1} / ${galleryData.length}`;
+                }
                 lightboxImg.style.opacity = "1";
             }, 150);
             currentIndex = index;
@@ -257,24 +264,28 @@ document.addEventListener("DOMContentLoaded", function() {
     function closeLightbox() {
         if (lightbox) {
             lightbox.classList.remove("active");
+            if (lightboxImg) lightboxImg.classList.remove("zoomed");
             document.body.style.overflow = "";
         }
     }
 
-    const galleryTriggers = document.querySelectorAll(".gallery-card, #album-preview-trigger");
-    galleryTriggers.forEach(trigger => {
-        trigger.addEventListener("click", () => {
-            const index = parseInt(trigger.getAttribute("data-index"), 10) || 0;
-            openLightbox(index);
-        });
-        trigger.addEventListener("keydown", (e) => {
+    if (albumCover) {
+        albumCover.addEventListener("click", () => openLightbox(0));
+        albumCover.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                const index = parseInt(trigger.getAttribute("data-index"), 10) || 0;
-                openLightbox(index);
+                openLightbox(0);
             }
         });
-    });
+    }
+
+    // Zoom in / out on tap without flipping images
+    if (lightboxImg) {
+        lightboxImg.addEventListener("click", (e) => {
+            e.stopPropagation();
+            lightboxImg.classList.toggle("zoomed");
+        });
+    }
 
     function nextImage() {
         currentIndex = (currentIndex + 1) % galleryData.length;
@@ -306,35 +317,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
-            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn && e.target !== lightboxCaption) {
+            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn && e.target !== lightboxCaption && e.target !== lightboxCounter) {
                 closeLightbox();
             }
         });
-    }
-
-    // Touch Swipe Gestures
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    if (lightbox) {
-        lightbox.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        lightbox.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-    }
-
-    function handleSwipe() {
-        const threshold = 40;
-        if (touchEndX < touchStartX - threshold) {
-            nextImage();
-        }
-        if (touchEndX > touchStartX + threshold) {
-            prevImage();
-        }
     }
 
     document.addEventListener("keydown", (e) => {
@@ -370,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 6. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
     const elementsToAnimate = document.querySelectorAll(
-        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-grid, .gallery-actions'
+        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview'
     );
     
     if ('IntersectionObserver' in window) {
