@@ -72,59 +72,53 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.addEventListener("scroll", highlightNavOnScroll);
 
-    // 3. FB & MESSENGER / SAFARI SAFE COUNTDOWN TIMER LOGIC
+    // 3. FB & MESSENGER / SAFARI SAFE COUNTDOWN TIMER LOGIC (PHILIPPINE TIMEZONE SAFE)
     const countdownContainer = document.querySelector('.countdown-container');
     const celebrationBanner = document.getElementById('celebration-started-banner');
     const targetDateNote = document.getElementById('target-date-note');
     
     if (countdownContainer) {
-        const targetDateString = countdownContainer.getAttribute('data-target-date');
+        const targetDateString = countdownContainer.getAttribute('data-target-date') || "2026-11-08T09:00:00+08:00";
         
-        let targetDate;
-        if (targetDateString) {
-            const parts = targetDateString.split(/[-T:]/);
-            if (parts.length >= 5) {
-                targetDate = new Date(
-                    parseInt(parts[0], 10),
-                    parseInt(parts[1], 10) - 1,
-                    parseInt(parts[2], 10),
-                    parseInt(parts[3], 10),
-                    parseInt(parts[4], 10),
-                    parts[5] ? parseInt(parts[5], 10) : 0
-                ).getTime();
-            } else {
-                targetDate = new Date(targetDateString.replace(/-/g, "/")).getTime();
-            }
+        let targetDate = Date.parse(targetDateString);
+        if (isNaN(targetDate)) {
+            // Fallback: 2026-11-08 09:00:00 Philippine Time (UTC+8) -> 01:00 UTC
+            targetDate = Date.UTC(2026, 10, 8, 1, 0, 0);
         }
 
-        if (targetDate && !isNaN(targetDate)) {
-            const daysEl = document.getElementById("days");
-            const hoursEl = document.getElementById("hours");
-            const minsEl = document.getElementById("minutes");
-            const secsEl = document.getElementById("seconds");
+        const daysEl = document.getElementById("days");
+        const hoursEl = document.getElementById("hours");
+        const minsEl = document.getElementById("minutes");
+        const secsEl = document.getElementById("seconds");
 
-            const updateCountdown = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
+        function updateCountdown() {
+            const now = Date.now();
+            const distance = targetDate - now;
 
-                if (distance < 0) {
-                    clearInterval(updateCountdown);
-                    
-                    if (countdownContainer) countdownContainer.style.display = "none";
-                    if (targetDateNote) targetDateNote.style.display = "none";
-                    if (celebrationBanner) celebrationBanner.style.display = "block";
-                    return;
+            if (distance <= 0) {
+                if (countdownContainer) countdownContainer.style.display = "none";
+                if (targetDateNote) targetDateNote.style.display = "none";
+                if (celebrationBanner) celebrationBanner.style.display = "block";
+                return true;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (daysEl) daysEl.innerText = days < 10 ? "0" + days : days;
+            if (hoursEl) hoursEl.innerText = hours < 10 ? "0" + hours : hours;
+            if (minsEl) minsEl.innerText = minutes < 10 ? "0" + minutes : minutes;
+            if (secsEl) secsEl.innerText = seconds < 10 ? "0" + seconds : seconds;
+            return false;
+        }
+
+        if (!updateCountdown()) {
+            const countdownInterval = setInterval(function() {
+                if (updateCountdown()) {
+                    clearInterval(countdownInterval);
                 }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                if (daysEl) daysEl.innerText = days < 10 ? "0" + days : days;
-                if (hoursEl) hoursEl.innerText = hours < 10 ? "0" + hours : hours;
-                if (minsEl) minsEl.innerText = minutes < 10 ? "0" + minutes : minutes;
-                if (secsEl) secsEl.innerText = seconds < 10 ? "0" + seconds : seconds;
             }, 1000);
         }
     }
@@ -136,27 +130,26 @@ document.addEventListener("DOMContentLoaded", function() {
     const closeBtn = document.getElementById("close-lightbox");
     const prevBtn = document.getElementById("prev-btn");
     const nextBtn = document.getElementById("next-btn");
-    const albumCover = document.getElementById("album-preview-trigger");
     
     const galleryData = [
-        { src: "assets/images/Sunday Service.jpg", name: "Sunday Service" },
-        { src: "assets/images/Pistang Kristiyano.jpg", name: "Pistang Kristiyano" },
-        { src: "assets/images/Youth Revival.jpg", name: "Youth Revival" },
-        { src: "assets/images/Bible Study.jpg", name: "Bible Study" },
-        { src: "assets/images/Online Bible Study.jpg", name: "Online Bible Study" },
-        { src: "assets/images/Elders.jpg", name: "Elders" },
-        { src: "assets/images/Youth.jpg", name: "Youth" },
-        { src: "assets/images/Childrens.jpg", name: "Childrens" },
-        { src: "assets/images/Recital.jpg", name: "Recital" },
-        { src: "assets/images/DVBS.jpg", name: "DVBS" },
-        { src: "assets/images/Outreach.jpg", name: "Outreach" },
-        { src: "assets/images/Outreach 1.jpg", name: "Outreach Program" },
-        { src: "assets/images/Outreach 2.jpg", name: "Outreach Community" },
-        { src: "assets/images/Bonding.jpg", name: "Baptism" },
-        { src: "assets/images/Christmas Party.jpg", name: "Christmas Party" },
-        { src: "assets/images/CSF Members.jpg", name: "CSF Members" },
-        { src: "assets/images/CSF Members 1.jpg", name: "CSF Members Gathering" },
-        { src: "assets/images/Outing.jpg", name: "Outing" }
+        { src: "assets/images/sunday-service.jpg", name: "Sunday Service" },
+        { src: "assets/images/pistang-kristiyano.jpg", name: "Pistang Kristiyano" },
+        { src: "assets/images/youth-revival.jpg", name: "Youth Revival" },
+        { src: "assets/images/bible-study.jpg", name: "Bible Study" },
+        { src: "assets/images/online-bible-study.jpg", name: "Online Bible Study" },
+        { src: "assets/images/elders.jpg", name: "Elders" },
+        { src: "assets/images/youth.jpg", name: "Youth" },
+        { src: "assets/images/childrens.jpg", name: "Childrens" },
+        { src: "assets/images/recital.jpg", name: "Recital" },
+        { src: "assets/images/dvbs.jpg", name: "DVBS" },
+        { src: "assets/images/outreach.jpg", name: "Outreach" },
+        { src: "assets/images/outreach-1.jpg", name: "Outreach Program" },
+        { src: "assets/images/outreach-2.jpg", name: "Outreach Community" },
+        { src: "assets/images/bonding.jpg", name: "Baptism" },
+        { src: "assets/images/christmas-party.jpg", name: "Christmas Party" },
+        { src: "assets/images/csf-members.jpg", name: "CSF Members" },
+        { src: "assets/images/csf-members-1.jpg", name: "CSF Members Gathering" },
+        { src: "assets/images/outing.jpg", name: "Outing" }
     ];
 
     let currentIndex = 0;
@@ -188,12 +181,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    if (albumCover) {
-        albumCover.addEventListener("click", (e) => {
-            const index = parseInt(e.currentTarget.getAttribute("data-index"), 10) || 0;
+    const galleryTriggers = document.querySelectorAll(".gallery-card, #album-preview-trigger");
+    galleryTriggers.forEach(trigger => {
+        trigger.addEventListener("click", () => {
+            const index = parseInt(trigger.getAttribute("data-index"), 10) || 0;
             openLightbox(index);
         });
-    }
+        trigger.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                const index = parseInt(trigger.getAttribute("data-index"), 10) || 0;
+                openLightbox(index);
+            }
+        });
+    });
 
     function nextImage() {
         currentIndex = (currentIndex + 1) % galleryData.length;
@@ -289,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 6. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
     const elementsToAnimate = document.querySelectorAll(
-        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview'
+        '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-grid, .gallery-actions'
     );
     
     if ('IntersectionObserver' in window) {

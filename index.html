@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="CSF Church 20th Anniversary - Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead">
+    <meta name="description" content="CSF Church 20th Anniversary - Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead | November 8, 2026">
+    <meta name="theme-color" content="#7A1528">
     <title>CSF Church | 20th Anniversary</title>
     
+    <!-- Open Graph / Facebook / Messenger -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CSF Church">
+    <meta property="og:title" content="CSF Church | 20th Anniversary Celebration">
+    <meta property="og:description" content="Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead. Join us on November 8, 2026 at CSF Church Sapang Kawayan.">
+    <meta property="og:image" content="assets/images/church-logo.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CSF Church | 20th Anniversary">
+    <meta name="twitter:description" content="Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead | November 8, 2026.">
+    <meta name="twitter:image" content="assets/images/church-logo.jpg">
+
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="assets/images/church logo.jpg">
+    <link rel="icon" type="image/jpeg" href="assets/images/church-logo.jpg">
+    <link rel="apple-touch-icon" href="assets/images/church-logo.jpg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +37,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo-wrapper">
-                <img src="assets/images/church logo.jpg" alt="CSF Church Logo" class="nav-logo-img">
+                <img src="assets/images/church-logo.jpg" alt="CSF Church Logo" class="nav-logo-img">
                 <span class="logo-text">CSF CHURCH</span>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" type="button">
@@ -57,7 +72,7 @@
                 "I press toward the mark for the prize of the high calling of God in Christ Jesus." — Philippians 3:14
             </p>
             
-            <div class="countdown-container fade-in" id="countdown-container" data-target-date="2026-11-08T09:00:00">
+            <div class="countdown-container fade-in" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00">
                 <div class="countdown-box">
                     <span id="days">00</span>
                     <p>Days</p>
@@ -110,6 +125,11 @@
                 <p><strong>Date:</strong> November 8, 2026</p>
                 <p><strong>Time:</strong> 9:00 AM – 12:00 PM</p>
                 <p><strong>Venue:</strong> CSF Church Sapang Kawayan</p>
+                <div class="program-calendar-wrapper">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CSF+Church+20th+Anniversary&dates=20261108T010000Z/20261108T040000Z&details=CSF+Church+20th+Anniversary%3A+Two+Decades+of+God%27s+Faithfulness%3A+Pressing+Forward+Toward+the+Promise+Ahead.+Venue%3A+CSF+Church+Sapang+Kawayan&location=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn-calendar">
+                        📅 Add to Google Calendar
+                    </a>
+                </div>
             </div>
 
             <div class="timeline">
@@ -231,16 +251,39 @@
     <section id="gallery" class="gallery section-bg-cream">
         <div class="container center-text">
             <h2 class="section-title">Church Memories Gallery</h2>
-            <p class="section-subtitle">Click the album preview below to view our 20-year journey collection.</p>
+            <p class="section-subtitle">Click any photo below or view our complete 20-year journey collection.</p>
             
-            <div class="gallery-album-preview" id="album-preview-trigger">
-                <div class="album-cover-wrapper">
-                    <img src="assets/images/Sunday Service.jpg" alt="Sunday Service" class="gallery-img featured-album-cover">
-                    <div class="album-overlay">
-                        <h3>View 20th Anniversary Album</h3>
-                        <p>Click to open gallery viewer</p>
-                    </div>
+            <div class="gallery-grid">
+                <div class="gallery-card" data-index="0" role="button" tabindex="0" aria-label="Sunday Service">
+                    <img src="assets/images/sunday-service.jpg" alt="Sunday Service" loading="lazy" decoding="async">
+                    <div class="card-caption">Sunday Service</div>
                 </div>
+                <div class="gallery-card" data-index="1" role="button" tabindex="0" aria-label="Pistang Kristiyano">
+                    <img src="assets/images/pistang-kristiyano.jpg" alt="Pistang Kristiyano" loading="lazy" decoding="async">
+                    <div class="card-caption">Pistang Kristiyano</div>
+                </div>
+                <div class="gallery-card" data-index="2" role="button" tabindex="0" aria-label="Youth Revival">
+                    <img src="assets/images/youth-revival.jpg" alt="Youth Revival" loading="lazy" decoding="async">
+                    <div class="card-caption">Youth Revival</div>
+                </div>
+                <div class="gallery-card" data-index="3" role="button" tabindex="0" aria-label="Bible Study">
+                    <img src="assets/images/bible-study.jpg" alt="Bible Study" loading="lazy" decoding="async">
+                    <div class="card-caption">Bible Study</div>
+                </div>
+                <div class="gallery-card" data-index="9" role="button" tabindex="0" aria-label="DVBS">
+                    <img src="assets/images/dvbs.jpg" alt="DVBS" loading="lazy" decoding="async">
+                    <div class="card-caption">DVBS</div>
+                </div>
+                <div class="gallery-card" data-index="10" role="button" tabindex="0" aria-label="Outreach">
+                    <img src="assets/images/outreach.jpg" alt="Outreach" loading="lazy" decoding="async">
+                    <div class="card-caption">Outreach</div>
+                </div>
+            </div>
+
+            <div class="gallery-actions">
+                <button type="button" class="btn btn-primary" id="album-preview-trigger" data-index="0">
+                    📸 View All 18 Photos (Full Album)
+                </button>
             </div>
         </div>
     </section>
@@ -260,7 +303,7 @@
     <section id="pastor" class="pastor-message section-bg-beige">
         <div class="container pastor-grid">
             <div class="pastor-photo">
-                <img src="assets/images/Senior Pastor Photo.jpg" alt="Senior Pastor Photo">
+                <img src="assets/images/senior-pastor-photo.jpg" alt="Senior Pastor Manny Castillo" loading="lazy" decoding="async">
             </div>
             <div class="pastor-text">
                 <h2 class="section-title">A Message From Our Pastor</h2>
@@ -274,7 +317,7 @@
     <section id="speaker" class="guest-speaker section-bg-cream">
         <div class="container pastor-grid">
             <div class="pastor-photo">
-                <img src="assets/images/Pastora.jpg" alt="Ptra. Miles Barleta Photo">
+                <img src="assets/images/pastora.jpg" alt="Ptra. Miles Barleta Photo" loading="lazy" decoding="async">
             </div>
             <div class="pastor-text">
                 <h2 class="section-title">Guest Speaker</h2>
@@ -341,8 +384,8 @@
             <p>Celebrating 20 Years of God's Faithfulness</p>
             <div class="social-icons">
                 <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-                <a href="#" aria-label="YouTube">YT</a>
-                <a href="#" aria-label="Instagram">IG</a>
+                <a href="https://m.me/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" aria-label="Messenger">MSG</a>
+                <a href="mailto:churchcsf@gmail.com" aria-label="Email">EMAIL</a>
             </div>
             <p class="copyright">&copy; 2026 CSF Church. All Rights Reserved.</p>
         </div>
