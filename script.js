@@ -325,6 +325,10 @@ function initLightboxGallery() {
     ];
 
     let currentIndex = 0;
+    let isZoomed = false;
+    let panX = 0;
+    let panY = 0;
+    let wasDraggingOrSwiping = false;
 
     function preloadAdjacentImages(index) {
         const nextIdx = (index + 1) % galleryData.length;
@@ -335,9 +339,38 @@ function initLightboxGallery() {
         });
     }
 
+    function applyTransform() {
+        if (isZoomed) {
+            lightboxImg.classList.add("zoomed");
+            lightboxImg.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(1.75)`;
+        } else {
+            lightboxImg.classList.remove("zoomed");
+            lightboxImg.classList.remove("dragging");
+            lightboxImg.style.transform = "";
+        }
+    }
+
+    function resetZoom() {
+        isZoomed = false;
+        panX = 0;
+        panY = 0;
+        applyTransform();
+    }
+
+    function toggleZoom() {
+        if (isZoomed) {
+            resetZoom();
+        } else {
+            isZoomed = true;
+            panX = 0;
+            panY = 0;
+            applyTransform();
+        }
+    }
+
     function showImage(index) {
         if (!galleryData.length) return;
-        lightboxImg.classList.remove("zoomed");
+        resetZoom();
         lightboxImg.style.opacity = "0";
 
         setTimeout(() => {
@@ -362,7 +395,7 @@ function initLightboxGallery() {
     function closeLightbox() {
         lightbox.classList.remove("active");
         lightbox.setAttribute("aria-hidden", "true");
-        lightboxImg.classList.remove("zoomed");
+        resetZoom();
         document.body.style.overflow = "";
         if (albumCover) albumCover.focus();
     }
@@ -377,10 +410,6 @@ function initLightboxGallery() {
         showImage(currentIndex);
     }
 
-    function toggleZoom() {
-        lightboxImg.classList.toggle("zoomed");
-    }
-
     // Open album via click or Enter/Space
     if (albumCover) {
         albumCover.addEventListener("click", () => openLightbox(0));
@@ -392,9 +421,13 @@ function initLightboxGallery() {
         });
     }
 
-    // Tap / Click or Enter/Space on image to toggle zoom in & out
+    // Tap / Click or Enter/Space on image to toggle zoom in & out (only if not swiping/dragging)
     lightboxImg.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (wasDraggingOrSwiping) {
+            wasDraggingOrSwiping = false;
+            return;
+        }
         toggleZoom();
     });
 
@@ -427,6 +460,10 @@ function initLightboxGallery() {
 
     // Close when clicking backdrop outside image & controls
     lightbox.addEventListener("click", (e) => {
+        if (wasDraggingOrSwiping) {
+            wasDraggingOrSwiping = false;
+            return;
+        }
         if (
             e.target !== lightboxImg &&
             e.target !== nextBtn &&
@@ -453,22 +490,34 @@ function initLightboxGallery() {
         }
     });
 
-    // Smart Mobile Touch Swipe Navigation:
-    // Allows left/right swipe when unzoomed with 1 finger, and locks swipe when zoomed or pinching.
+    // Smart Mobile Touch Gestures:
+    // - When UNZOOMED (1 finger): swipe left/right switches photos.
+    // - When ZOOMED (1 finger): drag pans around the zoomed photo without switching photos.
+    // - When PINCHING (2+ fingers): locks swipe so photo never flips.
     let touchStartX = 0;
     let touchStartY = 0;
-    let ignoreSwipeGesture = false;
+    let startPanX = 0;
+    let startPanY = 0;
+    let isMultiTouch = false;
 
     lightbox.addEventListener(
         "touchstart",
         (e) => {
-            if (e.touches.length !== 1 || lightboxImg.classList.contains("zoomed")) {
-                ignoreSwipeGesture = true;
+            if (e.touches.length > 1) {
+                isMultiTouch = true;
+                wasDraggingOrSwiping = true;
                 return;
             }
-            ignoreSwipeGesture = false;
+            isMultiTouch = false;
+            wasDraggingOrSwiping = false;
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
+            startPanX = panX;
+            startPanY = panY;
+
+            if (isZoomed) {
+                lightboxImg.classList.add("dragging");
+            }
         },
         { passive: true }
     );
@@ -476,8 +525,26 @@ function initLightboxGallery() {
     lightbox.addEventListener(
         "touchmove",
         (e) => {
-            if (e.touches.length > 1 || lightboxImg.classList.contains("zoomed")) {
-                ignoreSwipeGesture = true;
+            if (e.touches.length > 1) {
+                isMultiTouch = true;
+                wasDraggingOrSwiping = true;
+                return;
+            }
+
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const deltaX = currentX - touchStartX;
+            const deltaY = currentY - touchStartY;
+
+            if (Math.hypot(deltaX, deltaY) > 10) {
+                wasDraggingOrSwiping = true;
+            }
+
+            // If zoomed in, allow smooth panning around the photo without switching images
+            if (isZoomed && !isMultiTouch) {
+                panX = Math.max(-140, Math.min(140, startPanX + deltaX));
+                panY = Math.max(-140, Math.min(140, startPanY + deltaY));
+                applyTransform();
             }
         },
         { passive: true }
@@ -486,16 +553,21 @@ function initLightboxGallery() {
     lightbox.addEventListener(
         "touchend",
         (e) => {
-            if (ignoreSwipeGesture || lightboxImg.classList.contains("zoomed")) return;
-            if (!e.changedTouches || e.changedTouches.length === 0) return;
+            if (isZoomed) {
+                lightboxImg.classList.remove("dragging");
+                return;
+            }
+
+            if (isMultiTouch || !e.changedTouches || e.changedTouches.length === 0) return;
 
             const touchEndX = e.changedTouches[0].clientX;
             const touchEndY = e.changedTouches[0].clientY;
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
 
-            // Trigger horizontal swipe only if horizontal distance > 45px and dominates vertical movement
-            if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
+            // Trigger horizontal swipe only if horizontal distance > 40px and dominates vertical movement
+            if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                wasDraggingOrSwiping = true;
                 if (diffX > 0) {
                     nextImage();
                 } else {

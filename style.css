@@ -227,22 +227,21 @@ button:focus-visible,
 .navbar {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    background-color: rgba(59, 8, 17, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: var(--clr-burgundy-dark);
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     padding: 10px 0;
     transition: var(--transition-standard);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.25);
 }
 
 .navbar.scrolled {
     padding: 7px 0;
-    background-color: rgba(45, 5, 12, 0.97);
+    background-color: #2D050C;
     box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
-    border-bottom-color: rgba(197, 160, 89, 0.45);
+    border-bottom-color: rgba(197, 160, 89, 0.5);
 }
 
 .scroll-progress-bar {
@@ -383,8 +382,8 @@ button:focus-visible,
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
-    height: 600px;
+    width: min(600px, 92vw);
+    height: min(600px, 92vw);
     background: radial-gradient(circle, rgba(232, 208, 153, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
     pointer-events: none;
     z-index: 1;
@@ -1007,11 +1006,12 @@ button:focus-visible,
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 10px;
+    padding: 15px;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     opacity: 0;
     transition: opacity 0.3s ease;
+    touch-action: none;
 }
 
 .lightbox.active {
@@ -1021,32 +1021,38 @@ button:focus-visible,
 
 .lightbox-container {
     position: relative;
-    width: 92%;
+    width: 94%;
     max-width: 900px;
     max-height: 85vh;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
+    justify-content: center;
 }
 
 .lightbox-content {
     max-width: 100%;
-    max-height: 74vh;
+    max-height: 72vh;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.85);
-    transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.25s ease;
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.2s ease;
     cursor: zoom-in;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: manipulation;
+    touch-action: none;
+    will-change: transform;
 }
 
 .lightbox-content.zoomed {
-    transform: scale(1.65);
+    transform: scale(1.75);
     cursor: zoom-out;
+    z-index: 10000;
+}
+
+.lightbox-content.dragging {
+    transition: none;
 }
 
 #lightbox-caption {
@@ -1056,40 +1062,55 @@ button:focus-visible,
     font-weight: 600;
     text-align: center;
     letter-spacing: 0.5px;
+    padding: 4px 14px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    z-index: 10001;
 }
 
 .close-lightbox {
     position: absolute;
-    top: 20px;
-    right: 25px;
+    top: 18px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--clr-white);
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bold;
     cursor: pointer;
-    background: none;
-    border: none;
-    z-index: 10001;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(197, 160, 89, 0.5);
+    border-radius: 50%;
+    z-index: 10002;
     line-height: 1;
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition: color 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }
 
 .close-lightbox:hover {
-    color: var(--clr-gold-light);
-    transform: scale(1.1);
+    color: var(--clr-burgundy-dark);
+    background: var(--clr-gold);
+    transform: scale(1.08);
 }
 
 .lightbox-nav-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(0, 0, 0, 0.65);
     color: var(--clr-gold-light);
-    border: 1px solid rgba(197, 160, 89, 0.4);
-    font-size: 28px;
-    padding: 10px 16px;
+    border: 1px solid rgba(197, 160, 89, 0.5);
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    border-radius: 8px;
-    z-index: 10001;
+    border-radius: 50%;
+    z-index: 10002;
     transition: var(--transition-standard);
 }
 
@@ -1099,11 +1120,11 @@ button:focus-visible,
 }
 
 .prev-btn {
-    left: 15px;
+    left: 20px;
 }
 
 .next-btn {
-    right: 15px;
+    right: 20px;
 }
 
 /* ==========================================================================
@@ -1124,6 +1145,7 @@ button:focus-visible,
     width: 100%;
     max-height: 490px;
     object-fit: cover;
+    object-position: center top;
     transition: var(--transition-standard);
 }
 
@@ -1205,6 +1227,11 @@ button:focus-visible,
     top: 1px;
 }
 
+.cta h2 {
+    font-size: clamp(1.45rem, 3.8vw, 2.3rem);
+    line-height: 1.3;
+}
+
 /* Contact Info Cards */
 .contact-list {
     display: flex;
@@ -1248,6 +1275,8 @@ button:focus-visible,
 
 .contact-info p {
     margin: 0;
+    min-width: 0;
+    word-break: break-word;
 }
 
 .contact-info a {
@@ -1292,7 +1321,11 @@ button:focus-visible,
     background-color: var(--clr-burgundy-dark);
     color: var(--clr-gold-light);
     cursor: pointer;
-    padding: 12px 16px;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     opacity: 0;
@@ -1353,6 +1386,7 @@ footer {
 .social-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 9px;
     padding: 10px 20px;
     border-radius: 30px;
@@ -1451,13 +1485,13 @@ footer {
 }
 
 /* ==========================================================================
-   14. RESPONSIVE MEDIA QUERIES
+   14. RESPONSIVE MEDIA QUERIES (TABLET & MOBILE PHONES)
    ========================================================================== */
 @media (max-width: 992px) {
     .pastor-grid,
     .contact-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 28px;
     }
 
     .pastor-text,
@@ -1476,8 +1510,14 @@ footer {
         margin-left: auto;
     }
 
+    .pastor-quote {
+        border-left: none;
+        border-top: 3px solid var(--clr-gold);
+    }
+
     .speaker-credentials-list {
-        display: inline-block;
+        display: block;
+        width: 100%;
         text-align: left;
     }
 
@@ -1488,14 +1528,33 @@ footer {
 
     .program-info-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 10px;
     }
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 40px 16px;
+    }
+
     .hero,
     .verse-section {
         background-attachment: scroll;
+    }
+
+    /* Mobile Header & Drawer */
+    .nav-container {
+        padding: 0 16px;
+    }
+
+    .nav-logo-img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .logo-text {
+        font-size: 1.15rem;
+        letter-spacing: 1.5px;
     }
 
     .hamburger {
@@ -1511,17 +1570,18 @@ footer {
         top: 0;
         right: -100%;
         width: 80%;
-        max-width: 300px;
+        max-width: 290px;
         height: 100vh;
         height: 100dvh;
         background-color: var(--clr-burgundy-dark);
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        padding: 30px 20px;
-        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
-        transition: right 0.4s ease;
-        z-index: 1001;
+        padding: 28px 22px;
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.65);
+        transition: right 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        z-index: 1005;
+        overflow-y: auto;
     }
 
     .nav-links.active {
@@ -1533,86 +1593,324 @@ footer {
     }
 
     .nav-links li a {
-        font-size: 1rem;
+        font-size: 0.95rem;
         display: block;
-        padding: 12px 0;
+        padding: 13px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* Mobile Hero Section */
     .hero {
-        padding: 110px 15px 40px 15px;
+        padding: 92px 16px 36px 16px;
     }
 
-    .section-title {
-        margin-top: 10px;
+    .hero-content h3 {
+        font-size: 0.82rem;
+        margin-bottom: 6px;
+    }
+
+    .hero-content h1,
+    .hero-main-title {
+        font-size: clamp(2.1rem, 8.5vw, 3rem);
+        margin-bottom: 10px;
+    }
+
+    .hero-tagline {
+        font-size: 0.84rem;
+        line-height: 1.45;
+        letter-spacing: 0.6px;
+        margin-bottom: 12px;
+    }
+
+    .hero-verse {
+        font-size: 0.88rem;
+        margin-bottom: 20px;
+        padding: 0 4px;
+    }
+
+    .countdown-wrapper {
+        margin-bottom: 22px;
     }
 
     .countdown-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         gap: 8px;
+        max-width: 350px;
+        margin: 0 auto;
     }
 
     .countdown-box {
-        min-width: 55px;
-        padding: 8px 4px;
+        min-width: 0;
+        max-width: none;
+        padding: 10px 4px;
+    }
+
+    .countdown-box:hover {
+        transform: none;
     }
 
     .hero-buttons {
         flex-direction: column;
         width: 100%;
+        max-width: 310px;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 10px;
     }
 
     .hero-buttons .btn {
         width: 100%;
+        padding: 13px 20px;
+        font-size: 0.8rem;
+    }
+
+    .target-date-note {
+        margin-top: 22px;
+        padding: 9px 24px;
+        font-size: 0.9rem;
+        width: auto;
+    }
+
+    /* Mobile Centerpiece */
+    .anniversary-centerpiece {
+        padding: 36px 15px;
+    }
+
+    /* Mobile Program Summary & Calendar Button */
+    .section-title {
+        margin-top: 0;
+        font-size: clamp(1.65rem, 6vw, 2.2rem);
+    }
+
+    .section-ornament {
+        margin-bottom: 18px;
+    }
+
+    .section-subtitle {
+        margin-bottom: 26px;
+        font-size: 0.92rem;
+    }
+
+    .program-summary-box {
+        padding: 18px 14px;
+        margin-bottom: 32px;
+        border-radius: 14px;
+    }
+
+    .program-info-grid {
+        margin-bottom: 18px;
+        gap: 10px;
+    }
+
+    .program-info-item {
+        padding: 10px 12px;
+        gap: 12px;
+    }
+
+    .program-info-item:hover {
+        transform: none;
+    }
+
+    .program-info-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+    }
+
+    .program-info-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .info-label {
+        font-size: 0.68rem;
+    }
+
+    .info-value {
+        font-size: 0.9rem;
     }
 
     .btn-calendar {
         width: 100%;
-        padding: 13px 18px;
+        max-width: 310px;
+        padding: 11px 16px;
+        gap: 9px;
+        font-size: 0.78rem;
+        letter-spacing: 0.8px;
+        white-space: nowrap;
     }
 
+    .btn-calendar-icon {
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+    }
+
+    .btn-calendar-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Mobile Timeline */
     .timeline::after {
-        left: 15px;
+        left: 12px;
     }
 
     .timeline-item {
-        padding-left: 38px;
+        padding: 4px 0 12px 32px;
     }
 
     .timeline-item::after {
-        left: 15px;
+        left: 12px;
+        top: 16px;
+        width: 12px;
+        height: 12px;
+    }
+
+    .timeline .time {
+        font-size: 0.74rem;
+        padding: 2px 10px;
+        margin-bottom: 5px;
+    }
+
+    .timeline .event-details {
+        padding: 10px 14px;
+    }
+
+    .timeline-item:hover .event-details {
+        transform: none;
+    }
+
+    .timeline h4 {
+        font-size: 0.96rem;
+        line-height: 1.35;
+    }
+
+    /* Mobile Gallery & Lightbox */
+    .featured-album-cover {
+        height: 250px;
+    }
+
+    .album-overlay {
+        padding: 24px 14px 16px 14px;
+    }
+
+    .lightbox-container {
+        width: 96%;
+        max-height: 80vh;
+    }
+
+    .lightbox-content {
+        max-height: 66vh;
+    }
+
+    #lightbox-caption {
+        font-size: 0.92rem;
+        margin-top: 12px;
+    }
+
+    .close-lightbox {
+        top: 14px;
+        right: 14px;
+        width: 40px;
+        height: 40px;
+        font-size: 26px;
     }
 
     .lightbox-nav-btn {
+        top: auto;
+        bottom: 24px;
+        transform: none;
+        width: 46px;
+        height: 46px;
         font-size: 20px;
-        padding: 8px 12px;
+        background: rgba(59, 8, 17, 0.85);
+        border: 1.5px solid var(--clr-gold);
     }
 
     .prev-btn {
-        left: 5px;
+        left: 24%;
     }
 
     .next-btn {
-        right: 5px;
+        right: 24%;
+    }
+
+    /* Mobile Pastor, Speaker & Contact */
+    .pastor-photo img {
+        max-height: 360px;
+    }
+
+    .pastor-quote {
+        padding: 16px 18px;
+        font-size: 0.95rem;
+    }
+
+    .speaker-credentials-list {
+        padding: 14px 16px;
+    }
+
+    .speaker-credentials-list li {
+        font-size: 0.86rem;
+        padding-left: 20px;
+    }
+
+    .contact-item {
+        padding: 10px 12px;
+        gap: 12px;
+    }
+
+    .contact-item:hover {
+        transform: none;
+    }
+
+    .contact-info p {
+        font-size: 0.88rem;
+    }
+
+    .contact-map {
+        height: 250px;
+    }
+
+    /* Mobile Back to Top & Footer */
+    #backToTopBtn {
+        bottom: 18px;
+        right: 16px;
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+    }
+
+    footer {
+        padding: 40px 15px 35px 15px;
     }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
     .countdown-box span {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
     }
 
     .countdown-box p {
-        font-size: 0.55rem;
+        font-size: 0.56rem;
     }
 
-    .target-date-note {
+    .btn-calendar-arrow {
+        display: none;
+    }
+
+    .social-icons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 330px;
+        margin: 0 auto;
+    }
+
+    .social-btn {
         width: 100%;
-        padding: 12px 10px;
-        font-size: 14px;
+        padding: 10px 12px;
+        font-size: 0.8rem;
     }
 }
