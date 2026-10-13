@@ -70,12 +70,18 @@ document.addEventListener("DOMContentLoaded", function() {
             navLinksContainer.classList.remove('active');
             document.body.style.overflow = "";
         }
+        if (hamburger) {
+            hamburger.setAttribute('aria-expanded', 'false');
+        }
     }
 
     function openNav() {
         if (navLinksContainer) {
             navLinksContainer.classList.add('active');
             document.body.style.overflow = "hidden";
+        }
+        if (hamburger) {
+            hamburger.setAttribute('aria-expanded', 'true');
         }
     }
 
@@ -102,6 +108,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (!navLinksContainer.contains(e.target) && !hamburger.contains(e.target)) {
                     closeNav();
                 }
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navLinksContainer.classList.contains('active')) {
+                closeNav();
+                hamburger.focus();
             }
         });
     }
@@ -167,9 +180,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const distance = targetDate - now;
 
             if (distance <= 0) {
-                if (countdownContainer) countdownContainer.style.display = "none";
-                if (targetDateNote) targetDateNote.style.display = "none";
-                if (celebrationBanner) celebrationBanner.style.display = "block";
+                if (countdownContainer) countdownContainer.classList.add("is-hidden");
+                if (targetDateNote) targetDateNote.classList.add("is-hidden");
+                if (celebrationBanner) celebrationBanner.classList.remove("is-hidden");
                 return true;
             }
 
@@ -203,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // 4. LIGHTBOX GALLERY & SWIPE GESTURE WITH SMOOTH FADE
+    // 4. LIGHTBOX GALLERY & ACCESSIBLE KEYBOARD NAVIGATION
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxCaption = document.getElementById("lightbox-caption");
@@ -214,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const galleryData = [
         { src: "assets/images/sunday-service.jpg", name: "Sunday Service" },
         { src: "assets/images/pistang-kristiyano.jpg", name: "Pistang Kristiyano" },
-        { src: "assets/images/youth-revival.jpg", name: "Youth Revival" },
+        { src: "assets/images/youth-revival.jpg", name: "Youth Camp" },
         { src: "assets/images/bible-study.jpg", name: "Bible Study" },
         { src: "assets/images/online-bible-study.jpg", name: "Online Bible Study" },
         { src: "assets/images/elders.jpg", name: "Elders" },
@@ -232,9 +245,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { src: "assets/images/outing.jpg", name: "Outing" }
     ];
 
-    const lightboxCounter = document.getElementById("lightbox-counter");
     const albumCover = document.getElementById("album-preview-trigger");
-
     let currentIndex = 0;
 
     function showImage(index) {
@@ -243,10 +254,8 @@ document.addEventListener("DOMContentLoaded", function() {
             lightboxImg.style.opacity = "0";
             setTimeout(() => {
                 lightboxImg.src = galleryData[index].src;
+                lightboxImg.alt = `${galleryData[index].name} - Church Memory Photo`;
                 lightboxCaption.innerText = galleryData[index].name;
-                if (lightboxCounter) {
-                    lightboxCounter.innerText = `${index + 1} / ${galleryData.length}`;
-                }
                 lightboxImg.style.opacity = "1";
             }, 150);
             currentIndex = index;
@@ -256,16 +265,20 @@ document.addEventListener("DOMContentLoaded", function() {
     function openLightbox(index = 0) {
         if (lightbox) {
             lightbox.classList.add("active");
+            lightbox.setAttribute("aria-hidden", "false");
             document.body.style.overflow = "hidden";
             showImage(index);
+            if (closeBtn) closeBtn.focus();
         }
     }
 
     function closeLightbox() {
         if (lightbox) {
             lightbox.classList.remove("active");
+            lightbox.setAttribute("aria-hidden", "true");
             if (lightboxImg) lightboxImg.classList.remove("zoomed");
             document.body.style.overflow = "";
+            if (albumCover) albumCover.focus();
         }
     }
 
@@ -279,11 +292,18 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Zoom in / out on tap without flipping images
+    // Zoom in / out on click or Enter/Space without flipping images
     if (lightboxImg) {
         lightboxImg.addEventListener("click", (e) => {
             e.stopPropagation();
             lightboxImg.classList.toggle("zoomed");
+        });
+        lightboxImg.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                lightboxImg.classList.toggle("zoomed");
+            }
         });
     }
 
@@ -317,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
-            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn && e.target !== lightboxCaption && e.target !== lightboxCounter) {
+            if (e.target !== lightboxImg && e.target !== nextBtn && e.target !== prevBtn && e.target !== lightboxCaption) {
                 closeLightbox();
             }
         });
@@ -326,10 +346,13 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("keydown", (e) => {
         if (lightbox && lightbox.classList.contains("active")) {
             if (e.key === "ArrowRight") {
+                e.preventDefault();
                 nextImage();
             } else if (e.key === "ArrowLeft") {
+                e.preventDefault();
                 prevImage();
             } else if (e.key === "Escape") {
+                e.preventDefault();
                 closeLightbox();
             }
         }
@@ -354,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 6. SCROLL ANIMATIONS (INTERSECTION OBSERVER)
+    // 6. SCROLL ANIMATIONS (INTERSECTION OBSERVER - UP & DOWN ANIMATION)
     const elementsToAnimate = document.querySelectorAll(
         '.section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview'
     );
@@ -369,6 +392,8 @@ document.addEventListener("DOMContentLoaded", function() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('appear');
+                } else {
+                    entry.target.classList.remove('appear');
                 }
             });
         }, appearOptions);

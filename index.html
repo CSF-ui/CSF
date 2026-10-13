@@ -43,20 +43,20 @@
     <!-- ==========================================================================
          NAVIGATION BAR
          ========================================================================== -->
-    <nav class="navbar" id="navbar">
-        <div class="scroll-progress-bar" id="scroll-progress"></div>
+    <nav class="navbar" id="navbar" aria-label="Primary Navigation">
+        <div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
         <div class="nav-container">
-            <a href="#home" class="logo-wrapper">
+            <a href="#home" class="logo-wrapper" aria-label="CSF Church Home">
                 <img src="assets/images/church-logo.jpg" alt="CSF Church Logo" class="nav-logo-img" width="42" height="42" loading="lazy" decoding="async">
                 <span class="logo-text">CSF CHURCH</span>
             </a>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" type="button">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links" type="button">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             <ul class="nav-links" id="nav-links">
-                <li><button class="close-menu" id="close-menu" aria-label="Close menu" type="button">&times;</button></li>
+                <li><button class="close-menu" id="close-menu" aria-label="Close navigation menu" type="button">&times;</button></li>
                 <li><a href="#home" class="nav-item">HOME</a></li>
                 <li><a href="#program" class="nav-item">PROGRAM</a></li>
                 <li><a href="#gallery" class="nav-item">GALLERY</a></li>
@@ -70,9 +70,9 @@
     <!-- ==========================================================================
          1. HERO SECTION
          ========================================================================== -->
-    <section id="home" class="hero">
-        <canvas id="hero-particles" class="hero-canvas"></canvas>
-        <div class="hero-overlay"></div>
+    <section id="home" class="hero" aria-label="Anniversary Hero Banner">
+        <canvas id="hero-particles" class="hero-canvas" aria-hidden="true"></canvas>
+        <div class="hero-overlay" aria-hidden="true"></div>
         <div class="hero-content">
             <h3 class="fade-in">CSF CHURCH</h3>
             <h1 class="fade-in shimmer-gold hero-main-title">20th Anniversary</h1>
@@ -87,9 +87,9 @@
 
             <div class="countdown-wrapper fade-in">
                 <div class="live-pill">
-                    <span class="live-dot"></span> LIVE EVENT COUNTDOWN
+                    <span class="live-dot" aria-hidden="true"></span> LIVE EVENT COUNTDOWN
                 </div>
-                <div class="countdown-container" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00">
+                <div class="countdown-container" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00" role="timer" aria-label="20th Anniversary Live Countdown Timer">
                     <div class="countdown-box">
                         <span id="days">00</span>
                         <p>Days</p>
@@ -110,13 +110,13 @@
             </div>
 
             <!-- Celebration Banner (Shown automatically when countdown reaches zero) -->
-            <div id="celebration-started-banner" class="celebration-banner is-hidden">
+            <div id="celebration-started-banner" class="celebration-banner is-hidden" role="status" aria-live="polite">
                 <h2>The Celebration Has Started!</h2>
             </div>
 
             <div class="hero-buttons fade-in">
-                <a href="#program" class="btn btn-primary">View Celebration Details</a>
-                <a href="#contact" class="btn btn-secondary">Join Us</a>
+                <a href="#program" class="btn btn-primary" aria-label="View Celebration Program Details">View Celebration Details</a>
+                <a href="#contact" class="btn btn-secondary" aria-label="Join Us and View Contact Information">Join Us</a>
             </div>
 
             <div class="target-date-note" id="target-date-note">
@@ -190,7 +190,7 @@
                 </div>
 
                 <div class="program-calendar-wrapper">
-                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=CSF+Church+20th+Anniversary&amp;dates=20261108T010000Z/20261108T040000Z&amp;details=CSF+Church+20th+Anniversary%3A+Two+Decades+of+God%27s+Faithfulness%3A+Pressing+Forward+Toward+the+Promise+Ahead.+Venue%3A+CSF+Church+Sapang+Kawayan&amp;location=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn-calendar">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=CSF+Church+20th+Anniversary&amp;dates=20261108T010000Z/20261108T040000Z&amp;details=CSF+Church+20th+Anniversary%3A+Two+Decades+of+God%27s+Faithfulness%3A+Pressing+Forward+Toward+the+Promise+Ahead.+Venue%3A+CSF+Church+Sapang+Kawayan&amp;location=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn-calendar" aria-label="Save CSF Church 20th Anniversary to Google Calendar">
                         <span class="btn-calendar-icon" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -334,7 +334,7 @@
             <div class="section-ornament" aria-hidden="true"><span>&#10022;</span></div>
             <p class="section-subtitle">Click the album below to view our complete 20-year journey collection.</p>
 
-            <div class="gallery-album-preview" id="album-preview-trigger" role="button" tabindex="0" aria-label="Open 20th Anniversary Album">
+            <div class="gallery-album-preview" id="album-preview-trigger" role="button" tabindex="0" aria-label="Open 20th Anniversary Church Memories Photo Album">
                 <div class="album-cover-wrapper">
                     <img src="assets/images/sunday-service.jpg" alt="20th Anniversary Album Cover" class="gallery-img featured-album-cover" width="680" height="420" loading="lazy" decoding="async">
                     <div class="album-overlay">
@@ -347,14 +347,14 @@
     </section>
 
     <!-- Lightbox Modal -->
-    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog">
-        <button class="close-lightbox" id="close-lightbox" aria-label="Close gallery" type="button">&times;</button>
-        <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous image" type="button">&#10094;</button>
+    <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Church Memories Photo Gallery Viewer">
+        <button class="close-lightbox" id="close-lightbox" aria-label="Close photo gallery" type="button">&times;</button>
+        <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous photo" type="button">&#10094;</button>
         <div class="lightbox-container">
-            <img class="lightbox-content" id="lightbox-img" alt="Enlarged view" loading="lazy" decoding="async">
-            <div id="lightbox-caption"></div>
+            <img class="lightbox-content" id="lightbox-img" alt="Enlarged church memory photo" loading="lazy" decoding="async" tabindex="0" role="button" aria-label="Click or press Enter to zoom photo in or out">
+            <div id="lightbox-caption" aria-live="polite"></div>
         </div>
-        <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next image" type="button">&#10095;</button>
+        <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next photo" type="button">&#10095;</button>
     </div>
 
     <!-- ==========================================================================
@@ -414,8 +414,8 @@
             <h2>Come and Celebrate God's Faithfulness With Us</h2>
             <div class="gold-divider"></div>
             <div class="hero-buttons cta-buttons">
-                <a href="https://www.google.com/maps/search/?api=1&amp;query=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Get Directions</a>
-                <a href="#contact" class="btn btn-primary-outline">Contact Us</a>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Get Directions to CSF Church on Google Maps">Get Directions</a>
+                <a href="#contact" class="btn btn-primary-outline" aria-label="Scroll to Contact Us Section">Contact Us</a>
             </div>
         </div>
     </section>
