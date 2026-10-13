@@ -2,18 +2,20 @@
  * ============================================================================
  * CSF CHURCH - 20TH ANNIVERSARY MAIN JAVASCRIPT
  * Modular Architecture:
- *   1. initHeroParticles()           - Floating golden celebration particles
- *   2. initNavbarAndScrollProgress() - Scroll progress bar & navbar glass state
- *   3. initMobileNavigation()        - Mobile drawer menu & ARIA states
- *   4. initScrollSpy()               - Active section link highlighting
- *   5. initCountdownTimer()          - Philippine Time (+08:00) live countdown
- *   6. initLightboxGallery()         - Photo gallery, zoom toggle & smart mobile swipe
- *   7. initBackToTopButton()         - Smooth scroll-to-top button
- *   8. initScrollRevealAnimations()  - IntersectionObserver scroll animations
+ *   0. initCrossBrowserViewportGuard() - In-App Browser (Messenger/FB) & mobile viewport guard
+ *   1. initHeroParticles()             - Floating golden celebration particles
+ *   2. initNavbarAndScrollProgress()   - Scroll progress bar & navbar glass state
+ *   3. initMobileNavigation()          - Mobile drawer menu & ARIA states
+ *   4. initScrollSpy()                 - Active section link highlighting
+ *   5. initCountdownTimer()            - Philippine Time (+08:00) live countdown
+ *   6. initLightboxGallery()           - Photo gallery, zoom toggle & smart mobile swipe
+ *   7. initBackToTopButton()           - Smooth scroll-to-top button
+ *   8. initScrollRevealAnimations()    - IntersectionObserver scroll animations
  * ============================================================================
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+    initCrossBrowserViewportGuard();
     initHeroParticles();
     initNavbarAndScrollProgress();
     initMobileNavigation();
@@ -23,6 +25,40 @@ document.addEventListener("DOMContentLoaded", () => {
     initBackToTopButton();
     initScrollRevealAnimations();
 });
+
+/* ============================================================================
+   0. CROSS-BROWSER & IN-APP WEBVIEW VIEWPORT GUARD (MESSENGER / FB / SAFARI / CHROME)
+   ============================================================================ */
+function initCrossBrowserViewportGuard() {
+    const root = document.documentElement;
+    const ua = navigator.userAgent || "";
+    const isInAppBrowser = /FBAN|FBAV|Messenger|Instagram|Line|MicroMessenger/i.test(ua);
+
+    if (isInAppBrowser) {
+        root.classList.add("is-inapp-browser");
+    }
+
+    let lastWidth = window.innerWidth;
+
+    function syncViewportHeight(forceUpdate = false) {
+        const currentWidth = window.innerWidth;
+        if (forceUpdate || Math.abs(currentWidth - lastWidth) > 20) {
+            lastWidth = currentWidth;
+            root.style.setProperty("--app-height", `${window.innerHeight}px`);
+        }
+    }
+
+    syncViewportHeight(true);
+
+    window.addEventListener("resize", () => syncViewportHeight(false), { passive: true });
+    window.addEventListener(
+        "orientationchange",
+        () => {
+            setTimeout(() => syncViewportHeight(true), 150);
+        },
+        { passive: true }
+    );
+}
 
 /* ============================================================================
    1. HERO FLOATING CELEBRATION PARTICLES

@@ -38,9 +38,11 @@
 }
 
 /* ==========================================================================
-   2. BASE RESET & TYPOGRAPHY
+   2. BASE RESET & TYPOGRAPHY (MODERN NORMALIZE + BOOTSTRAP 5 HARMONIZATION)
    ========================================================================== */
-* {
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -51,6 +53,8 @@ html {
     scroll-behavior: smooth;
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: clip;
 }
 
 body {
@@ -58,8 +62,27 @@ body {
     background-color: var(--clr-cream);
     color: var(--clr-text);
     line-height: 1.7;
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
+    min-width: 280px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p,
+ul,
+ol,
+dl,
+figure,
+blockquote,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    padding: 0;
 }
 
 section,
@@ -81,9 +104,12 @@ h4 {
     font-family: var(--font-heading);
     font-weight: 700;
     word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-a {
+a,
+a:hover,
+a:focus {
     text-decoration: none;
     color: inherit;
 }
@@ -181,43 +207,75 @@ button:focus-visible,
     transition: var(--transition-standard);
     cursor: pointer;
     text-align: center;
+    line-height: 1.4;
 }
 
-.btn-primary {
+.btn-primary,
+.btn.btn-primary {
+    --bs-btn-bg: var(--clr-gold);
+    --bs-btn-color: var(--clr-burgundy-dark);
+    --bs-btn-border-color: var(--clr-gold);
+    --bs-btn-hover-bg: transparent;
+    --bs-btn-hover-color: var(--clr-gold-light);
+    --bs-btn-hover-border-color: var(--clr-gold-light);
+    --bs-btn-active-bg: var(--clr-gold-light);
+    --bs-btn-active-color: var(--clr-burgundy-dark);
+    --bs-btn-active-border-color: var(--clr-gold-light);
     background-color: var(--clr-gold);
     color: var(--clr-burgundy-dark);
     border: 2px solid var(--clr-gold);
     box-shadow: 0 6px 20px rgba(197, 160, 89, 0.35);
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn.btn-primary:first-child:active {
     background-color: transparent;
     color: var(--clr-gold-light);
     border-color: var(--clr-gold-light);
     transform: translateY(-3px);
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn.btn-secondary {
+    --bs-btn-bg: transparent;
+    --bs-btn-color: var(--clr-white);
+    --bs-btn-border-color: var(--clr-white);
+    --bs-btn-hover-bg: var(--clr-white);
+    --bs-btn-hover-color: var(--clr-burgundy-dark);
+    --bs-btn-hover-border-color: var(--clr-white);
+    --bs-btn-active-bg: var(--clr-white);
+    --bs-btn-active-color: var(--clr-burgundy-dark);
+    --bs-btn-active-border-color: var(--clr-white);
     background-color: transparent;
     color: var(--clr-white);
     border: 2px solid var(--clr-white);
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn.btn-secondary:first-child:active {
     background-color: var(--clr-white);
     color: var(--clr-burgundy-dark);
+    border-color: var(--clr-white);
     transform: translateY(-3px);
 }
 
-.btn-primary-outline {
+.btn-primary-outline,
+.btn.btn-primary-outline {
     background-color: transparent;
     color: var(--clr-gold-light);
     border: 2px solid var(--clr-gold);
 }
 
-.btn-primary-outline:hover {
+.btn-primary-outline:hover,
+.btn-primary-outline:focus,
+.btn-primary-outline:active {
     background-color: var(--clr-gold);
     color: var(--clr-burgundy-dark);
+    border-color: var(--clr-gold);
     transform: translateY(-3px);
 }
 
@@ -225,6 +283,7 @@ button:focus-visible,
    5. NAVIGATION BAR & SCROLL PROGRESS
    ========================================================================== */
 .navbar {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -384,6 +443,7 @@ button:focus-visible,
     position: relative;
     min-height: 100vh;
     min-height: 100svh;
+    min-height: var(--app-height, 100svh);
     background: linear-gradient(135deg, rgba(74, 12, 22, 0.88), rgba(20, 3, 6, 0.92)),
                 url('https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
     display: flex;

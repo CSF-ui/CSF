@@ -35,8 +35,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=2026.3">
+    <!-- ==========================================================================
+         CROSS-BROWSER CSS RESET & RESPONSIVE FRAMEWORK (MODERN NORMALIZE + BOOTSTRAP 5)
+         ========================================================================== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
+
+    <!-- Main Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=2026.4">
 </head>
 <body>
 
@@ -337,7 +343,7 @@
 
             <div class="gallery-album-preview" id="album-preview-trigger" role="button" tabindex="0" aria-label="Open 20th Anniversary Church Memories Photo Album">
                 <div class="album-cover-wrapper">
-                    <img src="assets/images/sunday-service.jpg" alt="20th Anniversary Album Cover" class="gallery-img featured-album-cover" width="680" height="420" loading="lazy" decoding="async">
+                    <img src="assets/images/sunday-service.jpg" alt="20th Anniversary Album Cover" class="gallery-img featured-album-cover img-fluid" width="680" height="420" loading="lazy" decoding="async">
                     <div class="album-overlay">
                         <h3>View Church Memories</h3>
                         <p>Click to open gallery</p>
@@ -352,7 +358,7 @@
         <button class="close-lightbox" id="close-lightbox" aria-label="Close photo gallery" type="button">&times;</button>
         <button id="prev-btn" class="lightbox-nav-btn prev-btn" aria-label="Previous photo" type="button">&#10094;</button>
         <div class="lightbox-container">
-            <img class="lightbox-content" id="lightbox-img" alt="Enlarged church memory photo" loading="lazy" decoding="async" tabindex="0" role="button" aria-label="Click or press Enter to zoom photo in or out">
+            <img class="lightbox-content img-fluid" id="lightbox-img" alt="Enlarged church memory photo" loading="lazy" decoding="async" tabindex="0" role="button" aria-label="Click or press Enter to zoom photo in or out">
             <div id="lightbox-caption" aria-live="polite"></div>
         </div>
         <button id="next-btn" class="lightbox-nav-btn next-btn" aria-label="Next photo" type="button">&#10095;</button>
@@ -364,7 +370,7 @@
     <section id="pastor" class="pastor-message section-bg-beige">
         <div class="container pastor-grid">
             <div class="pastor-photo">
-                <img src="assets/images/senior-pastor-photo.jpg" alt="Senior Pastor Manny Castillo" width="540" height="490" loading="lazy" decoding="async">
+                <img src="assets/images/senior-pastor-photo.jpg" alt="Senior Pastor Manny Castillo" class="img-fluid" width="540" height="490" loading="lazy" decoding="async">
             </div>
             <div class="pastor-text pastor-message-card">
                 <h2 class="section-title">A Message From Our Pastor</h2>
@@ -381,7 +387,7 @@
     <section id="speaker" class="guest-speaker section-bg-cream">
         <div class="container pastor-grid">
             <div class="pastor-photo">
-                <img src="assets/images/pastora.jpg" alt="Ptra. Miles Barleta Photo" width="540" height="490" loading="lazy" decoding="async">
+                <img src="assets/images/pastora.jpg" alt="Ptra. Miles Barleta Photo" class="img-fluid" width="540" height="490" loading="lazy" decoding="async">
             </div>
             <div class="pastor-text">
                 <h2 class="section-title">Guest Speaker</h2>
@@ -520,7 +526,8 @@
         </div>
     </footer>
 
-    <!-- Main Script -->
-    <script src="script.js?v=2026.3"></script>
+    <!-- Bootstrap 5 JS Bundle & Main Application Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="script.js?v=2026.4"></script>
 </body>
 </html>
