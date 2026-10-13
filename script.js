@@ -16,6 +16,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     initCrossBrowserViewportGuard();
+    initAutoVersionSync();
     initHeroParticles();
     initNavbarAndScrollProgress();
     initMobileNavigation();
@@ -71,6 +72,93 @@ function initCrossBrowserViewportGuard() {
             }
         });
     }
+}
+
+/* ============================================================================
+   0B. AUTOMATIC LIVE VERSION & CACHE SYNC (NO MANUAL RELOAD NEEDED)
+   ============================================================================ */
+function initAutoVersionSync() {
+    const root = document.documentElement;
+    const currentVersion = root.getAttribute("data-app-version") || "2026.10";
+    let baselineSignature = null;
+    let isChecking = false;
+
+    try {
+        const savedScrollY = sessionStorage.getItem("csf_auto_sync_scroll_y");
+        if (savedScrollY !== null) {
+            sessionStorage.removeItem("csf_auto_sync_scroll_y");
+            const targetY = parseInt(savedScrollY, 10);
+            if (!Number.isNaN(targetY) && targetY > 0) {
+                window.scrollTo({ top: targetY, behavior: "instant" });
+            }
+        }
+    } catch (_) {
+        // Ignore sessionStorage restrictions in strict privacy modes
+    }
+
+    async function checkServerVersion() {
+        if (isChecking || document.visibilityState === "hidden") return;
+        if (window.location.protocol === "file:") return;
+
+        isChecking = true;
+        try {
+            const checkUrl = `${window.location.pathname}?_nocache=${Date.now()}`;
+            const response = await fetch(checkUrl, {
+                method: "GET",
+                cache: "no-store",
+                headers: {
+                    "Cache-Control": "no-cache, no-store, must-revalidate",
+                    "Pragma": "no-cache"
+                }
+            });
+
+            if (!response.ok) return;
+
+            const htmlText = await response.text();
+            const versionMatch = htmlText.match(/data-app-version=["']([^"']+)["']/i);
+            const remoteVersion = versionMatch ? versionMatch[1] : currentVersion;
+            const etag = response.headers.get("etag") || "";
+            const lastModified = response.headers.get("last-modified") || "";
+            const signature = `${remoteVersion}|${etag}|${lastModified}|${htmlText.length}`;
+
+            if (baselineSignature === null) {
+                baselineSignature = signature;
+                return;
+            }
+
+            if (remoteVersion !== currentVersion || signature !== baselineSignature) {
+                try {
+                    sessionStorage.setItem("csf_auto_sync_scroll_y", String(window.scrollY || 0));
+                } catch (_) {}
+                window.location.reload();
+            }
+        } catch (_) {
+            // Silently ignore offline/network errors
+        } finally {
+            isChecking = false;
+        }
+    }
+
+    // Establish baseline signature after load
+    setTimeout(checkServerVersion, 2500);
+
+    // Check automatically when user returns to tab or opens from Messenger/Browser history
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            checkServerVersion();
+        }
+    });
+
+    window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+            checkServerVersion();
+        }
+    });
+
+    window.addEventListener("focus", checkServerVersion, { passive: true });
+
+    // Periodic background check every 45 seconds while page is open
+    setInterval(checkServerVersion, 45000);
 }
 
 /* ============================================================================
