@@ -256,7 +256,10 @@ function initCountdownTimer() {
         if (distance <= 0) {
             countdownContainer.classList.add("is-hidden");
             if (targetDateNote) targetDateNote.classList.add("is-hidden");
-            if (celebrationBanner) celebrationBanner.classList.remove("is-hidden");
+            if (celebrationBanner) {
+                celebrationBanner.hidden = false;
+                celebrationBanner.classList.remove("is-hidden");
+            }
             return true;
         }
 
