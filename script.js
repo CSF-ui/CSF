@@ -58,6 +58,19 @@ function initCrossBrowserViewportGuard() {
         },
         { passive: true }
     );
+
+    const registerBtn = document.getElementById("register-btn");
+    if (registerBtn) {
+        registerBtn.addEventListener("click", (e) => {
+            const rawHref = (registerBtn.getAttribute("href") || "").trim();
+            if (!rawHref || rawHref === "#") {
+                e.preventDefault();
+            } else if (/^https?:\/\//i.test(rawHref)) {
+                registerBtn.setAttribute("target", "_blank");
+                registerBtn.setAttribute("rel", "noopener noreferrer");
+            }
+        });
+    }
 }
 
 /* ============================================================================
