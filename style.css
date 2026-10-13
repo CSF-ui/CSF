@@ -769,9 +769,6 @@ button:focus-visible,
 }
 
 .program-info-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
     margin-bottom: 26px;
 }
 
@@ -1210,9 +1207,6 @@ button:focus-visible,
    ========================================================================== */
 .pastor-grid,
 .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 45px;
     align-items: center;
 }
 

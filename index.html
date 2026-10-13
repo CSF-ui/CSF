@@ -42,28 +42,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
 
     <!-- Main Custom Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=2026.4">
+    <link rel="stylesheet" href="style.css?v=2026.5">
 </head>
 <body>
 
     <!-- ==========================================================================
          NAVIGATION BAR
          ========================================================================== -->
-    <nav class="navbar" id="navbar" aria-label="Primary Navigation">
+    <nav class="navbar fixed-top" id="navbar" aria-label="Primary Navigation">
         <div class="scroll-progress-bar" id="scroll-progress" aria-hidden="true"></div>
-        <div class="nav-container">
-            <a href="#home" class="logo-wrapper" aria-label="CSF Church Home">
-                <img src="assets/images/church-logo.jpg" alt="CSF Church Logo" class="nav-logo-img" width="42" height="42" loading="lazy" decoding="async">
+        <div class="nav-container container-xl d-flex justify-content-between align-items-center">
+            <a href="#home" class="logo-wrapper d-flex align-items-center text-decoration-none" aria-label="CSF Church Home">
+                <img src="assets/images/church-logo.jpg" alt="CSF Church Logo" class="nav-logo-img rounded-circle" width="42" height="42" loading="lazy" decoding="async">
                 <span class="logo-text">CSF CHURCH</span>
             </a>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links" type="button">
+            <button class="hamburger d-md-none" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links" type="button">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
-            <ul class="nav-links" id="nav-links">
-                <li><button class="close-menu" id="close-menu" aria-label="Close navigation menu" type="button">&times;</button></li>
+            <div class="nav-backdrop d-md-none" id="nav-backdrop" aria-hidden="true"></div>
+            <ul class="nav-links mb-0 list-unstyled d-flex align-items-center" id="nav-links">
+                <li class="d-md-none w-100 d-flex justify-content-end"><button class="close-menu" id="close-menu" aria-label="Close navigation menu" type="button">&times;</button></li>
                 <li><a href="#home" class="nav-item">HOME</a></li>
                 <li><a href="#program" class="nav-item">PROGRAM</a></li>
                 <li><a href="#gallery" class="nav-item">GALLERY</a></li>
@@ -77,57 +77,57 @@
     <!-- ==========================================================================
          1. HERO SECTION
          ========================================================================== -->
-    <section id="home" class="hero" aria-label="Anniversary Hero Banner">
+    <section id="home" class="hero d-flex align-items-center justify-content-center text-center" aria-label="Anniversary Hero Banner">
         <canvas id="hero-particles" class="hero-canvas" aria-hidden="true"></canvas>
         <div class="hero-overlay" aria-hidden="true"></div>
-        <div class="hero-content">
+        <div class="hero-content container mx-auto">
             <h3 class="fade-in">CSF CHURCH</h3>
             <h1 class="fade-in shimmer-gold hero-main-title">20th Anniversary</h1>
 
-            <p class="fade-in hero-tagline">
+            <p class="fade-in hero-tagline mx-auto">
                 Two Decades of God’s Faithfulness: Pressing Forward Toward the Promise Ahead
             </p>
 
-            <p class="hero-verse fade-in">
+            <p class="hero-verse fade-in mx-auto">
                 "I press toward the mark for the prize of the high calling of God in Christ Jesus." — Philippians 3:14
             </p>
 
             <div class="countdown-wrapper fade-in">
-                <div class="live-pill">
+                <div class="live-pill d-inline-flex align-items-center">
                     <span class="live-dot" aria-hidden="true"></span> LIVE EVENT COUNTDOWN
                 </div>
-                <div class="countdown-container" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00" role="timer" aria-label="20th Anniversary Live Countdown Timer">
-                    <div class="countdown-box">
+                <div class="countdown-container mx-auto" id="countdown-container" data-target-date="2026-11-08T09:00:00+08:00" role="timer" aria-label="20th Anniversary Live Countdown Timer">
+                    <div class="countdown-box text-center">
                         <span id="days">00</span>
-                        <p>Days</p>
+                        <p class="mb-0">Days</p>
                     </div>
-                    <div class="countdown-box">
+                    <div class="countdown-box text-center">
                         <span id="hours">00</span>
-                        <p>Hours</p>
+                        <p class="mb-0">Hours</p>
                     </div>
-                    <div class="countdown-box">
+                    <div class="countdown-box text-center">
                         <span id="minutes">00</span>
-                        <p>Minutes</p>
+                        <p class="mb-0">Minutes</p>
                     </div>
-                    <div class="countdown-box seconds-box">
+                    <div class="countdown-box seconds-box text-center">
                         <span id="seconds">00</span>
-                        <p>Seconds</p>
+                        <p class="mb-0">Seconds</p>
                     </div>
                 </div>
             </div>
 
             <!-- Celebration Banner (Shown automatically when countdown reaches zero) -->
-            <div id="celebration-started-banner" class="celebration-banner is-hidden" role="status" aria-live="polite" hidden>
+            <div id="celebration-started-banner" class="celebration-banner is-hidden mx-auto" role="status" aria-live="polite" hidden>
                 <h2>The Celebration Has Started!</h2>
             </div>
 
-            <div class="hero-buttons fade-in">
+            <div class="hero-buttons fade-in d-flex flex-column flex-md-row justify-content-center align-items-center mx-auto">
                 <a href="#program" class="btn btn-primary" aria-label="View Celebration Program Details">View Celebration Details</a>
                 <a href="#contact" class="btn btn-secondary" aria-label="Join Us and View Contact Information">Join Us</a>
             </div>
 
-            <div class="target-date-note" id="target-date-note">
-                <p>November 8, 2026</p>
+            <div class="target-date-note d-inline-block" id="target-date-note">
+                <p class="mb-0">November 8, 2026</p>
             </div>
         </div>
     </section>
@@ -135,11 +135,11 @@
     <!-- ==========================================================================
          2. 20TH ANNIVERSARY CENTERPIECE
          ========================================================================== -->
-    <section class="anniversary-centerpiece section-bg-burgundy">
+    <section class="anniversary-centerpiece section-bg-burgundy text-center">
         <div class="container center-text">
             <div class="big-20 shimmer-gold">20</div>
             <h2>Years of Faith &bull; Hope &bull; Love &bull; Service</h2>
-            <div class="gold-divider"></div>
+            <div class="gold-divider mx-auto"></div>
         </div>
     </section>
 
@@ -148,57 +148,63 @@
          ========================================================================== -->
     <section id="program" class="program section-bg-beige">
         <div class="container">
-            <h2 class="section-title">Anniversary Program</h2>
+            <h2 class="section-title text-center">Anniversary Program</h2>
             <div class="section-ornament" aria-hidden="true"><span>&#10022;</span></div>
 
-            <!-- Redesigned Luxury Event Summary Card -->
-            <div class="program-summary-box">
-                <div class="program-info-grid">
-                    <div class="program-info-item">
-                        <div class="program-info-icon" aria-hidden="true">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                        </div>
-                        <div class="program-info-text">
-                            <span class="info-label">Date</span>
-                            <strong class="info-value">November 8, 2026</strong>
-                        </div>
-                    </div>
-
-                    <div class="program-info-item">
-                        <div class="program-info-icon" aria-hidden="true">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                        </div>
-                        <div class="program-info-text">
-                            <span class="info-label">Time</span>
-                            <strong class="info-value">9:00 AM &ndash; 12:00 PM</strong>
+            <!-- Redesigned Luxury Event Summary Card (Bootstrap 5 Responsive Grid) -->
+            <div class="program-summary-box mx-auto">
+                <div class="row g-3 program-info-grid">
+                    <div class="col-12 col-lg-4">
+                        <div class="program-info-item h-100 d-flex align-items-center">
+                            <div class="program-info-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                            </div>
+                            <div class="program-info-text">
+                                <span class="info-label">Date</span>
+                                <strong class="info-value">November 8, 2026</strong>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="program-info-item">
-                        <div class="program-info-icon" aria-hidden="true">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
+                    <div class="col-12 col-lg-4">
+                        <div class="program-info-item h-100 d-flex align-items-center">
+                            <div class="program-info-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                            </div>
+                            <div class="program-info-text">
+                                <span class="info-label">Time</span>
+                                <strong class="info-value">9:00 AM &ndash; 12:00 PM</strong>
+                            </div>
                         </div>
-                        <div class="program-info-text">
-                            <span class="info-label">Venue</span>
-                            <strong class="info-value">CSF Church Sapang Kawayan</strong>
+                    </div>
+
+                    <div class="col-12 col-lg-4">
+                        <div class="program-info-item h-100 d-flex align-items-center">
+                            <div class="program-info-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div class="program-info-text">
+                                <span class="info-label">Venue</span>
+                                <strong class="info-value">CSF Church Sapang Kawayan</strong>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="program-calendar-wrapper">
-                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=CSF+Church+20th+Anniversary&amp;dates=20261108T010000Z/20261108T040000Z&amp;details=CSF+Church+20th+Anniversary%3A+Two+Decades+of+God%27s+Faithfulness%3A+Pressing+Forward+Toward+the+Promise+Ahead.+Venue%3A+CSF+Church+Sapang+Kawayan&amp;location=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn-calendar" aria-label="Save CSF Church 20th Anniversary to Google Calendar">
-                        <span class="btn-calendar-icon" aria-hidden="true">
+                <div class="program-calendar-wrapper text-center">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=CSF+Church+20th+Anniversary&amp;dates=20261108T010000Z/20261108T040000Z&amp;details=CSF+Church+20th+Anniversary%3A+Two+Decades+of+God%27s+Faithfulness%3A+Pressing+Forward+Toward+the+Promise+Ahead.+Venue%3A+CSF+Church+Sapang+Kawayan&amp;location=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn-calendar d-inline-flex align-items-center justify-content-center" aria-label="Save CSF Church 20th Anniversary to Google Calendar">
+                        <span class="btn-calendar-icon d-inline-flex align-items-center justify-content-center" aria-hidden="true">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                 <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -215,7 +221,7 @@
             </div>
 
             <!-- Program Schedule Timeline -->
-            <div class="timeline">
+            <div class="timeline mx-auto">
                 <div class="timeline-item">
                     <div class="time">9:00 AM - 9:02 AM</div>
                     <div class="event-details">
@@ -325,28 +331,28 @@
     <!-- ==========================================================================
          4. SCRIPTURE HIGHLIGHT SECTION
          ========================================================================== -->
-    <section class="verse-section">
+    <section class="verse-section text-center">
         <div class="container center-text">
             <h2>"I thank my God every time I remember you."</h2>
-            <p class="verse-ref">&mdash; Philippians 1:3 &mdash;</p>
+            <p class="verse-ref mb-0">&mdash; Philippians 1:3 &mdash;</p>
         </div>
     </section>
 
     <!-- ==========================================================================
          5. PHOTO GALLERY SECTION
          ========================================================================== -->
-    <section id="gallery" class="gallery section-bg-cream">
+    <section id="gallery" class="gallery section-bg-cream text-center">
         <div class="container center-text">
             <h2 class="section-title">Church Memories Gallery</h2>
             <div class="section-ornament" aria-hidden="true"><span>&#10022;</span></div>
-            <p class="section-subtitle">Click the album below to view our complete 20-year journey collection.</p>
+            <p class="section-subtitle mx-auto">Click the album below to view our complete 20-year journey collection.</p>
 
-            <div class="gallery-album-preview" id="album-preview-trigger" role="button" tabindex="0" aria-label="Open 20th Anniversary Church Memories Photo Album">
+            <div class="gallery-album-preview mx-auto" id="album-preview-trigger" role="button" tabindex="0" aria-label="Open 20th Anniversary Church Memories Photo Album">
                 <div class="album-cover-wrapper">
-                    <img src="assets/images/sunday-service.jpg" alt="20th Anniversary Album Cover" class="gallery-img featured-album-cover img-fluid" width="680" height="420" loading="lazy" decoding="async">
+                    <img src="assets/images/sunday-service.jpg" alt="20th Anniversary Album Cover" class="gallery-img featured-album-cover img-fluid w-100" width="680" height="420" loading="lazy" decoding="async">
                     <div class="album-overlay">
                         <h3>View Church Memories</h3>
-                        <p>Click to open gallery</p>
+                        <p class="mb-0">Click to open gallery</p>
                     </div>
                 </div>
             </div>
@@ -365,50 +371,62 @@
     </div>
 
     <!-- ==========================================================================
-         6. MESSAGE FROM THE PASTOR
+         6. MESSAGE FROM THE PASTOR (BOOTSTRAP 5 RESPONSIVE ROW/COL)
          ========================================================================== -->
     <section id="pastor" class="pastor-message section-bg-beige">
-        <div class="container pastor-grid">
-            <div class="pastor-photo">
-                <img src="assets/images/senior-pastor-photo.jpg" alt="Senior Pastor Manny Castillo" class="img-fluid" width="540" height="490" loading="lazy" decoding="async">
-            </div>
-            <div class="pastor-text pastor-message-card">
-                <h2 class="section-title">A Message From Our Pastor</h2>
-                <div class="section-ornament" aria-hidden="true"><span>&#10022;</span></div>
-                <h3>Pastor Manny Castillo</h3>
-                <p class="pastor-quote">"Welcome to our momentous 20th Anniversary! Looking back, it is completely evident that God's grace has sustained CSF Church through every season. Thank you for your unwavering prayers, dedication, and love. Let us step forward into the next decades with high expectations for His glory."</p>
+        <div class="container">
+            <div class="row g-4 g-lg-5 align-items-center pastor-grid">
+                <div class="col-12 col-lg-6">
+                    <div class="pastor-photo mx-auto">
+                        <img src="assets/images/senior-pastor-photo.jpg" alt="Senior Pastor Manny Castillo" class="img-fluid w-100" width="540" height="490" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="pastor-text pastor-message-card text-center text-lg-start">
+                        <h2 class="section-title text-center text-lg-start">A Message From Our Pastor</h2>
+                        <div class="section-ornament justify-content-center justify-content-lg-start" aria-hidden="true"><span>&#10022;</span></div>
+                        <h3>Pastor Manny Castillo</h3>
+                        <p class="pastor-quote mb-0">"Welcome to our momentous 20th Anniversary! Looking back, it is completely evident that God's grace has sustained CSF Church through every season. Thank you for your unwavering prayers, dedication, and love. Let us step forward into the next decades with high expectations for His glory."</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ==========================================================================
-         7. GUEST SPEAKER SECTION
+         7. GUEST SPEAKER SECTION (BOOTSTRAP 5 RESPONSIVE ROW/COL)
          ========================================================================== -->
     <section id="speaker" class="guest-speaker section-bg-cream">
-        <div class="container pastor-grid">
-            <div class="pastor-photo">
-                <img src="assets/images/pastora.jpg" alt="Ptra. Miles Barleta Photo" class="img-fluid" width="540" height="490" loading="lazy" decoding="async">
-            </div>
-            <div class="pastor-text">
-                <h2 class="section-title">Guest Speaker</h2>
-                <div class="section-ornament" aria-hidden="true"><span>&#10022;</span></div>
-                <h3>Ptra. Miles Barleta</h3>
-                <p class="speaker-role">Special Guest Speaker</p>
-                <p class="speaker-bio">
-                    We are honored to have <strong>Ptra. Miles Barleta</strong> as our Guest Speaker for our 20th Anniversary celebration! Join us as she shares an inspiring message of faith, grace, and God's unwavering promises for our church family.
-                </p>
+        <div class="container">
+            <div class="row g-4 g-lg-5 align-items-center pastor-grid">
+                <div class="col-12 col-lg-6">
+                    <div class="pastor-photo mx-auto">
+                        <img src="assets/images/pastora.jpg" alt="Ptra. Miles Barleta Photo" class="img-fluid w-100" width="540" height="490" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="pastor-text text-center text-lg-start">
+                        <h2 class="section-title text-center text-lg-start">Guest Speaker</h2>
+                        <div class="section-ornament justify-content-center justify-content-lg-start" aria-hidden="true"><span>&#10022;</span></div>
+                        <h3>Ptra. Miles Barleta</h3>
+                        <p class="speaker-role">Special Guest Speaker</p>
+                        <p class="speaker-bio">
+                            We are honored to have <strong>Ptra. Miles Barleta</strong> as our Guest Speaker for our 20th Anniversary celebration! Join us as she shares an inspiring message of faith, grace, and God's unwavering promises for our church family.
+                        </p>
 
-                <ul class="speaker-credentials-list">
-                    <li>Satellite Pastor, Word of Hope Christian Family Church &ndash; San Pablo City</li>
-                    <li>Mobilizing Chair of Global Intercessor</li>
-                    <li>Local and International Faculty of TMA</li>
-                    <li>Elder of the City, United Pastors Council</li>
-                    <li>Elder of the Province, Laguna For Jesus Movement</li>
-                    <li>Missionary</li>
-                    <li>Vision Keeper, Faithful and True Armies of God "Convergence"</li>
-                    <li>Certified Public Accountant by Profession</li>
-                    <li>Businesswoman</li>
-                </ul>
+                        <ul class="speaker-credentials-list text-start mb-0">
+                            <li>Satellite Pastor, Word of Hope Christian Family Church &ndash; San Pablo City</li>
+                            <li>Mobilizing Chair of Global Intercessor</li>
+                            <li>Local and International Faculty of TMA</li>
+                            <li>Elder of the City, United Pastors Council</li>
+                            <li>Elder of the Province, Laguna For Jesus Movement</li>
+                            <li>Missionary</li>
+                            <li>Vision Keeper, Faithful and True Armies of God "Convergence"</li>
+                            <li>Certified Public Accountant by Profession</li>
+                            <li>Businesswoman</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -416,11 +434,11 @@
     <!-- ==========================================================================
          8. CALL TO ACTION BANNER
          ========================================================================== -->
-    <section class="cta section-bg-burgundy center-text">
+    <section class="cta section-bg-burgundy center-text text-center">
         <div class="container">
             <h2>Come and Celebrate God's Faithfulness With Us</h2>
-            <div class="gold-divider"></div>
-            <div class="hero-buttons cta-buttons">
+            <div class="gold-divider mx-auto"></div>
+            <div class="hero-buttons cta-buttons d-flex flex-column flex-md-row justify-content-center align-items-center mx-auto">
                 <a href="https://www.google.com/maps/search/?api=1&amp;query=CSF+Church+Sapang+Kawayan" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Get Directions to CSF Church on Google Maps">Get Directions</a>
                 <a href="#contact" class="btn btn-primary-outline" aria-label="Scroll to Contact Us Section">Contact Us</a>
             </div>
@@ -428,53 +446,59 @@
     </section>
 
     <!-- ==========================================================================
-         9. CONTACT & LOCATION SECTION
+         9. CONTACT & LOCATION SECTION (BOOTSTRAP 5 RESPONSIVE ROW/COL)
          ========================================================================== -->
     <section id="contact" class="contact section-bg-beige">
-        <div class="container contact-grid">
-            <div class="contact-info">
-                <h2 class="section-title">Get in Touch</h2>
-                <div class="section-ornament" aria-hidden="true"><span>&#10022;</span></div>
-                <div class="contact-list">
-                    <div class="contact-item">
-                        <span class="contact-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
-                        </span>
-                        <p><strong>Address:</strong> CSF Church Sapang Kawayan</p>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                        </span>
-                        <p><strong>Phone:</strong> <a href="tel:+639650390952">+63 965 039 0952</a></p>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                        </span>
-                        <p><strong>Email:</strong> <a href="mailto:churchcsf@gmail.com">churchcsf@gmail.com</a></p>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </span>
-                        <p><strong>Facebook:</strong> <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer">Christ Savior Forerunner Church</a></p>
+        <div class="container">
+            <div class="row g-4 g-lg-5 align-items-center contact-grid">
+                <div class="col-12 col-lg-6">
+                    <div class="contact-info text-center text-lg-start">
+                        <h2 class="section-title text-center text-lg-start">Get in Touch</h2>
+                        <div class="section-ornament justify-content-center justify-content-lg-start" aria-hidden="true"><span>&#10022;</span></div>
+                        <div class="contact-list d-flex flex-column">
+                            <div class="contact-item d-flex align-items-center text-start">
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                </span>
+                                <p class="mb-0"><strong>Address:</strong> CSF Church Sapang Kawayan</p>
+                            </div>
+                            <div class="contact-item d-flex align-items-center text-start">
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                    </svg>
+                                </span>
+                                <p class="mb-0"><strong>Phone:</strong> <a href="tel:+639650390952">+63 965 039 0952</a></p>
+                            </div>
+                            <div class="contact-item d-flex align-items-center text-start">
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                </span>
+                                <p class="mb-0"><strong>Email:</strong> <a href="mailto:churchcsf@gmail.com">churchcsf@gmail.com</a></p>
+                            </div>
+                            <div class="contact-item d-flex align-items-center text-start">
+                                <span class="contact-icon" aria-hidden="true">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                    </svg>
+                                </span>
+                                <p class="mb-0"><strong>Facebook:</strong> <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer">Christ Savior Forerunner Church</a></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="contact-map">
-                <div class="map-placeholder">
-                    <iframe class="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3855.852552262947!2d121.07298607433633!3d14.889521069939295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397a9003a082443%3A0x1c6eff5233028d55!2sCSF%20Church%20Sapang%20Kawayan!5e0!3m2!1sen!2sph!4v1789531855798!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="CSF Church Sapang Kawayan Google Map"></iframe>
+                <div class="col-12 col-lg-6">
+                    <div class="contact-map">
+                        <div class="map-placeholder">
+                            <iframe class="map-iframe" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3855.852552262947!2d121.07298607433633!3d14.889521069939295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397a9003a082443%3A0x1c6eff5233028d55!2sCSF%20Church%20Sapang%20Kawayan!5e0!3m2!1sen!2sph!4v1789531855798!5m2!1sen!2sph" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="CSF Church Sapang Kawayan Google Map"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -486,11 +510,11 @@
     <!-- ==========================================================================
          10. FOOTER SECTION
          ========================================================================== -->
-    <footer>
+    <footer class="text-center">
         <div class="container center-text">
-            <p class="footer-tagline">Celebrating 20 Years of God's Faithfulness</p>
+            <p class="footer-tagline mx-auto">Celebrating 20 Years of God's Faithfulness</p>
 
-            <div class="footer-social-wrapper">
+            <div class="footer-social-wrapper mx-auto">
                 <p class="social-heading">Connect With CSF Church</p>
                 <div class="social-icons">
                     <a href="https://www.facebook.com/ChristSaviorForerunnerChurch" target="_blank" rel="noopener noreferrer" class="social-btn social-fb" aria-label="Facebook Page">
@@ -528,6 +552,6 @@
 
     <!-- Bootstrap 5 JS Bundle & Main Application Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="script.js?v=2026.4"></script>
+    <script src="script.js?v=2026.5"></script>
 </body>
 </html>
