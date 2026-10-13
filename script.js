@@ -127,6 +127,7 @@ function initNavbarAndScrollProgress() {
 function initMobileNavigation() {
     const hamburger = document.getElementById("hamburger");
     const navLinksContainer = document.getElementById("nav-links");
+    const navBackdrop = document.getElementById("nav-backdrop");
     const menuLinks = document.querySelectorAll("#nav-links a");
     const closeMenuBtn = document.getElementById("close-menu");
 
@@ -134,13 +135,17 @@ function initMobileNavigation() {
 
     function openNav() {
         navLinksContainer.classList.add("active");
+        hamburger.classList.add("is-active");
         hamburger.setAttribute("aria-expanded", "true");
+        if (navBackdrop) navBackdrop.classList.add("active");
         document.body.style.overflow = "hidden";
     }
 
     function closeNav() {
         navLinksContainer.classList.remove("active");
+        hamburger.classList.remove("is-active");
         hamburger.setAttribute("aria-expanded", "false");
+        if (navBackdrop) navBackdrop.classList.remove("active");
         document.body.style.overflow = "";
     }
 
@@ -159,6 +164,10 @@ function initMobileNavigation() {
 
     if (closeMenuBtn) {
         closeMenuBtn.addEventListener("click", closeNav);
+    }
+
+    if (navBackdrop) {
+        navBackdrop.addEventListener("click", closeNav);
     }
 
     document.addEventListener("click", (e) => {
@@ -493,8 +502,8 @@ function initLightboxGallery() {
         }
     });
 
-    // Smart Mobile Touch Gestures:
-    // - When UNZOOMED (1 finger): swipe left/right switches photos.
+    // Smart Mobile Touch Gestures (Chrome, Safari, Messenger & Facebook In-App Browser):
+    // - When UNZOOMED (1 finger): swipe left/right switches photos with smooth drag feedback.
     // - When ZOOMED (1 finger): drag pans around the zoomed photo without switching photos.
     // - When PINCHING (2+ fingers): locks swipe so photo never flips.
     let touchStartX = 0;
@@ -528,10 +537,16 @@ function initLightboxGallery() {
     lightbox.addEventListener(
         "touchmove",
         (e) => {
+            if (!lightbox.classList.contains("active")) return;
+
             if (e.touches.length > 1) {
                 isMultiTouch = true;
                 wasDraggingOrSwiping = true;
                 return;
+            }
+
+            if (e.cancelable) {
+                e.preventDefault();
             }
 
             const currentX = e.touches[0].clientX;
@@ -548,34 +563,43 @@ function initLightboxGallery() {
                 panX = Math.max(-140, Math.min(140, startPanX + deltaX));
                 panY = Math.max(-140, Math.min(140, startPanY + deltaY));
                 applyTransform();
+            } else if (!isZoomed && !isMultiTouch && Math.abs(deltaX) > Math.abs(deltaY)) {
+                lightboxImg.classList.add("dragging");
+                lightboxImg.style.transform = `translate3d(${deltaX * 0.25}px, 0, 0)`;
             }
         },
-        { passive: true }
+        { passive: false }
     );
 
     lightbox.addEventListener(
         "touchend",
         (e) => {
+            lightboxImg.classList.remove("dragging");
+
             if (isZoomed) {
-                lightboxImg.classList.remove("dragging");
                 return;
             }
 
-            if (isMultiTouch || !e.changedTouches || e.changedTouches.length === 0) return;
+            if (isMultiTouch || !e.changedTouches || e.changedTouches.length === 0) {
+                applyTransform();
+                return;
+            }
 
             const touchEndX = e.changedTouches[0].clientX;
             const touchEndY = e.changedTouches[0].clientY;
             const diffX = touchStartX - touchEndX;
             const diffY = touchStartY - touchEndY;
 
-            // Trigger horizontal swipe only if horizontal distance > 40px and dominates vertical movement
-            if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+            // Trigger horizontal swipe if horizontal distance > 35px and dominates vertical movement
+            if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
                 wasDraggingOrSwiping = true;
                 if (diffX > 0) {
                     nextImage();
                 } else {
                     prevImage();
                 }
+            } else {
+                applyTransform();
             }
         },
         { passive: true }
