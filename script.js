@@ -767,7 +767,12 @@ function initShareInvitation() {
     const modalShareTwitter = document.getElementById("modalShareTwitter");
 
     // Canonical production URL for sharing
-    const siteUrl = "https://csfchurch.web.app";
+    let liveOrigin = window.location.origin;
+    if (!liveOrigin || liveOrigin === "null" || !/^https?:\/\//i.test(liveOrigin) || liveOrigin.includes("localhost") || liveOrigin.includes("127.0.0.1")) {
+        liveOrigin = "https://csf-church.web.app";
+    }
+    const siteUrl = liveOrigin.replace(/\/+$/, "");
+    const inviteUrl = `${siteUrl}/#invitation`;
 
     const shareTitle = "CSF Church 20th Anniversary Celebration";
     const shareHeadline = "Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead";
@@ -785,16 +790,16 @@ CSF Church 20th Anniversary Celebration
 
 Come and celebrate God's goodness with us!
 Register here: https://docs.google.com/forms/d/e/1FAIpQLSdApIFcluOuj8TLqBu2NIcWL1Z0Dg6EO45Uwpe3PyEMu1jplw/viewform
-Official Site: ${siteUrl}`;
+Official Invitation: ${inviteUrl}`;
 
     // Direct Facebook share URL - shares to user's logged-in Facebook account/timeline
     if (modalShareFb) {
-        modalShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
+        modalShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
     }
 
     // Direct WhatsApp share URL with pre-filled invitation and live web.app link
     const waText = encodeURIComponent(
-        `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead"\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! Visit: ${siteUrl}\nRegister: https://docs.google.com/forms/d/e/1FAIpQLSdApIFcluOuj8TLqBu2NIcWL1Z0Dg6EO45Uwpe3PyEMu1jplw/viewform`
+        `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead"\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! View your invitation:\n${inviteUrl}\n\nRegister here:\nhttps://docs.google.com/forms/d/e/1FAIpQLSdApIFcluOuj8TLqBu2NIcWL1Z0Dg6EO45Uwpe3PyEMu1jplw/viewform`
     );
     if (modalShareWa) {
         modalShareWa.href = `https://api.whatsapp.com/send?text=${waText}`;
@@ -868,6 +873,14 @@ Official Site: ${siteUrl}`;
             }
         }, 300);
         document.body.style.overflow = "";
+
+        // Cleanly remove #invitation from URL without reloading if user closes the modal
+        const currentHash = (window.location.hash || "").toLowerCase();
+        if (currentHash === "#invitation" || currentHash === "#invite") {
+            try {
+                history.replaceState(null, document.title, window.location.pathname + window.location.search);
+            } catch (_) {}
+        }
     }
 
     // Trigger buttons (Hero button & other triggers open the luxury invitation modal)
@@ -920,8 +933,8 @@ Official Site: ${siteUrl}`;
             const fullText = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
             const shareData = {
                 title: shareTitle,
-                text: `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! Visit our official site:`,
-                url: siteUrl
+                text: `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! View your official invitation:`,
+                url: inviteUrl
             };
 
             if (navigator.share) {
@@ -944,7 +957,7 @@ Official Site: ${siteUrl}`;
     if (modalShareMsg) {
         modalShareMsg.addEventListener("click", async (e) => {
             e.preventDefault();
-            const inviteSummary = `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! Visit: ${siteUrl}`;
+            const inviteSummary = `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! View your official invitation:\n${inviteUrl}`;
 
             // On mobile / supported devices, Web Share opens with the user's recent Messenger contacts
             if (navigator.share) {
@@ -952,7 +965,7 @@ Official Site: ${siteUrl}`;
                     await navigator.share({
                         title: shareTitle,
                         text: inviteSummary,
-                        url: siteUrl
+                        url: inviteUrl
                     });
                     return;
                 } catch (err) {
@@ -979,6 +992,28 @@ Official Site: ${siteUrl}`;
         if (e.key === "Escape" && shareModal && shareModal.classList.contains("is-active")) {
             closeModal();
         }
+    });
+
+    // Automatically open invitation dialog if recipient visits with #invitation or ?invite
+    function checkAutoOpenInvitation() {
+        const hash = (window.location.hash || "").toLowerCase();
+        const search = (window.location.search || "").toLowerCase();
+        if (hash === "#invitation" || hash === "#invite" || search.includes("invite") || search.includes("invitation")) {
+            setTimeout(() => {
+                openModal();
+            }, 300);
+        }
+    }
+
+    checkAutoOpenInvitation();
+
+    window.addEventListener("hashchange", checkAutoOpenInvitation, { passive: true });
+
+    document.querySelectorAll('a[href="#invitation"]').forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal();
+        });
     });
 }
 
