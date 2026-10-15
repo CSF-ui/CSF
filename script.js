@@ -753,6 +753,8 @@ function initShareInvitation() {
     const shareModal = document.getElementById("shareModal");
     const shareModalBackdrop = document.getElementById("shareModalBackdrop");
     const shareModalClose = document.getElementById("shareModalClose");
+    const modalMainCopyBtn = document.getElementById("modalMainCopyBtn");
+    const modalNativeShareBtn = document.getElementById("modalNativeShareBtn");
     const modalCopyBtn = document.getElementById("modalCopyBtn");
     const modalCopyText = document.getElementById("modalCopyText");
     const shareInvitationText = document.getElementById("shareInvitationText");
@@ -868,36 +870,15 @@ Official Site: ${siteUrl}`;
         document.body.style.overflow = "";
     }
 
-    // Trigger buttons (Hero & Card)
+    // Trigger buttons (Hero button & other triggers open the luxury invitation modal)
     shareTriggers.forEach((btn) => {
-        btn.addEventListener("click", async (e) => {
+        btn.addEventListener("click", (e) => {
             e.preventDefault();
-
-            const isMobileDevice = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-            if (navigator.share && isMobileDevice) {
-                try {
-                    await navigator.share({
-                        title: shareTitle,
-                        text: `${shareHeadline}\n\nJoin us on Sunday, November 8, 2026 at CSF Church Sapang Kawayan!`,
-                        url: siteUrl
-                    });
-                    return;
-                } catch (err) {
-                    if (err && err.name === "AbortError") {
-                        // User dismissed share sheet, do not show modal
-                        return;
-                    }
-                    // If native share fails, fallback to modal
-                }
-            }
-
-            // Fallback for desktop or non-share browsers
             openModal();
         });
     });
 
-    // 1-Click Copy inside Modal
+    // 1-Click Copy inside Preview Box Header
     if (modalCopyBtn) {
         modalCopyBtn.addEventListener("click", (e) => {
             e.preventDefault();
@@ -911,6 +892,49 @@ Official Site: ${siteUrl}`;
                     }, 2000);
                 }
             });
+        });
+    }
+
+    // Primary Copy Button in Modal Actions
+    if (modalMainCopyBtn) {
+        modalMainCopyBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const text = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
+            copyToClipboard(text, () => {
+                const span = modalMainCopyBtn.querySelector("span");
+                if (span) {
+                    const originalText = span.textContent;
+                    span.textContent = "Copied! ✓";
+                    setTimeout(() => {
+                        span.textContent = originalText;
+                    }, 2000);
+                }
+            });
+        });
+    }
+
+    // Native Share / Share to Apps Button in Modal Actions
+    if (modalNativeShareBtn) {
+        modalNativeShareBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const text = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: shareTitle,
+                        text: `${shareHeadline}\n\nJoin us on Sunday, November 8, 2026 at CSF Church Sapang Kawayan!`,
+                        url: siteUrl
+                    });
+                    return;
+                } catch (err) {
+                    if (err && err.name === "AbortError") {
+                        return; // User dismissed share sheet
+                    }
+                }
+            }
+
+            // Fallback: copy invitation text if native share not available
+            copyToClipboard(text);
         });
     }
 
