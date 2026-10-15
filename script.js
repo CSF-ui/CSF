@@ -750,7 +750,6 @@ function initLightboxGallery() {
    ============================================================================ */
 function initShareInvitation() {
     const shareTriggers = document.querySelectorAll(".btn-share-trigger");
-    const copyInvitationBtn = document.getElementById("copy-invitation-btn");
     const shareModal = document.getElementById("shareModal");
     const shareModalBackdrop = document.getElementById("shareModalBackdrop");
     const shareModalClose = document.getElementById("shareModalClose");
@@ -764,10 +763,6 @@ function initShareInvitation() {
     const modalShareMsg = document.getElementById("modalShareMessenger");
     const modalShareWa = document.getElementById("modalShareWhatsApp");
     const modalShareTwitter = document.getElementById("modalShareTwitter");
-
-    const quickShareFb = document.getElementById("quick-share-fb");
-    const quickShareMsg = document.getElementById("quick-share-messenger");
-    const quickShareWa = document.getElementById("quick-share-whatsapp");
 
     // Canonical URL for sharing
     let siteUrl = window.location.href.split("#")[0];
@@ -799,14 +794,8 @@ Official Site: ${siteUrl}`;
     const encodedShortShare = encodeURIComponent(shortShareText);
 
     if (modalShareFb) modalShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-    if (quickShareFb) quickShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-
     if (modalShareMsg) modalShareMsg.href = `https://m.me/ChristSaviorForerunnerChurch`;
-    if (quickShareMsg) quickShareMsg.href = `https://m.me/ChristSaviorForerunnerChurch`;
-
     if (modalShareWa) modalShareWa.href = `https://api.whatsapp.com/send?text=${encodedShortShare}%20${encodedUrl}`;
-    if (quickShareWa) quickShareWa.href = `https://api.whatsapp.com/send?text=${encodedShortShare}%20${encodedUrl}`;
-
     if (modalShareTwitter) modalShareTwitter.href = `https://twitter.com/intent/tweet?text=${encodedShortShare}&url=${encodedUrl}`;
 
     let toastTimeout = null;
@@ -908,15 +897,6 @@ Official Site: ${siteUrl}`;
         });
     });
 
-    // 1-Click Copy on Card
-    if (copyInvitationBtn) {
-        copyInvitationBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const text = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
-            copyToClipboard(text);
-        });
-    }
-
     // 1-Click Copy inside Modal
     if (modalCopyBtn) {
         modalCopyBtn.addEventListener("click", (e) => {
@@ -980,7 +960,7 @@ function initBackToTopButton() {
    ============================================================================ */
 function initScrollRevealAnimations() {
     const elementsToAnimate = document.querySelectorAll(
-        ".section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .invitation-card, .contact-grid, .gallery-album-preview"
+        ".section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview"
     );
 
     if (!elementsToAnimate.length) return;
