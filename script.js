@@ -766,11 +766,8 @@ function initShareInvitation() {
     const modalShareWa = document.getElementById("modalShareWhatsApp");
     const modalShareTwitter = document.getElementById("modalShareTwitter");
 
-    // Canonical URL for sharing
-    let siteUrl = window.location.href.split("#")[0];
-    if (!/^https?:\/\//i.test(siteUrl)) {
-        siteUrl = "https://csfchurch.web.app";
-    }
+    // Canonical production URL for sharing
+    const siteUrl = "https://csfchurch.web.app";
 
     const shareTitle = "CSF Church 20th Anniversary Celebration";
     const shareHeadline = "Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead";
@@ -783,22 +780,25 @@ CSF Church 20th Anniversary Celebration
 
 🗓 Date: Sunday, November 8, 2026
 ⏰ Time: 9:00 AM – 12:00 PM
-📍 Venue: CSF Church Sapang Kawayan, San Ildefonso, Bulacan
+📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan
 🎙 Guest Speaker: Ptra. Miles Barleta
 
 Come and celebrate God's goodness with us!
 Register here: https://docs.google.com/forms/d/e/1FAIpQLSdApIFcluOuj8TLqBu2NIcWL1Z0Dg6EO45Uwpe3PyEMu1jplw/viewform
 Official Site: ${siteUrl}`;
 
-    // Update social share URLs with live URLs
-    const encodedUrl = encodeURIComponent(siteUrl);
-    const shortShareText = `${shareTitle} — ${shareHeadline}! Join us on Sunday, November 8, 2026:`;
-    const encodedShortShare = encodeURIComponent(shortShareText);
+    // Direct Facebook share URL - shares to user's logged-in Facebook account/timeline
+    if (modalShareFb) {
+        modalShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(siteUrl)}`;
+    }
 
-    if (modalShareFb) modalShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-    if (modalShareMsg) modalShareMsg.href = `https://m.me/ChristSaviorForerunnerChurch`;
-    if (modalShareWa) modalShareWa.href = `https://api.whatsapp.com/send?text=${encodedShortShare}%20${encodedUrl}`;
-    if (modalShareTwitter) modalShareTwitter.href = `https://twitter.com/intent/tweet?text=${encodedShortShare}&url=${encodedUrl}`;
+    // Direct WhatsApp share URL with pre-filled invitation and live web.app link
+    const waText = encodeURIComponent(
+        `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead"\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! Visit: ${siteUrl}\nRegister: https://docs.google.com/forms/d/e/1FAIpQLSdApIFcluOuj8TLqBu2NIcWL1Z0Dg6EO45Uwpe3PyEMu1jplw/viewform`
+    );
+    if (modalShareWa) {
+        modalShareWa.href = `https://api.whatsapp.com/send?text=${waText}`;
+    }
 
     let toastTimeout = null;
     function showToast(message = "Invitation text copied to clipboard!") {
@@ -917,14 +917,16 @@ Official Site: ${siteUrl}`;
     if (modalNativeShareBtn) {
         modalNativeShareBtn.addEventListener("click", async (e) => {
             e.preventDefault();
-            const text = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
+            const fullText = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
+            const shareData = {
+                title: shareTitle,
+                text: `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! Visit our official site:`,
+                url: siteUrl
+            };
+
             if (navigator.share) {
                 try {
-                    await navigator.share({
-                        title: shareTitle,
-                        text: `${shareHeadline}\n\nJoin us on Sunday, November 8, 2026 at CSF Church Sapang Kawayan!`,
-                        url: siteUrl
-                    });
+                    await navigator.share(shareData);
                     return;
                 } catch (err) {
                     if (err && err.name === "AbortError") {
@@ -934,7 +936,35 @@ Official Site: ${siteUrl}`;
             }
 
             // Fallback: copy invitation text if native share not available
-            copyToClipboard(text);
+            copyToClipboard(fullText);
+        });
+    }
+
+    // Direct Messenger Share Pill: lets user choose their own friend/chat (not CSF Church)
+    if (modalShareMsg) {
+        modalShareMsg.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const inviteSummary = `✦ YOU'RE CORDIALLY INVITED! ✦\nCSF Church 20th Anniversary Celebration\n"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)\n\n🗓 Date: Sunday, Nov 8, 2026 (9:00 AM)\n📍 Venue: CSF Church Sapang Kawayan, Norzagaray, Bulacan\n\nCelebrate with us! Visit: ${siteUrl}`;
+
+            // On mobile / supported devices, Web Share opens with the user's recent Messenger contacts
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: shareTitle,
+                        text: inviteSummary,
+                        url: siteUrl
+                    });
+                    return;
+                } catch (err) {
+                    if (err && err.name === "AbortError") return;
+                }
+            }
+
+            // Desktop fallback: Copy invitation text and open Messenger
+            copyToClipboard(inviteSummary, () => {
+                showToast("Invitation & link copied! Choose your friend in Messenger to send. ✓");
+            });
+            window.open("https://www.messenger.com", "_blank", "noopener,noreferrer");
         });
     }
 
