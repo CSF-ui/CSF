@@ -845,6 +845,7 @@ button:focus-visible,
    ========================================================================== */
 .anniversary-centerpiece {
     padding: 50px 15px;
+    overflow-x: hidden;
 }
 
 .big-20 {
@@ -854,6 +855,19 @@ button:focus-visible,
     margin-bottom: 12px;
     filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
     letter-spacing: -2px;
+}
+
+.centerpiece-title,
+.anniversary-centerpiece h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(0.85rem, 3.8vw, 2.1rem);
+    font-weight: 700;
+    color: var(--clr-gold-light);
+    letter-spacing: 0.5px;
+    margin: 0 auto;
+    white-space: nowrap;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    line-height: 1.35;
 }
 
 .gold-divider {
@@ -2688,6 +2702,12 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .centerpiece-title,
+    .anniversary-centerpiece h2 {
+        font-size: clamp(0.78rem, 4.2vw, 1.15rem);
+        white-space: nowrap;
+    }
+
 
 
     .countdown-box span {
@@ -2718,6 +2738,12 @@ footer {
 }
 
 @media (max-width: 380px) {
+    .centerpiece-title,
+    .anniversary-centerpiece h2 {
+        font-size: 0.78rem;
+        letter-spacing: 0.2px;
+    }
+
     .logo-text {
         font-size: 1rem;
         letter-spacing: 1px;
@@ -2740,5 +2766,13 @@ footer {
         padding: 10px 12px;
         white-space: normal;
         text-align: center;
+    }
+}
+
+@media (max-width: 330px) {
+    .centerpiece-title,
+    .anniversary-centerpiece h2 {
+        font-size: 0.7rem;
+        letter-spacing: 0;
     }
 }
