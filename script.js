@@ -9,8 +9,9 @@
  *   4. initScrollSpy()                 - Active section link highlighting
  *   5. initCountdownTimer()            - Philippine Time (+08:00) live countdown
  *   6. initLightboxGallery()           - Photo gallery, zoom toggle & smart mobile swipe
- *   7. initBackToTopButton()           - Smooth scroll-to-top button
- *   8. initScrollRevealAnimations()    - IntersectionObserver scroll animations
+ *   7. initShareInvitation()           - Native Web Share API, modal dialog & 1-click clipboard copy
+ *   8. initBackToTopButton()           - Smooth scroll-to-top button
+ *   9. initScrollRevealAnimations()    - IntersectionObserver scroll animations
  * ============================================================================
  */
 
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initScrollSpy();
     initCountdownTimer();
     initLightboxGallery();
+    initShareInvitation();
     initBackToTopButton();
     initScrollRevealAnimations();
 });
@@ -744,7 +746,210 @@ function initLightboxGallery() {
 }
 
 /* ============================================================================
-   7. BACK TO TOP BUTTON MODULE
+   7. SHARE INVITATION MODULE (NATIVE WEB SHARE, MODAL FALLBACK & CLIPBOARD COPY)
+   ============================================================================ */
+function initShareInvitation() {
+    const shareTriggers = document.querySelectorAll(".btn-share-trigger");
+    const copyInvitationBtn = document.getElementById("copy-invitation-btn");
+    const shareModal = document.getElementById("shareModal");
+    const shareModalBackdrop = document.getElementById("shareModalBackdrop");
+    const shareModalClose = document.getElementById("shareModalClose");
+    const modalCopyBtn = document.getElementById("modalCopyBtn");
+    const modalCopyText = document.getElementById("modalCopyText");
+    const shareInvitationText = document.getElementById("shareInvitationText");
+    const copyToast = document.getElementById("copyToast");
+    const toastMessage = document.getElementById("toastMessage");
+
+    const modalShareFb = document.getElementById("modalShareFacebook");
+    const modalShareMsg = document.getElementById("modalShareMessenger");
+    const modalShareWa = document.getElementById("modalShareWhatsApp");
+    const modalShareTwitter = document.getElementById("modalShareTwitter");
+
+    const quickShareFb = document.getElementById("quick-share-fb");
+    const quickShareMsg = document.getElementById("quick-share-messenger");
+    const quickShareWa = document.getElementById("quick-share-whatsapp");
+
+    // Canonical URL for sharing
+    let siteUrl = window.location.href.split("#")[0];
+    if (!/^https?:\/\//i.test(siteUrl)) {
+        siteUrl = "https://csfchurch.web.app";
+    }
+
+    const shareTitle = "CSF Church 20th Anniversary Celebration";
+    const shareHeadline = "Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead";
+
+    const defaultInvitationContent =
+`✦ YOU'RE CORDIALLY INVITED! ✦
+CSF Church 20th Anniversary Celebration
+
+"Two Decades of God's Faithfulness: Pressing Forward Toward the Promise Ahead" (Philippians 3:14)
+
+🗓 Date: Sunday, November 8, 2026
+⏰ Time: 9:00 AM – 12:00 PM
+📍 Venue: CSF Church Sapang Kawayan, San Ildefonso, Bulacan
+🎙 Guest Speaker: Ptra. Miles Barleta
+
+Come and celebrate God's goodness with us!
+Register here: https://docs.google.com/forms/d/e/1FAIpQLSdApIFcluOuj8TLqBu2NIcWL1Z0Dg6EO45Uwpe3PyEMu1jplw/viewform
+Official Site: ${siteUrl}`;
+
+    // Update social share URLs with live URLs
+    const encodedUrl = encodeURIComponent(siteUrl);
+    const shortShareText = `${shareTitle} — ${shareHeadline}! Join us on Sunday, November 8, 2026:`;
+    const encodedShortShare = encodeURIComponent(shortShareText);
+
+    if (modalShareFb) modalShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+    if (quickShareFb) quickShareFb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+
+    if (modalShareMsg) modalShareMsg.href = `https://m.me/ChristSaviorForerunnerChurch`;
+    if (quickShareMsg) quickShareMsg.href = `https://m.me/ChristSaviorForerunnerChurch`;
+
+    if (modalShareWa) modalShareWa.href = `https://api.whatsapp.com/send?text=${encodedShortShare}%20${encodedUrl}`;
+    if (quickShareWa) quickShareWa.href = `https://api.whatsapp.com/send?text=${encodedShortShare}%20${encodedUrl}`;
+
+    if (modalShareTwitter) modalShareTwitter.href = `https://twitter.com/intent/tweet?text=${encodedShortShare}&url=${encodedUrl}`;
+
+    let toastTimeout = null;
+    function showToast(message = "Invitation text copied to clipboard!") {
+        if (!copyToast) return;
+        if (toastMessage) toastMessage.textContent = message;
+        copyToast.classList.add("show");
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            copyToast.classList.remove("show");
+        }, 3200);
+    }
+
+    async function copyToClipboard(textToCopy, successFeedbackCallback) {
+        let success = false;
+        if (navigator.clipboard && window.isSecureContext) {
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+                success = true;
+            } catch (_) {
+                success = false;
+            }
+        }
+
+        if (!success) {
+            try {
+                const tempTextArea = document.createElement("textarea");
+                tempTextArea.value = textToCopy;
+                tempTextArea.style.position = "fixed";
+                tempTextArea.style.left = "-9999px";
+                tempTextArea.style.top = "0";
+                document.body.appendChild(tempTextArea);
+                tempTextArea.focus();
+                tempTextArea.select();
+                success = document.execCommand("copy");
+                document.body.removeChild(tempTextArea);
+            } catch (_) {
+                success = false;
+            }
+        }
+
+        if (success) {
+            showToast("Invitation text copied to clipboard! ✓");
+            if (typeof successFeedbackCallback === "function") {
+                successFeedbackCallback();
+            }
+        } else {
+            showToast("Please copy the invitation text manually.");
+        }
+    }
+
+    function openModal() {
+        if (!shareModal) return;
+        shareModal.removeAttribute("hidden");
+        // Force reflow
+        void shareModal.offsetWidth;
+        shareModal.classList.add("is-active");
+        document.body.style.overflow = "hidden";
+        if (shareModalClose) shareModalClose.focus();
+    }
+
+    function closeModal() {
+        if (!shareModal) return;
+        shareModal.classList.remove("is-active");
+        setTimeout(() => {
+            if (!shareModal.classList.contains("is-active")) {
+                shareModal.setAttribute("hidden", "");
+            }
+        }, 300);
+        document.body.style.overflow = "";
+    }
+
+    // Trigger buttons (Hero & Card)
+    shareTriggers.forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const isMobileDevice = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (navigator.share && isMobileDevice) {
+                try {
+                    await navigator.share({
+                        title: shareTitle,
+                        text: `${shareHeadline}\n\nJoin us on Sunday, November 8, 2026 at CSF Church Sapang Kawayan!`,
+                        url: siteUrl
+                    });
+                    return;
+                } catch (err) {
+                    if (err && err.name === "AbortError") {
+                        // User dismissed share sheet, do not show modal
+                        return;
+                    }
+                    // If native share fails, fallback to modal
+                }
+            }
+
+            // Fallback for desktop or non-share browsers
+            openModal();
+        });
+    });
+
+    // 1-Click Copy on Card
+    if (copyInvitationBtn) {
+        copyInvitationBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const text = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
+            copyToClipboard(text);
+        });
+    }
+
+    // 1-Click Copy inside Modal
+    if (modalCopyBtn) {
+        modalCopyBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const text = (shareInvitationText && shareInvitationText.value) || defaultInvitationContent;
+            copyToClipboard(text, () => {
+                if (modalCopyText) {
+                    const originalText = modalCopyText.textContent;
+                    modalCopyText.textContent = "Copied! ✓";
+                    setTimeout(() => {
+                        modalCopyText.textContent = originalText;
+                    }, 2000);
+                }
+            });
+        });
+    }
+
+    // Close handlers
+    if (shareModalClose) {
+        shareModalClose.addEventListener("click", closeModal);
+    }
+    if (shareModalBackdrop) {
+        shareModalBackdrop.addEventListener("click", closeModal);
+    }
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && shareModal && shareModal.classList.contains("is-active")) {
+            closeModal();
+        }
+    });
+}
+
+/* ============================================================================
+   8. BACK TO TOP BUTTON MODULE
    ============================================================================ */
 function initBackToTopButton() {
     const backToTopBtn = document.getElementById("backToTopBtn");
@@ -771,11 +976,11 @@ function initBackToTopButton() {
 }
 
 /* ============================================================================
-   8. SCROLL REVEAL ANIMATIONS MODULE
+   9. SCROLL REVEAL ANIMATIONS MODULE
    ============================================================================ */
 function initScrollRevealAnimations() {
     const elementsToAnimate = document.querySelectorAll(
-        ".section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .contact-grid, .gallery-album-preview"
+        ".section-title, .section-subtitle, .timeline-item, .big-20, .program-summary-box, .pastor-grid, .guest-speaker, .invitation-card, .contact-grid, .gallery-album-preview"
     );
 
     if (!elementsToAnimate.length) return;
