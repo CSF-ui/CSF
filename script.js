@@ -364,15 +364,21 @@ function initScrollSpy() {
    ============================================================================ */
 function initCountdownTimer() {
     const countdownContainer = document.getElementById("countdown-container");
-    const celebrationBanner = document.getElementById("celebration-started-banner");
+    const heroSection = document.getElementById("home");
+    const startedBanner = document.getElementById("celebration-started-banner");
+    const endedBanner = document.getElementById("celebration-ended-banner");
+    const statusPill = document.getElementById("event-status-pill");
+    const statusText = document.getElementById("event-status-text");
     const targetDateNote = document.getElementById("target-date-note");
 
     if (!countdownContainer) return;
 
-    const targetDateString =
+    const startDateString =
         countdownContainer.getAttribute("data-target-date") || "2026-11-08T09:00:00+08:00";
+    const endDateString =
+        countdownContainer.getAttribute("data-end-date") || "2026-11-08T12:00:00+08:00";
 
-    function parseTargetTimestamp(dateStr) {
+    function parseTargetTimestamp(dateStr, fallbackUtc) {
         const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
         if (match) {
             const year = parseInt(match[1], 10);
@@ -384,37 +390,97 @@ function initCountdownTimer() {
             return Date.UTC(year, month, day, hourUtc, minute, second);
         }
         const parsed = Date.parse(dateStr);
-        return isNaN(parsed) ? Date.UTC(2026, 10, 8, 1, 0, 0) : parsed;
+        return isNaN(parsed) ? fallbackUtc : parsed;
     }
 
-    const targetTimestamp = parseTargetTimestamp(targetDateString);
+    const startTimestamp = parseTargetTimestamp(startDateString, Date.UTC(2026, 10, 8, 1, 0, 0));
+    const endTimestamp = parseTargetTimestamp(endDateString, Date.UTC(2026, 10, 8, 4, 0, 0));
+
     const daysEl = document.getElementById("days");
     const hoursEl = document.getElementById("hours");
     const minsEl = document.getElementById("minutes");
     const secsEl = document.getElementById("seconds");
     let lastSeconds = null;
 
+    // Test mode: add ?preview=live or ?preview=after (or ?preview=before) to the URL
+    const previewParam = (new URLSearchParams(window.location.search).get("preview") || "").toLowerCase();
+    const forcedPhase = ["before", "live", "after"].includes(previewParam) ? previewParam : null;
+
     function formatTwoDigits(value) {
         return value < 10 ? `0${value}` : `${value}`;
     }
 
-    function updateCountdown() {
-        const distance = targetTimestamp - Date.now();
+    function resolvePhase(now) {
+        if (forcedPhase) return forcedPhase;
+        if (now < startTimestamp) return "before";
+        if (now < endTimestamp) return "live";
+        return "after";
+    }
 
-        if (distance <= 0) {
-            countdownContainer.classList.add("is-hidden");
-            if (targetDateNote) targetDateNote.classList.add("is-hidden");
-            if (celebrationBanner) {
-                celebrationBanner.hidden = false;
-                celebrationBanner.classList.remove("is-hidden");
-            }
-            return true;
+    function launchCelebrationConfetti() {
+        if (!heroSection) return;
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const layer = document.createElement("div");
+        layer.className = "confetti-layer";
+        layer.setAttribute("aria-hidden", "true");
+
+        const colors = ["#FFE494", "#D4AF37", "#FFFDF7", "#C5A059", "#F5D77A"];
+        for (let i = 0; i < 64; i++) {
+            const piece = document.createElement("span");
+            piece.className = "confetti-piece";
+            piece.style.left = `${Math.random() * 100}%`;
+            piece.style.background = colors[i % colors.length];
+            piece.style.width = `${6 + Math.random() * 6}px`;
+            piece.style.height = `${10 + Math.random() * 8}px`;
+            piece.style.animationDelay = `${Math.random() * 1.2}s`;
+            piece.style.animationDuration = `${3.2 + Math.random() * 2.6}s`;
+            piece.style.setProperty("--drift", `${Math.round(Math.random() * 160 - 80)}px`);
+            piece.style.setProperty("--spin", `${Math.round(360 + Math.random() * 540)}deg`);
+            layer.appendChild(piece);
         }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        heroSection.appendChild(layer);
+        setTimeout(() => layer.remove(), 7500);
+    }
+
+    function shouldCelebrateOnLoad() {
+        if (forcedPhase) return true;
+        try {
+            if (sessionStorage.getItem("csfConfettiShown")) return false;
+            sessionStorage.setItem("csfConfettiShown", "1");
+        } catch (_) {}
+        return true;
+    }
+
+    function applyPhase(phase) {
+        if (heroSection) heroSection.setAttribute("data-event-phase", phase);
+
+        const isBefore = phase === "before";
+        countdownContainer.classList.toggle("is-hidden", !isBefore);
+        if (targetDateNote) targetDateNote.classList.toggle("is-hidden", !isBefore);
+
+        if (startedBanner) {
+            startedBanner.classList.remove("is-hidden");
+            startedBanner.hidden = phase !== "live";
+        }
+        if (endedBanner) {
+            endedBanner.classList.remove("is-hidden");
+            endedBanner.hidden = phase !== "after";
+        }
+
+        if (statusPill && statusText) {
+            statusPill.classList.toggle("is-live", phase === "live");
+            statusText.textContent = phase === "live" ? "HAPPENING NOW" : "LIVE EVENT COUNTDOWN";
+        }
+    }
+
+    function updateDigits(distance) {
+        const safe = Math.max(0, distance);
+        const days = Math.floor(safe / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((safe % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((safe % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((safe % (1000 * 60)) / 1000);
 
         if (daysEl) daysEl.innerText = formatTwoDigits(days);
         if (hoursEl) hoursEl.innerText = formatTwoDigits(hours);
@@ -427,13 +493,39 @@ function initCountdownTimer() {
             void secsEl.offsetWidth;
             secsEl.classList.add("tick-pulse");
         }
-
-        return false;
     }
 
-    if (!updateCountdown()) {
+    let currentPhase = null;
+
+    // Returns true when the timer no longer needs to keep running
+    function tick() {
+        const now = Date.now();
+        const phase = resolvePhase(now);
+
+        if (phase !== currentPhase) {
+            const previousPhase = currentPhase;
+            currentPhase = phase;
+            applyPhase(phase);
+
+            if (phase === "live") {
+                // Celebrate when the countdown hits zero live, or once per visit if already started
+                if (previousPhase === "before" || shouldCelebrateOnLoad()) {
+                    launchCelebrationConfetti();
+                }
+            }
+        }
+
+        if (phase === "before") {
+            updateDigits(startTimestamp - now);
+        }
+
+        if (forcedPhase) return phase !== "before";
+        return phase === "after";
+    }
+
+    if (!tick()) {
         const timerInterval = setInterval(() => {
-            if (updateCountdown()) {
+            if (tick()) {
                 clearInterval(timerInterval);
             }
         }, 1000);
