@@ -373,6 +373,8 @@ function initCountdownTimer() {
 
     if (!countdownContainer) return;
 
+    const countdownWrapper = countdownContainer.closest(".countdown-wrapper");
+
     const startDateString =
         countdownContainer.getAttribute("data-target-date") || "2026-11-08T09:00:00+08:00";
     const endDateString =
@@ -417,31 +419,232 @@ function initCountdownTimer() {
         return "after";
     }
 
+    function prefersReducedMotion() {
+        return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    }
+
+    // Gold & champagne confetti cannons with real physics (gravity, air drag, flutter, sway)
     function launchCelebrationConfetti() {
-        if (!heroSection) return;
-        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        if (!heroSection || prefersReducedMotion()) return;
 
-        const layer = document.createElement("div");
-        layer.className = "confetti-layer";
-        layer.setAttribute("aria-hidden", "true");
+        const canvas = document.createElement("canvas");
+        canvas.className = "confetti-canvas";
+        canvas.setAttribute("aria-hidden", "true");
+        heroSection.appendChild(canvas);
 
-        const colors = ["#FFE494", "#D4AF37", "#FFFDF7", "#C5A059", "#F5D77A"];
-        for (let i = 0; i < 64; i++) {
-            const piece = document.createElement("span");
-            piece.className = "confetti-piece";
-            piece.style.left = `${Math.random() * 100}%`;
-            piece.style.background = colors[i % colors.length];
-            piece.style.width = `${6 + Math.random() * 6}px`;
-            piece.style.height = `${10 + Math.random() * 8}px`;
-            piece.style.animationDelay = `${Math.random() * 1.2}s`;
-            piece.style.animationDuration = `${3.2 + Math.random() * 2.6}s`;
-            piece.style.setProperty("--drift", `${Math.round(Math.random() * 160 - 80)}px`);
-            piece.style.setProperty("--spin", `${Math.round(360 + Math.random() * 540)}deg`);
-            layer.appendChild(piece);
+        const ctx = canvas.getContext && canvas.getContext("2d");
+        if (!ctx) {
+            canvas.remove();
+            return;
         }
 
-        heroSection.appendChild(layer);
-        setTimeout(() => layer.remove(), 7500);
+        const TAU = Math.PI * 2;
+        const GRAVITY = 700;
+        const DRAG = 2.6;
+        const palette = ["#FFE494", "#F5D77A", "#D4AF37", "#C5A059", "#FFFDF7", "#FFF3C4", "#E9B8A6", "#FFFFFF"];
+        const particles = [];
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let width = 0;
+        let height = 0;
+        let visibleBottom = 0;
+
+        function resize() {
+            const rect = heroSection.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+            visibleBottom = Math.max(height * 0.4, Math.min(height, window.innerHeight - rect.top));
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        const density = width < 600 ? 0.6 : 1;
+
+        function addPiece(x, y, angle, speed) {
+            const shapes = ["rect", "rect", "ribbon", "circle", "diamond"];
+            particles.push({
+                kind: "piece",
+                shape: shapes[(Math.random() * shapes.length) | 0],
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                size: 6 + Math.random() * 6,
+                color: palette[(Math.random() * palette.length) | 0],
+                rot: Math.random() * TAU,
+                rotSpeed: (Math.random() - 0.5) * 8,
+                tilt: Math.random() * TAU,
+                tiltSpeed: 4 + Math.random() * 8,
+                swayPhase: Math.random() * TAU,
+                swaySpeed: 1.5 + Math.random() * 2.5,
+                swayAmp: 18 + Math.random() * 36,
+                age: 0,
+                life: 4.4 + Math.random() * 2.2
+            });
+        }
+
+        function cannon(x, y, baseAngle, count) {
+            const maxSpeed = Math.min(2200, Math.max(900, height * 2.4));
+            for (let i = 0; i < count; i++) {
+                const spread = (Math.random() - 0.5) * (Math.PI / 3.2);
+                const speed = maxSpeed * (0.4 + Math.random() * 0.6);
+                addPiece(x + (Math.random() - 0.5) * 14, y, baseAngle + spread, speed);
+            }
+        }
+
+        function shower(count) {
+            for (let i = 0; i < count; i++) {
+                addPiece(Math.random() * width, -12, Math.PI / 2 + (Math.random() - 0.5) * 0.5, 80 + Math.random() * 120);
+            }
+        }
+
+        function sparkle() {
+            particles.push({
+                kind: "sparkle",
+                x: width * (0.1 + Math.random() * 0.8),
+                y: height * (0.12 + Math.random() * 0.7),
+                size: 7 + Math.random() * 11,
+                age: 0,
+                life: 1.4 + Math.random() * 1.4
+            });
+        }
+
+        const cannonY = visibleBottom - 8;
+        const upRight = -Math.PI * 0.36;
+        const upLeft = -Math.PI * (1 - 0.36);
+        const schedule = [
+            { at: 0.0, run: () => { cannon(width * 0.03, cannonY, upRight, Math.round(60 * density)); cannon(width * 0.97, cannonY, upLeft, Math.round(60 * density)); } },
+            { at: 0.4, run: () => { cannon(width * 0.03, cannonY, upRight - 0.15, Math.round(38 * density)); cannon(width * 0.97, cannonY, upLeft + 0.15, Math.round(38 * density)); } },
+            { at: 1.0, run: () => shower(Math.round(16 * density)) },
+            { at: 1.3, run: () => shower(Math.round(16 * density)) },
+            { at: 1.6, run: () => shower(Math.round(16 * density)) }
+        ];
+        for (let i = 0; i < 14; i++) {
+            schedule.push({ at: 0.2 + i * 0.2, run: sparkle });
+        }
+        schedule.sort((p, q) => p.at - q.at);
+
+        function drawStar(r) {
+            ctx.beginPath();
+            ctx.moveTo(0, -r);
+            ctx.quadraticCurveTo(0, 0, r, 0);
+            ctx.quadraticCurveTo(0, 0, 0, r);
+            ctx.quadraticCurveTo(0, 0, -r, 0);
+            ctx.quadraticCurveTo(0, 0, 0, -r);
+            ctx.fill();
+        }
+
+        function drawPiece(p, fade) {
+            const flip = Math.cos(p.tilt);
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.globalAlpha = fade * (0.72 + 0.28 * Math.abs(flip));
+            ctx.fillStyle = p.color;
+            const sz = p.size;
+            if (p.shape === "rect") {
+                ctx.scale(1, flip);
+                ctx.fillRect(-sz / 2, -sz * 0.3, sz, sz * 0.6);
+            } else if (p.shape === "ribbon") {
+                ctx.scale(1, flip);
+                ctx.fillRect(-sz * 0.95, -1.3, sz * 1.9, 2.6);
+            } else if (p.shape === "circle") {
+                ctx.scale(Math.abs(flip) * 0.5 + 0.5, 1);
+                ctx.beginPath();
+                ctx.arc(0, 0, sz * 0.32, 0, TAU);
+                ctx.fill();
+            } else {
+                ctx.scale(flip, 1);
+                ctx.beginPath();
+                ctx.moveTo(0, -sz * 0.55);
+                ctx.lineTo(sz * 0.34, 0);
+                ctx.lineTo(0, sz * 0.55);
+                ctx.lineTo(-sz * 0.34, 0);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function drawSparkle(p) {
+            const t = p.age / p.life;
+            const pulse = Math.sin(Math.PI * t);
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(t * 0.9);
+            ctx.globalAlpha = pulse;
+            ctx.fillStyle = "#FFF6D6";
+            ctx.shadowColor = "#FFE494";
+            ctx.shadowBlur = 12;
+            drawStar(p.size * (0.5 + 0.7 * pulse));
+            ctx.restore();
+        }
+
+        let rafId = 0;
+        let last = 0;
+        let elapsed = 0;
+
+        function cleanup() {
+            cancelAnimationFrame(rafId);
+            window.removeEventListener("resize", resize);
+            canvas.remove();
+        }
+
+        function frame(now) {
+            if (!last) last = now;
+            const dt = Math.min((now - last) / 1000, 0.05);
+            last = now;
+            elapsed += dt;
+
+            while (schedule.length && schedule[0].at <= elapsed) {
+                schedule.shift().run();
+            }
+
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.age += dt;
+                if (p.age >= p.life) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                if (p.kind === "sparkle") {
+                    p.y -= 8 * dt;
+                    drawSparkle(p);
+                    continue;
+                }
+
+                p.vy += GRAVITY * dt;
+                const damp = Math.exp(-DRAG * dt);
+                p.vx *= damp;
+                p.vy *= damp;
+                p.swayPhase += p.swaySpeed * dt;
+                const sway = Math.sin(p.swayPhase) * p.swayAmp * Math.min(1, p.age / 1.0);
+                p.x += (p.vx + sway) * dt;
+                p.y += p.vy * dt;
+                p.rot += p.rotSpeed * dt;
+                p.tilt += p.tiltSpeed * dt;
+
+                if (p.y > height + 40) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                const remaining = p.life - p.age;
+                drawPiece(p, remaining < 1 ? remaining : 1);
+            }
+
+            if (schedule.length || particles.length) {
+                rafId = requestAnimationFrame(frame);
+            } else {
+                cleanup();
+            }
+        }
+
+        rafId = requestAnimationFrame(frame);
     }
 
     function shouldCelebrateOnLoad() {
@@ -495,6 +698,27 @@ function initCountdownTimer() {
         }
     }
 
+    function enterPhase(phase, previousPhase) {
+        applyPhase(phase);
+        if (phase === "live" && (previousPhase === "before" || shouldCelebrateOnLoad())) {
+            launchCelebrationConfetti();
+        }
+    }
+
+    // First render is instant; later changes (e.g. 8:59:59 -> 9:00:00) fade the old state out first
+    function changePhase(phase, previousPhase) {
+        if (!previousPhase || prefersReducedMotion()) {
+            enterPhase(phase, previousPhase);
+            return;
+        }
+        const leaving = [countdownWrapper, startedBanner].filter(Boolean);
+        leaving.forEach((el) => el.classList.add("is-exiting"));
+        setTimeout(() => {
+            leaving.forEach((el) => el.classList.remove("is-exiting"));
+            enterPhase(phase, previousPhase);
+        }, 480);
+    }
+
     let currentPhase = null;
 
     // Returns true when the timer no longer needs to keep running
@@ -505,14 +729,7 @@ function initCountdownTimer() {
         if (phase !== currentPhase) {
             const previousPhase = currentPhase;
             currentPhase = phase;
-            applyPhase(phase);
-
-            if (phase === "live") {
-                // Celebrate when the countdown hits zero live, or once per visit if already started
-                if (previousPhase === "before" || shouldCelebrateOnLoad()) {
-                    launchCelebrationConfetti();
-                }
-            }
+            changePhase(phase, previousPhase);
         }
 
         if (phase === "before") {
